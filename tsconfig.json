@@ -6,6 +6,7 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "types": ["vitest/importMeta"],
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "removeComments": false,
@@ -18,10 +19,10 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "types/**/*.d.ts"]
 }

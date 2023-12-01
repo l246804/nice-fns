@@ -7,6 +7,12 @@ function createEntry(format: 'esm' | 'cjs') {
     builder: 'mkdist',
     format,
     ext: format === 'esm' ? 'mjs' : 'cjs',
+    esbuild: {
+      define: {
+        'import.meta.vitest': 'false',
+      },
+      minify: true,
+    },
   } as BuildEntry
 }
 

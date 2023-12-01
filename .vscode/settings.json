@@ -145,11 +145,12 @@
   "cSpell.words": [
     "antfu",
     "commitlint",
+    "consola",
     "conventionalcommits",
+    "execa",
     "infile",
     "mkdist",
     "plopfile",
-    "consola",
-    "execa"
+    "unplugin"
   ]
 }

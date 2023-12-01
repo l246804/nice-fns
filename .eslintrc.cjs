@@ -20,5 +20,6 @@ module.exports = defineConfig({
 
     // ts
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/ban-types': 'off',
   },
 })

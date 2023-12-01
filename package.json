@@ -49,23 +49,35 @@
     "node": ">=16"
   },
   "scripts": {
-    "build": "run-s gen:index build:only",
+    "build": "run-s gen:index build:only rm:index",
     "build:only": "unbuild",
     "gen:index": "node scripts/genIndex.mjs",
+    "rm:index": "node scripts/rmIndex.mjs",
     "release": "release-it",
     "cz": "cz",
     "plop": "plop",
     "test": "vitest",
+    "test:ui": "vitest --ui",
     "test:cover": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0",
     "@release-it/conventional-changelog": "^7",
     "@rhao/plop-generators": "latest",
+    "@rhao/types-base": "^0.3.0",
     "@types/fs-extra": "^11.0.4",
+    "@vitest/coverage-v8": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
     "commitizen": "^4",
     "eslint": "^8",
     "eslint-define-config": "^1",
+    "fast-glob": "^3.3.2",
     "fs-extra": "^11.1.1",
     "git-cz": "^4",
     "npm-run-all": "^4.1.5",
@@ -74,6 +86,7 @@
     "release-it": "^16.2.1",
     "typescript": "^5.3.2",
     "unbuild": "^2",
+    "unplugin-auto-import": "^0.17.1",
     "vitest": "^0.34.6"
   }
 }

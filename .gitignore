@@ -136,3 +136,4 @@ dist-ssr
 *.sw?
 
 src/index.ts
+types/auto-imports.d.ts
