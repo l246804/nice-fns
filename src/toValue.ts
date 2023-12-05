@@ -2,6 +2,8 @@ import { isFunction } from 'lodash-unified'
 
 /**
  * 获取值，若 `value` 是函数，则后面的参数将传入其中并得到结果
+ * @param value 目标值
+ * @param args `value` 是函数时的参数列表
  *
  * @example
  * ```ts

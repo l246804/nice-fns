@@ -3,6 +3,8 @@ import { unset } from 'lodash-unified'
 
 /**
  * 批量执行 `lodash.unset`
+ * @param object 目标对象
+ * @param keys 属性列表
  *
  * @example
  * ```ts

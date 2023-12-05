@@ -2,6 +2,7 @@ import { isError } from 'lodash-unified'
 
 /**
  * 转换值为 `Error`
+ * @param value 检测值
  *
  * @example
  * ```ts

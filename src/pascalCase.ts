@@ -2,6 +2,7 @@ import { camelCase, flow, upperFirst } from 'lodash-unified'
 
 /**
  * 字符串转为帕斯卡（大驼峰）格式
+ * @param string 字符串
  *
  * @example
  * ```ts

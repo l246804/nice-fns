@@ -3,6 +3,8 @@ import { symbolsOf } from './symbolsOf'
 
 /**
  * 分配符号属性到目标对象上
+ * @param target 目标对象
+ * @param sources 一个或多个来源对象
  *
  * @example
  * ```ts

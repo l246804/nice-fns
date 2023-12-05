@@ -2,7 +2,7 @@ import { isFunction } from 'lodash-unified'
 import type { ToFn } from '@rhao/types-base'
 
 /**
- * 转换非函数值为函数
+ * 转换值为 `Function`
  * @param value 检测值
  *
  * @example

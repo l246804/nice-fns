@@ -1,5 +1,7 @@
 /**
  * 组合 URL
+ * @param baseURL 基路径
+ * @param relativeURLs 一个或多个相对路径
  *
  * @example
  * ```ts

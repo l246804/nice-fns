@@ -38,6 +38,8 @@ function unTreeList<
 
 /**
  * 将一个树结构列表转成数组列表
+ * @param array 树结构数组列表
+ * @param options 配置项
  */
 export function toTreeArray<
   T extends object = any,

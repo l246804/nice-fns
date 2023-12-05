@@ -3,11 +3,6 @@ import type { MaybeArray, Recordable } from '@rhao/types-base'
 import { type BasicTreeOptions, treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
-type OrderByParams<T extends object> = [
-  iterates?: MaybeArray<keyof T>,
-  orders?: MaybeArray<'asc' | 'desc'>,
-]
-
 export interface ToArrayTreeOptions<T extends object = any, DataKey extends string = string>
   extends BasicTreeOptions<DataKey> {
   /**
@@ -16,19 +11,11 @@ export interface ToArrayTreeOptions<T extends object = any, DataKey extends stri
   keyMap?: Pick<BasicTreeOptions, 'key' | 'parentKey' | 'childrenKey'>
   /**
    * 排序数组，依赖于 `orderBy()`
-   * @example
-   * ```ts
-   * const tree = toArrayTree(
-   *   [
-   *     { a: 1, b: 2, ... },
-   *     { a: 2, b: 1, ... }
-   *   ],
-   *   // 以 `a` 升序排序，再以 `b` 降序排序
-   *   { orderBy: [['a', 'b'], ['asc', 'desc']] }
-   * )
-   * ```
    */
-  orderBy?: OrderByParams<T>
+  orderBy?: [
+    iterates?: MaybeArray<keyof T>,
+    orders?: MaybeArray<'asc' | 'desc'>,
+  ]
 }
 
 function strictTree(array: any[], opts: ToArrayTreeOptions) {
@@ -44,6 +31,8 @@ function setAttr(treeData: Recordable, key?: string, value?: any) {
 
 /**
  * 将一个层级关系的数据列表转成树结构列表
+ * @param array 包含父子级关系的数组列表
+ * @param options 配置项
  *
  * @example
  * ```ts
