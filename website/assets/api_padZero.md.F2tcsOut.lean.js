@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as a,R as s}from"./chunks/framework.-3ULgdun.js";const u=JSON.parse('{"title":"padZero","description":"","frontmatter":{},"headers":[],"relativePath":"api/padZero.md","filePath":"api/padZero.md"}'),i={name:"api/padZero.md"},l=s("",11),n=[l];function r(d,h,o,p,c,k){return e(),a("div",null,n)}const y=t(i,[["render",r]]);export{u as __pageData,y as default};

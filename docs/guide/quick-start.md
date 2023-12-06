@@ -7,9 +7,9 @@
 Nice Fns 提供了基于 ES Module 的开箱即用的 Tree Shaking 功能。
 
 ```ts
-import { camelCase } from 'nice-fns'
+import { pascalCase } from 'nice-fns'
 
-camelCase('test string')
+pascalCase('test string')
 // => TestString
 ```
 

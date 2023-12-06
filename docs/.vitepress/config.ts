@@ -1,3 +1,5 @@
+import { resolve } from 'node:path'
+import { cwd } from 'node:process'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import typedocSidebar from '../api/typedoc-sidebar.json'
@@ -14,6 +16,7 @@ eachTree(
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  outDir: resolve(cwd(), 'website'),
   title: 'nice-fns',
   lang: 'zh-CN',
   description: '一个不错的现代 JS 函数库。',
