@@ -1,25 +1,16 @@
-import { basename, extname, resolve } from 'node:path'
-import { cwd } from 'node:process'
+import { argv } from 'node:process'
 import fs from 'fs-extra'
-import { isString } from 'lodash-unified'
+import { readFns, resolveEntryInfo } from '../internal/fns.mjs'
 
-const srcDir = resolve(cwd(), 'src')
-const indexFile = resolve(srcDir, 'index.ts')
-const exclude = [/^_/]
+const args = argv.slice(2)
+const { file: entryFile, relative: relativePrefix } = resolveEntryInfo(args.includes('-D'))
 
 function genTemplate(fn) {
-  return `export * from './${fn}'`
-}
-
-function readFns() {
-  return fs
-    .readdirSync(srcDir)
-    .map((name) => basename(name, extname(name)))
-    .filter((name) => !exclude.some((reg) => isString(reg) ? reg === name : reg.test(name)))
+  return `export * from '${relativePrefix}/${fn}'`
 }
 
 function writeFns(fns = []) {
-  fs.writeFileSync(indexFile, `${fns.map(genTemplate).join('\n')}\n`)
+  fs.writeFileSync(entryFile, `${fns.map(genTemplate).join('\n')}\n`)
 }
 
 function start() {

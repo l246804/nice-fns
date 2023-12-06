@@ -1,5 +1,8 @@
-import { resolve } from 'node:path'
-import { cwd } from 'node:process'
+import { argv } from 'node:process'
 import fs from 'fs-extra'
+import { resolveEntryInfo } from '../internal/fns.mjs'
 
-fs.removeSync(resolve(cwd(), 'src/index.ts'))
+const args = argv.slice(2)
+const { file: entryFile } = resolveEntryInfo(args.includes('-D'))
+
+fs.removeSync(entryFile)
