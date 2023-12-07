@@ -4,10 +4,15 @@ on:
   push:
     tags:
       - v*
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Wait Gitee Sync
+        run: sleep 10m
+        shell: bash
+
       - name: Build Gitee Pages
         uses: yanglbme/gitee-pages-action@main
         with:
