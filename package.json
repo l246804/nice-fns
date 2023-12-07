@@ -1,7 +1,7 @@
 {
   "name": "nice-fns",
   "type": "module",
-  "version": "0.1.0-0",
+  "version": "0.1.0-1",
   "description": "A modern and nice library of JS functions.",
   "author": "RayHao <https://github.com/l246804>",
   "license": "MIT",
