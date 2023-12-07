@@ -3,7 +3,7 @@ name: Deploy Gitee Pages
 on:
   push:
     tags:
-      - release/*
+      - v*
 jobs:
   build:
     runs-on: ubuntu-latest

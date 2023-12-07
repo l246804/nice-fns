@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as a,R as s}from"./chunks/framework.KXHDQ-dn.js";const u=JSON.parse('{"title":"toValue","description":"","frontmatter":{},"headers":[],"relativePath":"api/toValue.md","filePath":"api/toValue.md"}'),l={name:"api/toValue.md"},i=s("",13),n=[i];function d(o,r,h,c,p,k){return e(),a("div",null,n)}const y=t(l,[["render",d]]);export{u as __pageData,y as default};
