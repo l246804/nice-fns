@@ -17,6 +17,7 @@ eachTree(
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   outDir: resolve(cwd(), 'website'),
+  base: '/nice-fns/',
   title: 'nice-fns',
   lang: 'zh-CN',
   description: '一个不错的现代 JS 函数库。',
