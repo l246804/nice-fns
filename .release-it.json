@@ -11,8 +11,11 @@
     "releaseName": "release v${version}"
   },
   "hooks": {
-    "before:init": ["pnpm run build"],
-    "after:bump": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    "before:init": ["npm run build"],
+    "after:bump": [
+      "echo Successfully released ${name} v${version} to ${repo.repository}.",
+      "npm run docs:build"
+    ]
   },
   "plugins": {
     "@release-it/conventional-changelog": {
