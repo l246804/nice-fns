@@ -57,6 +57,7 @@
     "cz": "cz",
     "plop": "plop",
     "test": "vitest",
+    "test:only": "vitest run",
     "test:ui": "vitest --ui",
     "test:cover": "vitest run --coverage",
     "docs:dev": "npm run docs:prepare && vitepress dev docs",
@@ -65,7 +66,7 @@
     "docs:gen": "typedoc --options typedoc.mjs",
     "docs:gen:lib": "npm run gen:index -- -D",
     "docs:clean": "rimraf docs/api",
-    "docs:prepare": "run-s docs:clean docs:gen:lib docs:gen"
+    "docs:prepare": "run-s docs:clean test:only docs:gen docs:gen:lib"
   },
   "dependencies": {
     "@rhao/types-base": "^0.3.0",
