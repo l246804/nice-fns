@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.0-2](https://github.com/l246804/nice-fns/compare/v0.1.0-1...v0.1.0-2) (2023-12-08)
+
+
+### Features
+
+* 🎸 添加工具函数 cssVar、cssVarName ([60e12b4](https://github.com/l246804/nice-fns/commit/60e12b4a5d009095f8ba25b90989d2dbc30d79f3))
+* 🎸 添加工具函数 getExtnameByFileType、getFileTypeByExtname ([d03706e](https://github.com/l246804/nice-fns/commit/d03706ebe8f578189b3be30096ca5616a19d7855))
+* 🎸 添加工具函数 getRootFontSize、getScrollParent ([814baa0](https://github.com/l246804/nice-fns/commit/814baa0e98e5e7e2dc429e2563725d8b4b5cc332))
+* 🎸 添加工具函数 getWindowSize、scalePx ([5224d6c](https://github.com/l246804/nice-fns/commit/5224d6c17c8553e676dffaf9ad0a7f3028fbe658))
+* 🎸 添加工具函数 parseContentDisposition ([84fd653](https://github.com/l246804/nice-fns/commit/84fd653f577f0064db6cd04a7f71680061aefd09))
+* 🎸 添加工具函数 pxToRem、pxToViewport ([93eebfe](https://github.com/l246804/nice-fns/commit/93eebfe520c8d46e5a8c9e7a0b25b7653f117ebc))
+* 🎸 添加工具函数 unitToPx、saveAs ([4b5072f](https://github.com/l246804/nice-fns/commit/4b5072f3a43e0c6f3704f98e4654d87ad33bf3ee))
+
 ## [0.1.0-1](https://github.com/l246804/nice-fns/compare/v0.1.0-0...v0.1.0-1) (2023-12-07)
 
 
