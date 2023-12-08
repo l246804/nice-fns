@@ -1,9 +1,8 @@
 import type { PromiseFn } from '@rhao/types-base'
-import type { FileSaverOptions } from 'file-saver'
-import { saveAs as baseSaveAs } from 'file-saver'
 import { assign, isFunction, isObject } from 'lodash-unified'
+import { saveAs as baseSaveAs } from './_saveAs'
 
-export interface SaveAsOptions extends Partial<FileSaverOptions> {
+export interface SaveAsOptions {
   /**
    * 下载文件名称
    */
@@ -34,7 +33,7 @@ export interface SaveAsOptions extends Partial<FileSaverOptions> {
 saveAs.defaults = { autoBom: false } as SaveAsOptions
 
 /**
- * FileSaver 二次封装，支持通过 `fetcher` 获取文件流
+ * FileSaver 现代版，支持通过 `fetcher` 获取文件流
  * @param data 文件下载地址或 `Blob` 数据
  * @param filenameOrOptions 文件名或配置项
  * @param options 配置项
@@ -71,11 +70,11 @@ export async function saveAs(
   )
 
   if (!isFunction(opts.fetcher) || typeof data !== 'string') {
-    baseSaveAs(data, opts.filename, opts as FileSaverOptions)
+    baseSaveAs(data, opts.filename)
     return
   }
 
   const blob = await opts.fetcher(data, opts)
   if (!(blob instanceof Blob)) return
-  baseSaveAs(blob, opts.filename, opts as FileSaverOptions)
+  baseSaveAs(blob, opts.filename)
 }
