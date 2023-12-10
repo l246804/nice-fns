@@ -3,7 +3,7 @@ import { filter, flow, fromPairs, isNil, partialRight, toPairs } from 'lodash-un
 
 const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 
-interface ObjectCompact {
+interface CompactObject {
   <T extends object>(object: T): { [K in keyof T as T[K] extends Nullish ? never : K]: T[K] }
 }
 
@@ -13,15 +13,15 @@ interface ObjectCompact {
  *
  * @example
  * ```ts
- * objectCompact({ a: 0, b: undefined, c: null, d: '', f: false, e: NaN })
+ * compactObject({ a: 0, b: undefined, c: null, d: '', f: false, e: NaN })
  * // => { a: 0, d: '', f: false, e: NaN }
  * ```
  */
-export const objectCompact = flow(toPairs, _filter, fromPairs) as ObjectCompact
+export const compactObject = flow(toPairs, _filter, fromPairs) as CompactObject
 
 if (import.meta.vitest) {
   it('基础功能', () => {
-    expect(objectCompact({ a: null, b: 1, c: 0, d: false, e: undefined })).toStrictEqual({
+    expect(compactObject({ a: null, b: 1, c: 0, d: false, e: undefined })).toStrictEqual({
       b: 1,
       c: 0,
       d: false,
