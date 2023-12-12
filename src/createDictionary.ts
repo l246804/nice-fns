@@ -182,6 +182,22 @@ export interface DictionaryBuiltinMethods<
    */
   getValue(this: Dictionary<T>, key: K): V | undefined
   /**
+   * 根据指定键获取字典项标签
+   * @param this 字典对象
+   * @param key 指定键
+   *
+   * @example
+   * ```ts
+   * const dict = createDictionary({ a: { value: 1, label: 'a' }, b: { value: 2, label: 'b' } })
+   * dict.getLabel('a')
+   * // => 'a'
+   *
+   * dict.getLabel('c')
+   * // => ''
+   * ```
+   */
+  getLabel(this: Dictionary<T>, key: K): string
+  /**
    * 根据指定字典项值获取字典项
    * @param this 字典对象
    * @param value 字典项值
@@ -197,6 +213,22 @@ export interface DictionaryBuiltinMethods<
    * ```
    */
   getByValue(this: Dictionary<T>, value: any): I | undefined
+  /**
+   * 根据指定字典项值获取字典项标签
+   * @param this 字典对象
+   * @param value 字典项值
+   *
+   * @example
+   * ```ts
+   * const dict = createDictionary({ a: { value: 1, label: 'a' }, b: { value: 2, label: 'b' } })
+   * dict.getLabelByValue(1)
+   * // => 'a'
+   *
+   * dict.getLabelByValue(3)
+   * // => ''
+   * ```
+   */
+  getLabelByValue(this: Dictionary<T>, value: any): string
   /**
    * 根据指定键判断是否存在字典项
    * @param this 字典对象
@@ -303,8 +335,14 @@ const builtinMethods = {
   getValue(key) {
     return this.get(key)?.value
   },
+  getLabel(key) {
+    return this.get(key)?.label || ''
+  },
   getByValue(value) {
     return this.find((item) => item.value === value)
+  },
+  getLabelByValue(value) {
+    return this.getByValue(value)?.label || ''
   },
   has(key) {
     return this.keys().includes(key as string)
@@ -371,7 +409,9 @@ export function createDictionary<
   const dictionary = {} as Dictionary<T> & M
 
   Object.entries(meta).forEach(([key, value]) => {
-    ;(dictionary as any)[key] = assign({ label: '' }, value, { key })
+    const item = assign({ label: '' }, value, { key })
+    item.label = String(item.label == null ? '' : item.label)
+    ;(dictionary as any)[key] = item
   })
 
   Object.entries(assign(builtinMethods, methods)).forEach(([name, method]) => {
@@ -425,7 +465,9 @@ if (import.meta.vitest) {
 
       expect(dict.get('a')).toStrictEqual({ key: 'a', value: 0, label: 'a' })
       expect(dict.getValue('a')).toBe(0)
+      expect(dict.getLabel('a')).toBe('a')
       expect(dict.getByValue(0)).toStrictEqual({ key: 'a', value: 0, label: 'a' })
+      expect(dict.getLabelByValue(0)).toBe('a')
 
       expect(dict.find((item) => item.value === 1)).toStrictEqual({
         key: 'b',

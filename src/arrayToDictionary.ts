@@ -1,6 +1,12 @@
 import type { IfUnknown } from '@rhao/types-base'
+import { assign } from 'lodash-unified'
 import { createDictionary } from './createDictionary'
-import type { DictionaryItem, DictionaryMeta, DictionaryMethods } from './createDictionary'
+import type {
+  Dictionary,
+  DictionaryItem,
+  DictionaryMeta,
+  DictionaryMethods,
+} from './createDictionary'
 
 type _DictionaryItem<T extends object = object, VK extends string = 'value'> = DictionaryItem<
   // @ts-expect-error
@@ -10,6 +16,55 @@ type _DictionaryItem<T extends object = object, VK extends string = 'value'> = D
 type _DictionaryMethods<T extends object = object, VK extends string = 'value'> = DictionaryMethods<
   DictionaryMeta<_DictionaryItem<T, VK>>
 >
+
+type _Dictionary<T extends object = object, VK extends string = 'value'> = Dictionary<
+  DictionaryMeta<_DictionaryItem<T, VK>>
+>
+
+/**
+ * 数组转字典的内置方法
+ */
+export interface ArrayToDictionaryBuiltinMethods<
+  T extends object = object,
+  VK extends string = 'value',
+> {
+  /**
+   * 根据指定键获取字典项数据
+   * @param this 字典对象
+   * @param key 指定键
+   *
+   * @example
+   * ```ts
+   * const dict = arrayToDictionary([{ id: 1, text: 'a' }, { id: 2, text: 'b' }], {
+   *   key: 'text',
+   *   valueKey: 'id',
+   *   labelKey: 'text',
+   * })
+   *
+   * dict.getData('a')
+   * // => { id: 1, text: 'a' }
+   * ```
+   */
+  getData(this: _Dictionary<T, VK>, key: string): T | undefined
+  /**
+   * 根据指定字典项值获取字典项数据
+   * @param this 字典对象
+   * @param value 字典项值
+   *
+   * @example
+   * ```ts
+   * const dict = arrayToDictionary([{ id: 1, text: 'a' }, { id: 2, text: 'b' }], {
+   *   key: 'text',
+   *   valueKey: 'id',
+   *   labelKey: 'text',
+   * })
+   *
+   * dict.getDataByValue(1)
+   * // => { id: 1, text: 'a' }
+   * ```
+   */
+  getDataByValue(this: _Dictionary<T, VK>, value: any): T | undefined
+}
 
 export interface ArrayToDictionaryOptions<
   VK extends string = 'value',
@@ -35,6 +90,20 @@ export interface ArrayToDictionaryOptions<
    */
   methods?: M
 }
+
+const builtinMethods = {
+  getData(key) {
+    return this.get(key)?.data
+  },
+  getDataByValue(value) {
+    return this.getByValue(value)?.data
+  },
+} as ArrayToDictionaryBuiltinMethods
+
+/**
+ * 内置方法
+ */
+arrayToDictionary.builtinMethods = builtinMethods
 
 /**
  * 对象数组转为字典对象
@@ -72,7 +141,12 @@ export function arrayToDictionary<
   VK extends string = 'value',
   M extends _DictionaryMethods<T, VK> = _DictionaryMethods<T, VK>,
 >(arr: T[], options: ArrayToDictionaryOptions<VK, M> = {}) {
-  const { valueKey = 'value', labelKey = 'label', key = valueKey, methods = {} } = options
+  const { valueKey = 'value', labelKey = 'label', key = valueKey } = options
+  const methods = assign(
+    {},
+    arrayToDictionary.builtinMethods as unknown as ArrayToDictionaryBuiltinMethods<T, VK>,
+    options.methods,
+  )
 
   const dict: any = {}
   for (const item of arr as any[]) {
@@ -81,7 +155,7 @@ export function arrayToDictionary<
     if (_key != null && String(_key)) dict[_key] = obj
   }
 
-  return createDictionary(dict as DictionaryMeta<_DictionaryItem<T, VK>>, methods as M)
+  return createDictionary(dict as DictionaryMeta<_DictionaryItem<T, VK>>, methods)
 }
 
 if (import.meta.vitest) {
@@ -102,11 +176,13 @@ if (import.meta.vitest) {
     })
 
     it('内置函数', () => {
-      expect(dict.get('one')?.data).toStrictEqual(array[0])
-      expect(dict.getByValue(1)?.data === array[0]).toBe(true)
+      expect(dict.getData('one')).toStrictEqual(array[0])
+      expect(dict.getDataByValue(1)).toStrictEqual(array[0])
 
       expect(dict.find((item) => item.data.id === 1)?.data).toStrictEqual(array[0])
-      expect(dict.filter((item) => item.data.id > 1).map((item) => item.data)).toStrictEqual([array[1]])
+      expect(dict.filter((item) => item.data.id > 1).map((item) => item.data)).toStrictEqual([
+        array[1],
+      ])
     })
 
     it('自定义函数', () => {
