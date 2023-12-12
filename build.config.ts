@@ -11,7 +11,7 @@ function createEntry(format: 'esm' | 'cjs') {
       define: {
         'import.meta.vitest': 'false',
       },
-      minify: true,
+      minifySyntax: true,
     },
   } as BuildEntry
 }
