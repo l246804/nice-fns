@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@rhao/types-base':
-    specifier: ^0.3.0
-    version: 0.3.0(typescript@5.3.2)
+    specifier: ^0.4.0
+    version: 0.4.0(typescript@5.3.2)
   '@types/lodash-es':
     specifier: ^4.17.12
     version: 4.17.12
@@ -1205,8 +1205,8 @@ packages:
       - inquirer
     dev: true
 
-  /@rhao/types-base@0.3.0(typescript@5.3.2):
-    resolution: {integrity: sha512-yUd/wFJoBnBnt856vaUfgUzgJwLQcQbk5WwmaMTLxWrj+IRGMlNcQYOzoKJ/FdfuAO0hdwQ1VD3dl5Yzw8CTRA==}
+  /@rhao/types-base@0.4.0(typescript@5.3.2):
+    resolution: {integrity: sha512-y2YNssRqitHBvSfJLmbCdNRrCwo7YOM81edx7158qrb7wvHkJPwO1wn7qG1Fh0O+bD9vK/jCKe2VKSA+uwLmjg==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=5'
