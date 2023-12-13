@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/l246804/nice-fns/compare/v0.1.0...v0.1.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* 🐛 修复 toDictionary 导出函数名错误 ([cd0fb93](https://github.com/l246804/nice-fns/commit/cd0fb93b148953eff0cafa6d506ae59ef78d3c10))
+
 ## [0.1.0](https://github.com/l246804/nice-fns/compare/v0.1.0-1...v0.1.0) (2023-12-13)
 
 
