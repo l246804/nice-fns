@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.1.0](https://github.com/l246804/nice-fns/compare/v0.1.0-1...v0.1.0) (2023-12-13)
+
+
+### Features
+
+* 🎸 添加工具函数 classState ([738e501](https://github.com/l246804/nice-fns/commit/738e5010e3da86e83954de5048ac31d0efea5b20))
+* 🎸 添加工具函数 createDictionary、arrayToDictionary ([3285ceb](https://github.com/l246804/nice-fns/commit/3285cebe4e81693dd98e15ab8ddf15e63781256b))
+* 🎸 添加工具函数 cssVar、cssVarName ([60e12b4](https://github.com/l246804/nice-fns/commit/60e12b4a5d009095f8ba25b90989d2dbc30d79f3))
+* 🎸 添加工具函数 getExtnameByFileType、getFileTypeByExtname ([d03706e](https://github.com/l246804/nice-fns/commit/d03706ebe8f578189b3be30096ca5616a19d7855))
+* 🎸 添加工具函数 getRootFontSize、getScrollParent ([814baa0](https://github.com/l246804/nice-fns/commit/814baa0e98e5e7e2dc429e2563725d8b4b5cc332))
+* 🎸 添加工具函数 getWindowSize、scalePx ([5224d6c](https://github.com/l246804/nice-fns/commit/5224d6c17c8553e676dffaf9ad0a7f3028fbe658))
+* 🎸 添加工具函数 parseContentDisposition ([84fd653](https://github.com/l246804/nice-fns/commit/84fd653f577f0064db6cd04a7f71680061aefd09))
+* 🎸 添加工具函数 pxToRem、pxToViewport ([93eebfe](https://github.com/l246804/nice-fns/commit/93eebfe520c8d46e5a8c9e7a0b25b7653f117ebc))
+* 🎸 添加工具函数 unitToPx、saveAs ([4b5072f](https://github.com/l246804/nice-fns/commit/4b5072f3a43e0c6f3704f98e4654d87ad33bf3ee))
+
+
+### Chores
+
+* 🤖 补充 createDictionary、arrayToDictionary 内置方法 ([3db8a2a](https://github.com/l246804/nice-fns/commit/3db8a2abb832e0693ab1fc518c507644d9b98fc1))
+* 🤖 更改 unbuild 配置 ([16c10e8](https://github.com/l246804/nice-fns/commit/16c10e88ea6c3b8e5f880e271994f3c9fde54d14))
+* 🤖 优化 package.json 的 exports 配置 ([cd1836b](https://github.com/l246804/nice-fns/commit/cd1836be3829112da39070edfc031ac7254e7fa5))
+* 🤖 重命名 `objectCompact` 为 `compactObject` ([8d8b795](https://github.com/l246804/nice-fns/commit/8d8b795ee180cace738063346a933897c030d964))
+
+
+### Refactors
+
+* 💡 重构 createDictionary 和 arrayToDictionary 为 toDictionary ([1e909ce](https://github.com/l246804/nice-fns/commit/1e909ce4e9ff684e4045873403e27a562d74f5af))
+* 💡 重构 saveAs，摆脱 file-saver 依赖 ([5d8d330](https://github.com/l246804/nice-fns/commit/5d8d330fa1a3dd78950d3eaffc3557c47085f89a))
+
 ## [0.1.0-3](https://github.com/l246804/nice-fns/compare/v0.1.0-1...v0.1.0-3) (2023-12-08)
 
 
