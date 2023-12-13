@@ -65,7 +65,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -92,7 +92,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -119,7 +119,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -140,7 +140,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -163,7 +163,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -184,7 +184,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -204,7 +204,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -224,7 +224,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -244,7 +244,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -264,7 +264,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -284,7 +284,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -304,7 +304,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -324,7 +324,7 @@ export interface DictionaryBuiltinMethods<
    *
    * @example
    * ```ts
-   * const dict = createDictionary(
+   * const dict = toDictionary(
    *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
    *   { valueKey: 'id', labelKey: 'text' },
    * )
@@ -467,7 +467,7 @@ arrayPrototypeMethods.forEach((method) => {
 /**
  * 内置方法
  */
-createDictionary.builtinMethods = builtinMethods
+toDictionary.builtinMethods = builtinMethods
 
 /**
  * 数组转字典
@@ -479,7 +479,7 @@ createDictionary.builtinMethods = builtinMethods
  * ```ts
  * const array = [{ id: 1, name: 'a' }, { id: 2, name: 'b' }]
  * // 设置 name 为字典键
- * const dict = createDictionary(array, { valueKey: 'id', labelKey: 'name', key: 'name' })
+ * const dict = toDictionary(array, { valueKey: 'id', labelKey: 'name', key: 'name' })
  *
  * dict.raw === array
  * // => true
@@ -488,7 +488,7 @@ createDictionary.builtinMethods = builtinMethods
  * // => { key: 'a', label: 'a', value: 1, data: { id: 1, name: 'a' } }
  * ```
  */
-export function createDictionary<
+export function toDictionary<
   T,
   VK extends KeyOf<T> = KeyOf<T>,
   LK extends KeyOf<T> = KeyOf<T>,
@@ -514,7 +514,7 @@ export function createDictionary<
  * ```ts
  * const object = { a: { value: 1, text: 'A' }, b: { value: 2, text: 'B' } }
  * // 对象转字典时以对象键作为字典键
- * const dict = createDictionary(object, { valueKey: 'value', labelKey: 'text' })
+ * const dict = toDictionary(object, { valueKey: 'value', labelKey: 'text' })
  *
  * dict.raw === object
  * // => true
@@ -523,7 +523,7 @@ export function createDictionary<
  * // => { key: 'a', label: 'A', value: 1, data: { value: 1, text: 'A' } }
  * ```
  */
-export function createDictionary<
+export function toDictionary<
   T extends Recordable,
   VT = T extends Recordable<infer _T> ? _T : any,
   VK extends KeyOf<VT> = KeyOf<VT>,
@@ -548,7 +548,7 @@ export function createDictionary<
  * // 对象转字典
  * const object = { a: { value: 1, text: 'A' }, b: { value: 2, text: 'B' } }
  * // 对象转字典时以对象键作为字典键
- * const dict = createDictionary(object, { valueKey: 'value', labelKey: 'text' })
+ * const dict = toDictionary(object, { valueKey: 'value', labelKey: 'text' })
  *
  * dict.raw === object
  * // => true
@@ -559,7 +559,7 @@ export function createDictionary<
  * // 数组转字典
  * const array = [{ id: 1, name: 'a' }, { id: 2, name: 'b' }]
  * // 设置 name 为字典键
- * const dict = createDictionary(array, { valueKey: 'id', labelKey: 'name', key: 'name' })
+ * const dict = toDictionary(array, { valueKey: 'id', labelKey: 'name', key: 'name' })
  *
  * dict.raw === array
  * // => true
@@ -568,10 +568,10 @@ export function createDictionary<
  * // => { key: 'a', label: 'a', value: 1, data: { id: 1, name: 'a' } }
  * ```
  */
-export function createDictionary(data: any, options: DictionaryOptions = {}) {
+export function toDictionary(data: any, options: DictionaryOptions = {}) {
   const { valueKey = 'value', labelKey = valueKey, key = valueKey } = options
 
-  const methods = assign({}, createDictionary.builtinMethods, options.methods)
+  const methods = assign({}, toDictionary.builtinMethods, options.methods)
   const dictionary = assign(Object.create(methods), { raw: data, map: new Map() })
   const map = dictionary.map
 
@@ -608,7 +608,7 @@ export function createDictionary(data: any, options: DictionaryOptions = {}) {
 
 if (import.meta.vitest) {
   describe('对象转字典', () => {
-    const dict = createDictionary(
+    const dict = toDictionary(
       {
         a: {
           value: 0,
@@ -690,7 +690,7 @@ if (import.meta.vitest) {
   })
 
   describe('数组转字典', () => {
-    const dict = createDictionary(
+    const dict = toDictionary(
       [
         {
           value: 0,
