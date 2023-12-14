@@ -1,13 +1,15 @@
 import { assign } from 'lodash-unified'
-import type { IfNever, KeyOf } from '@rhao/types-base'
+import type { IfEmpty, IfNever, KeyOf, Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions } from './tree'
 import { treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
 export interface ToTreeArrayOptions<
-  DataKey extends string = string,
-  DropKeys extends string = string,
-> extends Pick<BasicTreeOptions<DataKey>, 'childrenKey' | 'dataKey'> {
+  T extends Recordable = Recordable,
+  ChildrenKey extends KeyOf<T> = KeyOf<T>,
+  DataKey extends string = never,
+  DropKeys extends string = never,
+> extends Pick<BasicTreeOptions<string, string, ChildrenKey, DataKey>, 'childrenKey' | 'dataKey'> {
   /**
    * 需要放弃的键，设置后将会移除对应键，例如节点上的 `children` 或其他。
    */
@@ -15,10 +17,11 @@ export interface ToTreeArrayOptions<
 }
 
 function unTreeList<
-  T extends object = any,
-  DataKey extends string = never,
-  DropKeys extends KeyOf<T> = KeyOf<T>,
->(result: T[], array: T[], opts: ToTreeArrayOptions<DataKey, DropKeys>) {
+  T extends Recordable,
+  ChildrenKey extends KeyOf<T>,
+  DataKey extends string,
+  DropKeys extends string,
+>(result: T[], array: T[], opts: ToTreeArrayOptions<T, ChildrenKey, DataKey, DropKeys>) {
   array.forEach((item: any) => {
     // 获取子级列表
     const children = item[opts.childrenKey!]
@@ -34,7 +37,11 @@ function unTreeList<
     if (opts.dropKeys) batchUnset(item, opts.dropKeys)
   })
 
-  return result as IfNever<DataKey, Omit<T, DropKeys>, Omit<T, DropKeys> & Record<DataKey, T>>[]
+  return result as IfNever<
+    IfEmpty<DataKey, never>,
+    Omit<T, IfEmpty<DropKeys, never>>,
+    Omit<T, IfEmpty<DropKeys, never>> & Record<DataKey, T>
+  >[]
 }
 
 /**
@@ -43,11 +50,12 @@ function unTreeList<
  * @param options 配置项
  */
 export function toTreeArray<
-  T extends object = any,
+  T extends Recordable = Recordable,
+  ChildrenKey extends KeyOf<T> = KeyOf<T>,
   DataKey extends string = never,
-  DropKeys extends KeyOf<T> = KeyOf<T>,
->(array: T[], options?: ToTreeArrayOptions<DataKey, DropKeys>) {
-  return unTreeList<T, DataKey, DropKeys>([], array, assign({}, treeDefaults, options))
+  DropKeys extends string = never,
+>(array: T[], options?: ToTreeArrayOptions<T, ChildrenKey, DataKey, DropKeys>) {
+  return unTreeList<T, ChildrenKey, DataKey, DropKeys>([], array, assign({}, treeDefaults, options))
 }
 
 if (import.meta.vitest) {

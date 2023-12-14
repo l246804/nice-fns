@@ -1,6 +1,11 @@
 import type { MaybeNullish } from '@rhao/types-base'
 
-export interface BasicTreeOptions<DataKey extends string = string> {
+export interface BasicTreeOptions<
+  Key = string,
+  ParentKey = string,
+  ChildrenKey = string,
+  DataKey = string,
+> {
   /**
    * 严格模式，如果设为 `true`，会去掉父子关联不存在数据，当子节点为空时将没有 `childrenKey` 和 `keyMap.childrenKey` 属性
    * @default false
@@ -10,17 +15,17 @@ export interface BasicTreeOptions<DataKey extends string = string> {
    * 节点键
    * @default 'id'
    */
-  key?: string
+  key?: Key
   /**
    * 父节点键
    * @default 'parentId'
    */
-  parentKey?: string
+  parentKey?: ParentKey
   /**
    * 子节点键
    * @default 'children'
    */
-  childrenKey?: string
+  childrenKey?: ChildrenKey
   /**
    * 数据存放键，未设置时将平铺在节点上
    */

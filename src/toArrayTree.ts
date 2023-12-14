@@ -1,10 +1,15 @@
 import { assign, orderBy } from 'lodash-unified'
-import type { IfNever, MaybeArray, Recordable } from '@rhao/types-base'
+import type { IfEmpty, IfNever, KeyOf, MaybeArray, Recordable } from '@rhao/types-base'
 import { type BasicTreeOptions, treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
-export interface ToArrayTreeOptions<T extends object = any, DataKey extends string = string>
-  extends BasicTreeOptions<DataKey> {
+export interface ToArrayTreeOptions<
+  T extends Recordable = Recordable,
+  Key extends KeyOf<T> = KeyOf<T>,
+  ParentKey extends KeyOf<T> = KeyOf<T>,
+  ChildrenKey extends KeyOf<T> = KeyOf<T>,
+  DataKey extends string = never,
+> extends BasicTreeOptions<Key, ParentKey, ChildrenKey, DataKey> {
   /**
    * 键映射，映射后节点将必定包含映射键
    */
@@ -12,16 +17,13 @@ export interface ToArrayTreeOptions<T extends object = any, DataKey extends stri
   /**
    * 排序数组，依赖于 `orderBy()`
    */
-  orderBy?: [
-    iterates?: MaybeArray<keyof T>,
-    orders?: MaybeArray<'asc' | 'desc'>,
-  ]
+  orderBy?: [iterates?: MaybeArray<keyof T>, orders?: MaybeArray<'asc' | 'desc'>]
 }
 
-function strictTree(array: any[], opts: ToArrayTreeOptions) {
+function strictTree(array: any[], opts: ToArrayTreeOptions<any, any, any, any, any>) {
   array.forEach((item) => {
-    if (!item[opts.childrenKey!]?.length)
-      batchUnset(item, [opts.childrenKey, opts.keyMap?.childrenKey].filter(Boolean) as string[])
+    if (!item[opts.childrenKey]?.length)
+      batchUnset(item, [opts.childrenKey, opts.keyMap?.childrenKey].filter(Boolean))
   })
 }
 
@@ -73,10 +75,13 @@ function setAttr(treeData: Recordable, key?: string, value?: any) {
  * ]
  * ```
  */
-export function toArrayTree<T extends object, DataKey extends string = never>(
-  array: T[],
-  options?: ToArrayTreeOptions<T, DataKey>,
-) {
+export function toArrayTree<
+  T extends Recordable = Recordable,
+  Key extends KeyOf<T> = KeyOf<T>,
+  ParentKey extends KeyOf<T> = KeyOf<T>,
+  ChildrenKey extends KeyOf<T> = KeyOf<T>,
+  DataKey extends string = never,
+>(array: T[], options?: ToArrayTreeOptions<T, Key, ParentKey, ChildrenKey, DataKey>) {
   // 合并配置项
   const opts = assign({}, treeDefaults, options)
 
@@ -136,7 +141,7 @@ export function toArrayTree<T extends object, DataKey extends string = never>(
   // 严格模式去掉子级属性
   if (opts.strict) strictTree(array, opts)
 
-  return result as (IfNever<DataKey, T, T & Record<DataKey, T>> & Recordable)[]
+  return result as (IfNever<IfEmpty<DataKey, never>, T, T & Record<DataKey, T>> & Recordable)[]
 }
 
 if (import.meta.vitest) {
