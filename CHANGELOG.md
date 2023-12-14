@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/l246804/nice-fns/compare/v0.1.1...v0.1.2) (2023-12-14)
+
+
+### Chores
+
+* 🤖 优化树结构数据转换类型 ([74bc11a](https://github.com/l246804/nice-fns/commit/74bc11aef7df0f53f3c30c700e9ab7db6683cc5b))
+
 ## [0.1.1](https://github.com/l246804/nice-fns/compare/v0.1.0...v0.1.1) (2023-12-13)
 
 
