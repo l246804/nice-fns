@@ -1,11 +1,12 @@
 import { assign } from 'lodash-unified'
+import type { IfNever, KeyOf } from '@rhao/types-base'
 import type { BasicTreeOptions } from './tree'
 import { treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
 export interface ToTreeArrayOptions<
   DataKey extends string = string,
-  DropKeys extends PropertyKey = string,
+  DropKeys extends string = string,
 > extends Pick<BasicTreeOptions<DataKey>, 'childrenKey' | 'dataKey'> {
   /**
    * 需要放弃的键，设置后将会移除对应键，例如节点上的 `children` 或其他。
@@ -16,7 +17,7 @@ export interface ToTreeArrayOptions<
 function unTreeList<
   T extends object = any,
   DataKey extends string = never,
-  DropKeys extends PropertyKey = string,
+  DropKeys extends KeyOf<T> = KeyOf<T>,
 >(result: T[], array: T[], opts: ToTreeArrayOptions<DataKey, DropKeys>) {
   array.forEach((item: any) => {
     // 获取子级列表
@@ -33,7 +34,7 @@ function unTreeList<
     if (opts.dropKeys) batchUnset(item, opts.dropKeys)
   })
 
-  return result as (Omit<T, DropKeys> & Record<DataKey, T>)[]
+  return result as IfNever<DataKey, Omit<T, DropKeys>, Omit<T, DropKeys> & Record<DataKey, T>>[]
 }
 
 /**
@@ -44,7 +45,7 @@ function unTreeList<
 export function toTreeArray<
   T extends object = any,
   DataKey extends string = never,
-  DropKeys extends keyof T = never,
+  DropKeys extends KeyOf<T> = KeyOf<T>,
 >(array: T[], options?: ToTreeArrayOptions<DataKey, DropKeys>) {
   return unTreeList<T, DataKey, DropKeys>([], array, assign({}, treeDefaults, options))
 }

@@ -1,5 +1,5 @@
 import { assign, orderBy } from 'lodash-unified'
-import type { MaybeArray, Recordable } from '@rhao/types-base'
+import type { IfNever, MaybeArray, Recordable } from '@rhao/types-base'
 import { type BasicTreeOptions, treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
@@ -136,7 +136,7 @@ export function toArrayTree<T extends object, DataKey extends string = never>(
   // 严格模式去掉子级属性
   if (opts.strict) strictTree(array, opts)
 
-  return result as (T & Record<DataKey, T> & { [K: string]: any })[]
+  return result as (IfNever<DataKey, T, T & Record<DataKey, T>> & Recordable)[]
 }
 
 if (import.meta.vitest) {
