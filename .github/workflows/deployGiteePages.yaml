@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait Gitee Sync
-        run: sleep 10m
+        run: sleep 3m
         shell: bash
 
       - name: Build Gitee Pages
