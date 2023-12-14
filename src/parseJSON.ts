@@ -1,4 +1,4 @@
-import type { RequiredWith } from '@rhao/types-base'
+import type { NotNullish } from '@rhao/types-base'
 import { assign, isNil } from 'lodash-unified'
 
 export interface ParseJSONOptions<T = any> {
@@ -28,14 +28,14 @@ export interface ParseJSONOptions<T = any> {
   reviver?: Parameters<typeof JSON.parse>[1]
 }
 
+const defaultOnNil: NotNullish<ParseJSONOptions['onNil']> = (_, value) => {
+  return value
+}
+
 /**
  * 默认配置
  */
-parseJSON.defaults = {
-  onNil(_, value) {
-    return value
-  },
-} as RequiredWith<ParseJSONOptions, 'onNil'>
+parseJSON.defaults = {} as ParseJSONOptions
 
 /**
  * 解析 `JSON` 文本
@@ -58,7 +58,7 @@ parseJSON.defaults = {
  * ```
  */
 export function parseJSON<T>(text: string, options: ParseJSONOptions<T> = {}): T {
-  const { onNil, reviver } = assign({}, parseJSON.defaults, options)
+  const { onNil = defaultOnNil, reviver } = assign({}, parseJSON.defaults, options)
   try {
     const result = JSON.parse(text, reviver)
     return isNil(result) ? onNil(undefined, result, text) : result

@@ -30,7 +30,7 @@ export interface ScalePxOptions {
 /**
  * 默认配置
  */
-scalePx.defaults = {}
+scalePx.defaults = {} as ScalePxOptions
 
 /**
  * 数值由 `px` 基于当前视口大小和设计稿大小的比例进行缩放
