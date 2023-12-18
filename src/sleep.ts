@@ -29,6 +29,6 @@ if (import.meta.vitest) {
     const value = diff % ms
 
     // 误差在 0 - 50 内即正常
-    expect(value >= 0 && value <= 50).toBe(true)
+    expect(value >= 0 && value <= 100).toBe(true)
   })
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0](https://github.com/l246804/nice-fns/compare/v0.1.2...v0.2.0) (2023-12-18)
+
+
+### Chores
+
+* 🤖 简化树结构转换和字典转换函数类型 ([a1fe20b](https://github.com/l246804/nice-fns/commit/a1fe20b62eb294854c47c1f2f5db0e00b8f6f0bc))
+* 🤖 移除部分函数默认配置 ([6ba87eb](https://github.com/l246804/nice-fns/commit/6ba87eb5eaed6d05244d581f7d5f6466094be511))
+* 🤖 优化函数类型 ([d16866a](https://github.com/l246804/nice-fns/commit/d16866a20be3754f3c0ea9e1c433f1cb3905655e))
+* 🤖 优化树结构转换函数类型 ([8c781fc](https://github.com/l246804/nice-fns/commit/8c781fc3257b0e724f0e0dbac361d7586dacb9cb))
+
 ## [0.1.2](https://github.com/l246804/nice-fns/compare/v0.1.1...v0.1.2) (2023-12-14)
 
 
