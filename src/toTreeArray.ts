@@ -1,7 +1,5 @@
-import { assign } from 'lodash-unified'
 import type { IfEmpty, IfNever, KeyOf, Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions } from './tree'
-import { treeDefaults } from './tree'
 import { batchUnset } from './batchUnset'
 
 export interface ToTreeArrayOptions<
@@ -54,8 +52,11 @@ export function toTreeArray<
   ChildrenKey extends KeyOf<T> = KeyOf<T>,
   DataKey extends string = never,
   DropKeys extends string = never,
->(array: T[], options?: ToTreeArrayOptions<T, ChildrenKey, DataKey, DropKeys>) {
-  return unTreeList<T, ChildrenKey, DataKey, DropKeys>([], array, assign({}, treeDefaults, options))
+>(array: T[], options: ToTreeArrayOptions<T, ChildrenKey, DataKey, DropKeys> = {}) {
+  return unTreeList<T, ChildrenKey, DataKey, DropKeys>([], array, {
+    childrenKey: 'children' as ChildrenKey,
+    ...options,
+  })
 }
 
 if (import.meta.vitest) {

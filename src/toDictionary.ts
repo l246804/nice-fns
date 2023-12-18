@@ -1,5 +1,5 @@
 import type { IfUnknown, KeyOf, MaybeArray, Primitive, Recordable } from '@rhao/types-base'
-import { assign, isArray, isNil, isObject, orderBy, toString } from 'lodash-unified'
+import { assign, create, isArray, isNil, isObject, orderBy, toPairs, toString } from 'lodash-unified'
 
 /**
  * 字典排序参数
@@ -572,7 +572,7 @@ export function toDictionary(data: any, options: DictionaryOptions = {}) {
   const { valueKey = 'value', labelKey = valueKey, key = valueKey } = options
 
   const methods = assign({}, toDictionary.builtinMethods, options.methods)
-  const dictionary = assign(Object.create(methods), { raw: data, map: new Map() })
+  const dictionary = assign(create(methods), { raw: data, map: new Map() })
   const map = dictionary.map
 
   if (isArray(data)) {
@@ -584,12 +584,12 @@ export function toDictionary(data: any, options: DictionaryOptions = {}) {
     })
   }
   else if (isObject(data)) {
-    Object.entries(data).forEach(([key, item]) => {
+    toPairs(data).forEach(([key, item]) => {
       map.set(key, assign(toItem(item), { key }))
     })
   }
 
-  Object.entries(methods).forEach(([name, value]) => {
+  toPairs(methods).forEach(([name, value]) => {
     methods[name as keyof typeof methods] = value.bind(dictionary)
   })
 

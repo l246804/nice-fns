@@ -1,5 +1,4 @@
 import type { MaybeGetter } from '@rhao/types-base'
-import { assign } from 'lodash-unified'
 import { toValue } from './toValue'
 
 export interface CreateBEMOptions {
@@ -61,8 +60,11 @@ function _bem(namespace = '', block = '', blockSuffix = '', element = '', modifi
  * // => 'el-block--empty'
  * ```
  */
-export function createBEM(block: string, namespaceOverrides?: MaybeGetter<string>) {
-  const opts = assign({}, createBEM.defaults, { namespace: namespaceOverrides })
+export function createBEM(
+  block: string,
+  namespaceOverrides: MaybeGetter<string> = createBEM.defaults.namespace,
+) {
+  const opts = { namespace: namespaceOverrides }
   const namespace = toValue(opts.namespace)
 
   const b = (blockSuffix = '') => _bem(namespace, block, blockSuffix, '', '')

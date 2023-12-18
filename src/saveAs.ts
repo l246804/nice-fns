@@ -1,5 +1,5 @@
 import type { PromiseFn } from '@rhao/types-base'
-import { assign, isFunction, isObject } from 'lodash-unified'
+import { isFunction, isObject } from 'lodash-unified'
 import { saveAs as baseSaveAs } from './_saveAs'
 
 export interface SaveAsOptions {
@@ -30,7 +30,7 @@ export interface SaveAsOptions {
 /**
  * 默认配置
  */
-saveAs.defaults = { autoBom: false } as SaveAsOptions
+saveAs.defaults = {} as SaveAsOptions
 
 /**
  * FileSaver 现代版，支持通过 `fetcher` 获取文件流
@@ -62,12 +62,11 @@ export async function saveAs(
   filenameOrOptions: string | SaveAsOptions = '',
   options: SaveAsOptions = {},
 ) {
-  const opts: SaveAsOptions = assign(
-    {},
-    saveAs.defaults,
-    isObject(filenameOrOptions) ? filenameOrOptions : { filename: filenameOrOptions },
-    options,
-  )
+  const opts: SaveAsOptions = {
+    ...saveAs.defaults,
+    ...(isObject(filenameOrOptions) ? filenameOrOptions : { filename: filenameOrOptions }),
+    ...options,
+  }
 
   if (!isFunction(opts.fetcher) || typeof data !== 'string') {
     baseSaveAs(data, opts.filename)

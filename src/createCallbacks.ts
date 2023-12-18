@@ -1,5 +1,5 @@
 import type { AnyFn } from '@rhao/types-base'
-import { assign, isFunction } from 'lodash-unified'
+import { isFunction } from 'lodash-unified'
 
 export interface CreateCallbacksOptions {
   /**
@@ -7,11 +7,6 @@ export interface CreateCallbacksOptions {
    */
   unique?: boolean
 }
-
-/**
- * 默认配置
- */
-createCallbacks.defaults = {} as CreateCallbacksOptions
 
 /**
  * 创建回调管理器
@@ -48,7 +43,7 @@ createCallbacks.defaults = {} as CreateCallbacksOptions
 export function createCallbacks<T extends AnyFn, Args extends any[] = Parameters<T>>(
   options: CreateCallbacksOptions = {},
 ) {
-  const { unique = false } = assign({}, createCallbacks.defaults, options)
+  const { unique = false } = options
   let handlers: T[] = []
 
   /**

@@ -1,5 +1,3 @@
-import { assign } from 'lodash-unified'
-
 export interface PxToViewportOptions {
   /**
    * 小数精度
@@ -49,7 +47,7 @@ export function pxToViewport(value: number, options: PxToViewportOptions = {}) {
     unit = 'vw',
     designWidth = 1920,
     designHeight = 1080,
-  } = assign({}, pxToViewport.defaults, options)
+  } = { ...pxToViewport.defaults, ...options }
 
   const baseValue
     = unit === 'vh'

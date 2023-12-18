@@ -1,4 +1,3 @@
-import { assign } from 'lodash-unified'
 import { getRootFontSize } from './getRootFontSize'
 
 export interface PxToRemOptions {
@@ -29,7 +28,7 @@ pxToRem.defaults = {} as PxToRemOptions
  * ```
  */
 export function pxToRem(value: number, options: PxToRemOptions = {}) {
-  const { precision = 6 } = assign({}, pxToRem.defaults, options)
+  const { precision = 6 } = { ...pxToRem.defaults, ...options }
   return `${+(value / getRootFontSize()).toFixed(precision)}rem`
 }
 

@@ -1,15 +1,16 @@
-import { assign, orderBy } from 'lodash-unified'
+import { orderBy } from 'lodash-unified'
 import type { IfEmpty, IfNever, KeyOf, MaybeArray, Recordable } from '@rhao/types-base'
-import { type BasicTreeOptions, treeDefaults } from './tree'
+import type { BasicTreeOptions } from './tree'
 import { batchUnset } from './batchUnset'
 
 export interface ToArrayTreeOptions<
   T extends Recordable = Recordable,
   Key extends KeyOf<T> = KeyOf<T>,
   ParentKey extends KeyOf<T> = KeyOf<T>,
-  ChildrenKey extends KeyOf<T> = KeyOf<T>,
+  ChildrenKey extends string = never,
   DataKey extends string = never,
-> extends BasicTreeOptions<Key, ParentKey, ChildrenKey, DataKey> {
+  Strict extends boolean = boolean,
+> extends BasicTreeOptions<Key, ParentKey, ChildrenKey, DataKey, Strict> {
   /**
    * 键映射，映射后节点将必定包含映射键
    */
@@ -20,7 +21,50 @@ export interface ToArrayTreeOptions<
   orderBy?: [iterates?: MaybeArray<keyof T>, orders?: MaybeArray<'asc' | 'desc'>]
 }
 
-function strictTree(array: any[], opts: ToArrayTreeOptions<any, any, any, any, any>) {
+type TreeNodeWithDataKey<
+  T,
+  Key extends KeyOf<T>,
+  ParentKey extends KeyOf<T>,
+  DataKey extends string,
+> = IfNever<
+  IfEmpty<DataKey, never>,
+  T,
+  Recordable<T, DataKey> &
+  Pick<T, Key extends keyof T ? Key : never> &
+  Pick<T, ParentKey extends keyof T ? ParentKey : never>
+> &
+Recordable
+
+type TreeNodeChildren<T, Strict extends boolean = boolean> = Strict extends true ? T | undefined : T
+
+type TreeNodeWithChildren<
+  T extends Recordable,
+  ChildrenKey extends string,
+  Strict extends boolean,
+> = IfNever<
+  ChildrenKey,
+  T & Recordable<TreeNodeChildren<TreeNodeWithChildren<T, 'children', Strict>[], Strict>>,
+  IfEmpty<
+    ChildrenKey,
+    T,
+    T &
+    Recordable<
+        TreeNodeChildren<TreeNodeWithChildren<T, ChildrenKey, Strict>[], Strict>,
+        ChildrenKey
+      >
+  >
+>
+
+export type TreeNode<
+  T extends Recordable = Recordable,
+  Key extends KeyOf<T> = KeyOf<T>,
+  ParentKey extends KeyOf<T> = KeyOf<T>,
+  ChildrenKey extends string = 'children',
+  DataKey extends string = never,
+  Strict extends boolean = boolean,
+> = TreeNodeWithChildren<TreeNodeWithDataKey<T, Key, ParentKey, DataKey>, ChildrenKey, Strict>
+
+function strictTree(array: any[], opts: ToArrayTreeOptions<any, any, any, any, any, boolean>) {
   array.forEach((item) => {
     if (!item[opts.childrenKey]?.length)
       batchUnset(item, [opts.childrenKey, opts.keyMap?.childrenKey].filter(Boolean))
@@ -79,11 +123,17 @@ export function toArrayTree<
   T extends Recordable = Recordable,
   Key extends KeyOf<T> = KeyOf<T>,
   ParentKey extends KeyOf<T> = KeyOf<T>,
-  ChildrenKey extends KeyOf<T> = KeyOf<T>,
+  ChildrenKey extends string = 'children',
   DataKey extends string = never,
->(array: T[], options?: ToArrayTreeOptions<T, Key, ParentKey, ChildrenKey, DataKey>) {
+  Strict extends boolean = boolean,
+>(array: T[], options: ToArrayTreeOptions<T, Key, ParentKey, ChildrenKey, DataKey, Strict> = {}) {
   // 合并配置项
-  const opts = assign({}, treeDefaults, options)
+  const opts = {
+    key: 'id',
+    parentKey: 'parentId',
+    childrenKey: 'children',
+    ...options,
+  }
 
   // 浅克隆并排序数组
   if (opts.orderBy) array = orderBy(array.slice(0), ...opts.orderBy) as T[]
@@ -95,7 +145,7 @@ export function toArrayTree<
 
   // 记录 id
   array.forEach((item: any) => {
-    id = item[opts.key!]
+    id = item[opts.key]
     idsMap[id] = true
   })
 
@@ -141,7 +191,7 @@ export function toArrayTree<
   // 严格模式去掉子级属性
   if (opts.strict) strictTree(array, opts)
 
-  return result as (IfNever<IfEmpty<DataKey, never>, T, T & Record<DataKey, T>> & Recordable)[]
+  return result as TreeNode<T, Key, ParentKey, ChildrenKey, DataKey, Strict>[]
 }
 
 if (import.meta.vitest) {

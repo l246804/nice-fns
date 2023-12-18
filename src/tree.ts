@@ -1,16 +1,17 @@
 import type { MaybeNullish } from '@rhao/types-base'
 
 export interface BasicTreeOptions<
-  Key = string,
-  ParentKey = string,
-  ChildrenKey = string,
-  DataKey = string,
+  Key extends string = string,
+  ParentKey extends string = string,
+  ChildrenKey extends string = string,
+  DataKey extends string = string,
+  Strict extends boolean = boolean,
 > {
   /**
    * 严格模式，如果设为 `true`，会去掉父子关联不存在数据，当子节点为空时将没有 `childrenKey` 和 `keyMap.childrenKey` 属性
    * @default false
    */
-  strict?: boolean
+  strict?: Strict
   /**
    * 节点键
    * @default 'id'
@@ -30,8 +31,6 @@ export interface BasicTreeOptions<
    * 数据存放键，未设置时将平铺在节点上
    */
   dataKey?: DataKey
-
-  [K: string]: any
 }
 
 export type TreeIterator<T, R = void> = (
@@ -60,12 +59,3 @@ export type TreeIterator<T, R = void> = (
    */
   tree: T[],
 ) => R
-
-/**
- * 树形默认配置项
- */
-export const treeDefaults: BasicTreeOptions = {
-  key: 'id',
-  parentKey: 'parentId',
-  childrenKey: 'children',
-}
