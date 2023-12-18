@@ -1,11 +1,11 @@
 import type { MaybeNullish } from '@rhao/types-base'
 
 export interface BasicTreeOptions<
-  Key extends string = string,
-  ParentKey extends string = string,
-  ChildrenKey extends string = string,
+  Key extends string = 'id',
+  ParentKey extends string = 'parentId',
+  ChildrenKey extends string = 'children',
   DataKey extends string = string,
-  Strict extends boolean = boolean,
+  Strict extends boolean = false,
 > {
   /**
    * 严格模式，如果设为 `true`，会去掉父子关联不存在数据，当子节点为空时将没有 `childrenKey` 和 `keyMap.childrenKey` 属性

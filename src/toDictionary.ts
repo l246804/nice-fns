@@ -490,9 +490,9 @@ toDictionary.builtinMethods = builtinMethods
  */
 export function toDictionary<
   T,
-  VK extends KeyOf<T> = KeyOf<T>,
-  LK extends KeyOf<T> = KeyOf<T>,
-  K extends KeyOf<T> = KeyOf<T>,
+  VK extends string = 'value',
+  LK extends string = VK,
+  K extends string = VK,
   V = T extends Primitive ? T : T extends Recordable<infer _V, VK> ? IfUnknown<_V, any> : any,
   DK extends string = T extends Primitive
     ? T[] extends Array<infer _T>
@@ -526,9 +526,9 @@ export function toDictionary<
 export function toDictionary<
   T extends Recordable,
   VT = T extends Recordable<infer _T> ? _T : any,
-  VK extends KeyOf<VT> = KeyOf<VT>,
-  LK extends KeyOf<VT> = KeyOf<VT>,
-  K extends KeyOf<VT> = KeyOf<VT>,
+  VK extends string = 'value',
+  LK extends string = VK,
+  K extends string = VK,
   V = VT extends Primitive ? VT : VT extends Recordable<infer _V, VK> ? IfUnknown<_V, any> : any,
   DK extends KeyOf<T> = KeyOf<T>,
   M extends DictionaryMethods<T, V, DK> = DictionaryMethods<T, V, DK>,
