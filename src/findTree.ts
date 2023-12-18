@@ -1,4 +1,4 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNullish, Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
@@ -62,7 +62,7 @@ const findTreeNode: HelperCreateTreeFuncHandler<FindTreeOptions, FindResult | nu
   return null
 }
 
-type FindTreeFunc = <T extends object>(
+type FindTreeFunc = <T extends Recordable = Recordable>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
   options?: FindTreeOptions,

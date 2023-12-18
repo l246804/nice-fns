@@ -21,7 +21,7 @@ import { cssVarName } from './cssVarName'
  * // => { '--elColor': 'red', '--elBgColor': 'black' }
  * ```
  */
-export function cssVar<T extends Recordable>(
+export function cssVar<T extends Recordable = Recordable>(
   object: T,
   namespace = '',
   processor?: CssVarNameProcessor,

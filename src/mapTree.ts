@@ -1,3 +1,4 @@
+import type { Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
@@ -47,7 +48,7 @@ const mapTreeNode: HelperCreateTreeFuncHandler<MapTreeOptions, any[], any> = (
   })
 }
 
-type MapTreeFunc = <T extends object, U extends object>(
+type MapTreeFunc = <T extends Recordable = Recordable, U extends Recordable = Recordable>(
   array: T[],
   iterator: TreeIterator<T, U>,
   options?: MapTreeOptions,

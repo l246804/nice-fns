@@ -1,9 +1,9 @@
 import type { MaybeNullish } from '@rhao/types-base'
 
 export interface BasicTreeOptions<
-  Key extends string = 'id',
-  ParentKey extends string = 'parentId',
-  ChildrenKey extends string = 'children',
+  Key extends string = string,
+  ParentKey extends string = string,
+  ChildrenKey extends string = string,
   DataKey extends string = string,
   Strict extends boolean = false,
 > {

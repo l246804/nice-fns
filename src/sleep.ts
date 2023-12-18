@@ -28,7 +28,7 @@ if (import.meta.vitest) {
     const diff = Date.now() - start
     const value = diff % ms
 
-    // 误差在 0 - 50 内即正常
+    // 误差在 0 - 100 内即正常
     expect(value >= 0 && value <= 100).toBe(true)
   })
 }

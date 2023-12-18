@@ -1,10 +1,10 @@
-import type { Nullish } from '@rhao/types-base'
+import type { Nullish, Recordable } from '@rhao/types-base'
 import { filter, flow, fromPairs, isNil, partialRight, toPairs } from 'lodash-unified'
 
 const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 
 interface CompactObject {
-  <T extends object>(object: T): { [K in keyof T as T[K] extends Nullish ? never : K]: T[K] }
+  <T extends Recordable = Recordable>(object: T): { [K in keyof T as T[K] extends Nullish ? never : K]: T[K] }
 }
 
 /**

@@ -5,9 +5,9 @@ import { batchUnset } from './batchUnset'
 
 export interface ToArrayTreeOptions<
   T extends Recordable = Recordable,
-  Key extends string = 'id',
-  ParentKey extends string = 'parentId',
-  ChildrenKey extends string = 'children',
+  Key extends string = string,
+  ParentKey extends string = string,
+  ChildrenKey extends string = string,
   DataKey extends string = never,
   Strict extends boolean = false,
 > extends BasicTreeOptions<Key, ParentKey, ChildrenKey, DataKey, Strict> {
@@ -42,9 +42,9 @@ Recordable<TreeNodeChildren<TreeNodeWithChildren<T, ChildrenKey, Strict>[], Stri
 
 export type TreeNode<
   T extends Recordable = Recordable,
-  Key extends string = 'id',
-  ParentKey extends string = 'parentId',
-  ChildrenKey extends string = 'children',
+  Key extends string = string,
+  ParentKey extends string = string,
+  ChildrenKey extends string = string,
   DataKey extends string = never,
   Strict extends boolean = false,
 > = TreeNodeWithChildren<TreeNodeWithDataKey<T, Key, ParentKey, DataKey>, ChildrenKey, Strict>

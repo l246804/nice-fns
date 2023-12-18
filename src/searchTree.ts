@@ -1,4 +1,4 @@
-import type { Fn } from '@rhao/types-base'
+import type { Fn, Recordable } from '@rhao/types-base'
 import { assign } from 'lodash-unified'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
@@ -77,11 +77,11 @@ const searchTreeNode: HelperCreateTreeFuncHandler<SearchTreeOptions, any[], bool
   return _searchTreeNode(false, ...args)
 }
 
-type SearchTreeFunc = <T extends object>(
+type SearchTreeFunc = <T extends Recordable = Recordable>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
   options?: SearchTreeOptions,
-) => T[]
+) => (T & Recordable)[]
 
 /**
  * 根据迭代器搜索树列表的子项数据，区别于 `filterTree` 会返回完整的树形结构列表
@@ -137,11 +137,7 @@ if (import.meta.vitest) {
   ]
 
   it('搜索树节点', () => {
-    const result = searchTree(
-      tree,
-      (node) => node.id >= 2,
-      { childrenKey: 'subs' },
-    )
+    const result = searchTree(tree, (node) => node.id >= 2, { childrenKey: 'subs' })
     expect(result).toStrictEqual(tree)
   })
 }

@@ -1,4 +1,4 @@
-import type { Fn, MaybeNullish } from '@rhao/types-base'
+import type { Fn, MaybeNullish, Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 
 export type HelperCreateTreeFuncHandler<O extends BasicTreeOptions, R = void, IR = R> = Fn<
@@ -14,7 +14,7 @@ export type HelperCreateTreeFuncHandler<O extends BasicTreeOptions, R = void, IR
   R
 >
 
-export type HelperCreateTreeFuncResult<O, IR, R> = <T extends object>(
+export type HelperCreateTreeFuncResult<O, IR, R> = <T extends Recordable = Recordable>(
   array: T[],
   iterator: TreeIterator<T, IR>,
   options?: O,

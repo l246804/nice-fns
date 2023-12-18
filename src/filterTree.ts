@@ -1,3 +1,4 @@
+import type { Recordable } from '@rhao/types-base'
 import { eachTree } from './eachTree'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 
@@ -33,10 +34,10 @@ export interface FilterTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'>
  * // => [{ id: 3, text: '3', }, { id: 2, text: '3', }]
  * ```
  */
-export function filterTree<T extends object = any>(
+export function filterTree<T extends Recordable = Recordable>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
-  options?: BasicTreeOptions,
+  options: BasicTreeOptions = {},
 ) {
   const result: T[] = []
   eachTree(
