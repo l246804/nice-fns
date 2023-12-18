@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/l246804/nice-fns/compare/v0.2.0...v0.2.1) (2023-12-18)
+
+
+### Chores
+
+* 🤖 优化函数类型 ([40a2e3e](https://github.com/l246804/nice-fns/commit/40a2e3e08167ed35e44aa9c9e6635f985cdbc6d1))
+
 ## [0.2.0](https://github.com/l246804/nice-fns/compare/v0.1.2...v0.2.0) (2023-12-18)
 
 
