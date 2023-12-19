@@ -373,6 +373,8 @@ export interface Dictionary<
    * 字典内置原始数据映射对象
    */
   readonly map: Map<string, DictionaryItem<ExtractDictionaryRawDataItem<T>, V>>
+
+  [key: string]: any
 }
 
 /**

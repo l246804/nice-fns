@@ -1,7 +1,11 @@
+import type { MaybeNullish } from '@rhao/types-base'
 import { isArray } from 'lodash-unified'
 
-type StateClass = string
-type StateClasses = (string | [stateClass: string, state?: boolean, prefix?: string])[]
+type StateClass = MaybeNullish<string>
+type StateClasses = (
+  | MaybeNullish<string>
+  | [stateClass: MaybeNullish<string>, state?: boolean, prefix?: string]
+)[]
 
 interface Is {
   /**
@@ -103,7 +107,11 @@ export function classState(statePrefix = ''): Is {
       stateClasses.push([stateClass, state === undefined ? true : state, prefix])
     }
 
-    const result = stateClasses.map(([cls, state, prefix]) => (state ? prefix + cls : ''))
+    const result = stateClasses.map(([cls, state, prefix]) => {
+      cls ??= ''
+      prefix ??= ''
+      return state ? prefix + cls : ''
+    })
     return isArray(stateClass) ? result : result[0] || ''
   }
 }
