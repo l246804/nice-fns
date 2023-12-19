@@ -24,6 +24,8 @@ export default defineConfig({
   themeConfig: {
     logo: 'https://cn.vitejs.dev/logo.svg',
 
+    outline: [2, 5],
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '函数', link: '/api/' },
