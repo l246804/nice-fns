@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2](https://github.com/l246804/nice-fns/compare/v0.2.0...v0.2.2) (2023-12-19)
+
+
+### Chores
+
+* 🤖 优化 classState 和 toDictionary 类型 ([a15cad7](https://github.com/l246804/nice-fns/commit/a15cad70c3de8d32d9b6c37375c0b70c3b3ec2b6))
+* 🤖 优化函数类型 ([40a2e3e](https://github.com/l246804/nice-fns/commit/40a2e3e08167ed35e44aa9c9e6635f985cdbc6d1))
+
 ## [0.2.1](https://github.com/l246804/nice-fns/compare/v0.2.0...v0.2.1) (2023-12-18)
 
 
