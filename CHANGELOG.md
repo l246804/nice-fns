@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/l246804/nice-fns/compare/v0.2.2...v0.3.0) (2023-12-19)
+
+
+### Features
+
+* 🎸 添加工具函数 createLogger ([f877b1b](https://github.com/l246804/nice-fns/commit/f877b1becf1bf93bf7623476f0fefc4a9821d844))
+
 ## [0.2.2](https://github.com/l246804/nice-fns/compare/v0.2.0...v0.2.2) (2023-12-19)
 
 
