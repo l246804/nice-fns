@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/l246804/nice-fns/compare/v0.4.0...v0.4.1) (2023-12-24)
+
+
+### Features
+
+* 🎸 parseJSON 支持 onNil 直接设置默认值 ([d6dd335](https://github.com/l246804/nice-fns/commit/d6dd3352194fde0488404e032dd02542f3f0f369))
+
 ## [0.4.0](https://github.com/l246804/nice-fns/compare/v0.2.2...v0.4.0) (2023-12-19)
 
 
