@@ -57,6 +57,7 @@
     "release": "release-it",
     "cz": "cz",
     "plop": "plop",
+    "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:only": "vitest run",
     "test:ui": "vitest --ui",
@@ -67,7 +68,7 @@
     "docs:gen": "typedoc --options typedoc.mjs",
     "docs:gen:lib": "npm run gen:index -- -D",
     "docs:clean": "rimraf docs/api",
-    "docs:prepare": "run-s docs:clean test:only docs:gen docs:gen:lib"
+    "docs:prepare": "run-s type-check docs:clean test:only docs:gen docs:gen:lib"
   },
   "dependencies": {
     "@rhao/types-base": "^0.6.0",
