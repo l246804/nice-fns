@@ -1,5 +1,14 @@
 import type { IfUnknown, KeyOf, MaybeArray, Primitive, Recordable } from '@rhao/types-base'
-import { assign, create, isArray, isNil, isObject, orderBy, toPairs, toString } from 'lodash-unified'
+import {
+  assign,
+  create,
+  isArray,
+  isNil,
+  isObject,
+  orderBy,
+  toPairs,
+  toString,
+} from 'lodash-unified'
 
 /**
  * 字典排序参数
@@ -346,7 +355,7 @@ export type DictionaryMethod<
   T extends DictionaryRawData = Recordable,
   V = any,
   K extends string = string,
-> = (this: Dictionary<T, V, K>, ...args: any[]) => any
+> = (this: Dictionary<T, V, K> & { [key: string]: any }, ...args: any[]) => any
 
 /**
  * 字典自定义方法
@@ -373,8 +382,6 @@ export interface Dictionary<
    * 字典内置原始数据映射对象
    */
   readonly map: Map<string, DictionaryItem<ExtractDictionaryRawDataItem<T>, V>>
-
-  [key: string]: any
 }
 
 /**
