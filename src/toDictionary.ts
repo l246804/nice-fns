@@ -265,7 +265,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getData(this: Dictionary<T, V, K>, key: K): T | undefined
+  getData(this: Dictionary<T, V, K>, key: K): I['data'] | undefined
   /**
    * 根据指定字典项值获取字典项
    * @param this 字典对象
@@ -325,7 +325,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getDataByValue(this: Dictionary<T, V, K>, value: any): T | undefined
+  getDataByValue(this: Dictionary<T, V, K>, value: any): I['data'] | undefined
   /**
    * 根据指定键判断是否存在字典项
    * @param this 字典对象
