@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.2](https://github.com/l246804/nice-fns/compare/v0.4.1...v0.4.2) (2023-12-26)
+
+
+### Bug Fixes
+
+* 🐛 修复 toDictionary 部分函数返回类型 ([e84c98e](https://github.com/l246804/nice-fns/commit/e84c98eb5f048b5a133562bf4289eb3c66863ee0))
+
+
+### Chores
+
+* 🤖 发布前增加类型校验 ([0b3cb96](https://github.com/l246804/nice-fns/commit/0b3cb9613967ca4e22b590da3752792efd526c13))
+
 ## [0.4.1](https://github.com/l246804/nice-fns/compare/v0.4.0...v0.4.1) (2023-12-24)
 
 
