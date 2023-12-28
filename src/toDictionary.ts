@@ -227,6 +227,33 @@ export interface DictionaryBuiltinMethods<
    */
   getValue(this: Dictionary<T, V, K>, key: K): V | undefined
   /**
+   * 根据指定键获取字典项键，用于明确字面量意义
+   * @param this 字典对象
+   * @param key 指定键
+   *
+   * @example
+   * ```ts
+   * const dict = toDictionary(
+   *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
+   *   { valueKey: 'id', labelKey: 'text' },
+   * )
+   *
+   * dict.getKey('a')
+   * // => 'a'
+   *
+   * dict.getKey('c')
+   * // => ''
+   *
+   * const list = [
+   *   // 字面量 'a' 与 dict 绑定不明显，不易于修改
+   *   { name: 'a', label: dict.getLabel('a'), },
+   *   // 字面量 'b' 与 dict 强关联，易于修改
+   *   { name: dict.getKey('b'), label: dict.getLabel('b'), },
+   * ]
+   * ```
+   */
+  getKey(this: Dictionary<T, V, K>, key: K): string
+  /**
    * 根据指定键获取字典项标签
    * @param this 字典对象
    * @param key 指定键
@@ -286,6 +313,26 @@ export interface DictionaryBuiltinMethods<
    * ```
    */
   getByValue(this: Dictionary<T, V, K>, value: any): I | undefined
+  /**
+   * 根据指定字典项值获取字典项键
+   * @param this 字典对象
+   * @param value 字典项值
+   *
+   * @example
+   * ```ts
+   * const dict = toDictionary(
+   *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
+   *   { valueKey: 'id', labelKey: 'text' },
+   * )
+   *
+   * dict.getKeyByValue(1)
+   * // => 'a'
+   *
+   * dict.getKeyByValue(3)
+   * // => ''
+   * ```
+   */
+  getKeyByValue(this: Dictionary<T, V, K>, value: any): string
   /**
    * 根据指定字典项值获取字典项标签
    * @param this 字典对象
@@ -443,23 +490,29 @@ const builtinMethods = {
   getValue(key) {
     return this.get(key)?.value
   },
+  getKey(key) {
+    return this.get(key)?.key || ''
+  },
   getLabel(key) {
     return this.get(key)?.label || ''
-  },
-  getByValue(value) {
-    return this.find((item) => item.value === value)
-  },
-  getLabelByValue(value) {
-    return this.getByValue(value)?.label || ''
-  },
-  has(key) {
-    return this.keys().includes(key as string)
   },
   getData(key) {
     return this.get(key)?.data
   },
+  getByValue(value) {
+    return this.find((item) => item.value === value)
+  },
+  getKeyByValue(value) {
+    return this.getByValue(value)?.key || ''
+  },
+  getLabelByValue(value) {
+    return this.getByValue(value)?.label || ''
+  },
   getDataByValue(value) {
     return this.getByValue(value)?.data
+  },
+  has(key) {
+    return this.keys().includes(key)
   },
   size() {
     return this.map.size
@@ -665,6 +718,7 @@ if (import.meta.vitest) {
         data: { label: 'a', value: 0, tag: 'primary' },
       })
       expect(dict.getValue('a')).toBe(0)
+      expect(dict.getKey('a')).toBe('a')
       expect(dict.getLabel('a')).toBe('a')
       expect(dict.getData('a')).toStrictEqual({ label: 'a', value: 0, tag: 'primary' })
 
@@ -674,6 +728,7 @@ if (import.meta.vitest) {
         label: 'a',
         data: { label: 'a', value: 0, tag: 'primary' },
       })
+      expect(dict.getKeyByValue(0)).toBe('a')
       expect(dict.getLabelByValue(0)).toBe('a')
       expect(dict.getDataByValue(0)).toStrictEqual({ label: 'a', value: 0, tag: 'primary' })
 
@@ -747,6 +802,7 @@ if (import.meta.vitest) {
         label: 'a',
         data: { label: 'a', value: 0, tag: 'primary' },
       })
+      expect(dict.getKey('a')).toBe('a')
       expect(dict.getValue('a')).toBe(0)
       expect(dict.getLabel('a')).toBe('a')
       expect(dict.getData('a')).toStrictEqual({ label: 'a', value: 0, tag: 'primary' })
@@ -757,6 +813,7 @@ if (import.meta.vitest) {
         label: 'a',
         data: { label: 'a', value: 0, tag: 'primary' },
       })
+      expect(dict.getKeyByValue(0)).toBe('a')
       expect(dict.getLabelByValue(0)).toBe('a')
       expect(dict.getDataByValue(0)).toStrictEqual({ label: 'a', value: 0, tag: 'primary' })
 
