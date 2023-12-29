@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/l246804/nice-fns/compare/v0.4.2...v0.5.0) (2023-12-29)
+
+
+### Features
+
+* 🎸 添加工具函数 arrayToMap ([bc30add](https://github.com/l246804/nice-fns/commit/bc30add2d0d56a2a0911e32a8ba6674b4b2e5e1e))
+* 🎸 toDictionary 新增 getKey、getKeyByValue 方法 ([f1b69e0](https://github.com/l246804/nice-fns/commit/f1b69e09727411ba2b753007fd88bd6fe47f449d))
+
 ## [0.4.2](https://github.com/l246804/nice-fns/compare/v0.4.1...v0.4.2) (2023-12-26)
 
 
