@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.1](https://github.com/l246804/nice-fns/compare/v0.5.0...v0.5.1) (2023-12-29)
+
+
+### Chores
+
+* 🤖 使用 ES6 已支持函数替换 lodash 函数 ([524df72](https://github.com/l246804/nice-fns/commit/524df72bebf72aa9d4f9f45f373b30fddd02e732))
+* 🤖 优化发布脚本 ([afb4f3e](https://github.com/l246804/nice-fns/commit/afb4f3e5d266b09cdc357318d7576ee3f121d96f))
+
 ## [0.5.0](https://github.com/l246804/nice-fns/compare/v0.4.2...v0.5.0) (2023-12-29)
 
 
