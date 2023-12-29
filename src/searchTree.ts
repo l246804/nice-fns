@@ -1,5 +1,4 @@
 import type { Fn, Recordable } from '@rhao/types-base'
-import { assign } from 'lodash-unified'
 import type { BasicTreeOptions, TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
@@ -45,7 +44,7 @@ const _searchTreeNode: Fn<
         result = node
       }
       else {
-        result = assign({}, node)
+        result = Object.assign({}, node)
         if (options.originalDataKey) result[options.originalDataKey] = node
       }
 

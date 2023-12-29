@@ -1,5 +1,5 @@
 import type { KeyOf, Primitive, Recordable } from '@rhao/types-base'
-import { fromPairs, isObject, isString } from 'lodash-es'
+import { isObject, isString } from 'lodash-unified'
 
 export interface ArrayToMapOptions<
   T = any,
@@ -124,7 +124,7 @@ export function arrayToMap(array: any[], options: any = {}) {
   let entries = array.map((item) => [isPrimitive ? item : item[primaryKey], item] as [any, any])
   if (filter) entries = entries.filter((item) => filter(...item, array))
 
-  return useMap ? new Map(entries) : fromPairs(entries)
+  return useMap ? new Map(entries) : Object.fromEntries(entries)
 }
 
 if (import.meta.vitest) {

@@ -1,22 +1,11 @@
-import type { IfUnknown, KeyOf, MaybeArray, Primitive, Recordable } from '@rhao/types-base'
-import {
-  assign,
-  create,
-  isArray,
-  isNil,
-  isObject,
-  orderBy,
-  toPairs,
-  toString,
-} from 'lodash-unified'
+import type { IfUnknown, KeyOf, Primitive, Recordable } from '@rhao/types-base'
+import { isArray, isNil, isObject, orderBy, toString } from 'lodash-unified'
+import type { _OrderByParams } from './_orderBy'
 
 /**
  * 字典排序参数
  */
-export type DictionaryOrderByParams = [
-  iterates?: MaybeArray<string>,
-  orders?: MaybeArray<'asc' | 'desc'>,
-]
+export type DictionaryOrderByParams<T extends DictionaryItem = DictionaryItem> = _OrderByParams<T>
 
 /**
  * 字典项
@@ -93,7 +82,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  entries(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams): [string, I][]
+  entries(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): [string, I][]
   /**
    * 获取字典项列表
    * @param this 字典对象
@@ -120,7 +109,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  items(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams): I[]
+  items(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): I[]
   /**
    * 获取字典键列表
    * @param this 字典对象
@@ -141,7 +130,7 @@ export interface DictionaryBuiltinMethods<
    * ['b', 'a']
    * ```
    */
-  keys(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams): string[]
+  keys(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): string[]
   /**
    * 获取字典项值列表
    * @param this 字典对象
@@ -162,7 +151,7 @@ export interface DictionaryBuiltinMethods<
    * [2, 1]
    * ```
    */
-  values(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams): V[]
+  values(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): V[]
   /**
    * 获取字典项标签列表
    * @param this 字典对象
@@ -185,7 +174,7 @@ export interface DictionaryBuiltinMethods<
    * ['B', 'A']
    * ```
    */
-  labels(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams): string[]
+  labels(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): string[]
   /**
    * 根据指定键获取字典项
    * @param this 字典对象
@@ -633,8 +622,8 @@ export function toDictionary<
 export function toDictionary(data: any, options: DictionaryOptions = {}) {
   const { valueKey = 'value', labelKey = valueKey, key = valueKey } = options
 
-  const methods = assign({}, toDictionary.builtinMethods, options.methods)
-  const dictionary = assign(create(methods), { raw: data, map: new Map() })
+  const methods = Object.assign({}, toDictionary.builtinMethods, options.methods)
+  const dictionary = Object.assign(Object.create(methods), { raw: data, map: new Map() })
   const map = dictionary.map
 
   if (isArray(data)) {
@@ -646,12 +635,12 @@ export function toDictionary(data: any, options: DictionaryOptions = {}) {
     })
   }
   else if (isObject(data)) {
-    toPairs(data).forEach(([key, item]) => {
-      map.set(key, assign(toItem(item), { key }))
+    Object.entries(data).forEach(([key, item]) => {
+      map.set(key, Object.assign(toItem(item), { key }))
     })
   }
 
-  toPairs(methods).forEach(([name, value]) => {
+  Object.entries(methods).forEach(([name, value]) => {
     methods[name as keyof typeof methods] = value.bind(dictionary)
   })
 

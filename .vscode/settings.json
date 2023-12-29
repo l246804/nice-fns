@@ -149,6 +149,7 @@
     "conventionalcommits",
     "execa",
     "infile",
+    "iteratees",
     "mkdist",
     "plopfile",
     "unplugin",

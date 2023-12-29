@@ -1,4 +1,4 @@
-import { assign, keys, pick } from 'lodash-unified'
+import { pick } from 'lodash-unified'
 
 /**
  * 分配来源对象上属于目标对象自身的属性值
@@ -12,8 +12,8 @@ import { assign, keys, pick } from 'lodash-unified'
  * ```
  */
 export function assignOwn<T extends {}>(target: T, ...sources: any[]): T {
-  const only = assign({}, ...sources)
-  return assign(target, pick(only, keys(target)))
+  const only = Object.assign({}, ...sources)
+  return Object.assign(target, pick(only, Object.keys(target)))
 }
 
 if (import.meta.vitest) {

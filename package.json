@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "@rhao/types-base": "^0.6.0",
+    "@types/lodash": "^4.14.202",
     "@types/lodash-es": "^4.17.12",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",

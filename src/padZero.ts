@@ -1,5 +1,3 @@
-import { padStart } from 'lodash-unified'
-
 /**
  * 根据目标长度对数值前置补 0
  * @param num 数值
@@ -13,7 +11,7 @@ import { padStart } from 'lodash-unified'
  * ```
  */
 export function padZero(num: string | number, targetLength = 2) {
-  return padStart(String(num), targetLength, '0')
+  return String(num).padStart(targetLength, '0')
 }
 
 if (import.meta.vitest) {

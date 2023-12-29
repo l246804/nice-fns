@@ -1,7 +1,8 @@
 import { orderBy } from 'lodash-unified'
-import type { IfEmpty, IfNever, MaybeArray, Recordable } from '@rhao/types-base'
+import type { IfEmpty, IfNever, Recordable } from '@rhao/types-base'
 import type { BasicTreeOptions } from './tree'
 import { batchUnset } from './batchUnset'
+import type { _OrderByParams } from './_orderBy'
 
 export interface ToArrayTreeOptions<
   T extends Recordable = Recordable,
@@ -18,7 +19,7 @@ export interface ToArrayTreeOptions<
   /**
    * 排序数组，依赖于 `orderBy()`
    */
-  orderBy?: [iterates?: MaybeArray<keyof T>, orders?: MaybeArray<'asc' | 'desc'>]
+  orderBy?: _OrderByParams<T>
 }
 
 type TreeNodeWithDataKey<

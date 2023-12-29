@@ -1,5 +1,5 @@
 import type { Nullish, Recordable } from '@rhao/types-base'
-import { filter, flow, fromPairs, isNil, partialRight, toPairs } from 'lodash-unified'
+import { filter, flow, isNil, partialRight } from 'lodash-unified'
 
 const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 
@@ -17,7 +17,7 @@ interface CompactObject {
  * // => { a: 0, d: '', f: false, e: NaN }
  * ```
  */
-export const compactObject = flow(toPairs, _filter, fromPairs) as CompactObject
+export const compactObject = flow(Object.entries, _filter, Object.fromEntries) as CompactObject
 
 if (import.meta.vitest) {
   it('基础功能', () => {
