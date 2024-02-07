@@ -5,7 +5,7 @@ import { fnRoot, readFns } from './internal/fns.mjs'
  *  @type {import('typedoc').TypeDocOptions}
  */
 export default {
-  entryPoints: readFns(true).filter((fn) => fn !== 'lodash').map((fn) => join(fnRoot, fn)),
+  entryPoints: readFns(true).filter((fn) => fn !== 'lodash.ts').map((fn) => join(fnRoot, fn)),
   plugin: ['typedoc-plugin-markdown', 'typedoc-vitepress-theme'],
   includeVersion: true,
   outputFileStrategy: 'Modules',

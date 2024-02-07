@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as a,R as s}from"./chunks/framework.KXHDQ-dn.js";const y=JSON.parse('{"title":"mapTree","description":"","frontmatter":{},"headers":[],"relativePath":"api/mapTree.md","filePath":"api/mapTree.md"}'),i={name:"api/mapTree.md"},n=s("",19),l=[n];function r(h,d,p,o,k,c){return t(),a("div",null,l)}const g=e(i,[["render",r]]);export{y as __pageData,g as default};
