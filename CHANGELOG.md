@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0-1](https://github.com/l246804/nice-fns/compare/v0.5.1...v1.0.0-1) (2024-02-07)
+
+
+### Chores
+
+* 🤖 rename extname to extName ([c6cc10f](https://github.com/l246804/nice-fns/commit/c6cc10f95a4cf06a1234754f379cdce49c30b59e))
+
+
+### Refactors
+
+* 💡 重构函数类型和实现 ([1db1147](https://github.com/l246804/nice-fns/commit/1db11479da0d160acc2364c91ab4960a0629bd1b))
+
 ## [1.0.0-0](https://github.com/l246804/nice-fns/compare/v0.5.1...v1.0.0-0) (2024-02-07)
 
 
