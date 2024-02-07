@@ -1,4 +1,4 @@
-import type { MaybeGetter } from '@rhao/types-base'
+import type { MaybeFn, Simplify } from '@rhao/types-base'
 import { toValue } from './toValue'
 
 export interface CreateBEMOptions {
@@ -6,7 +6,7 @@ export interface CreateBEMOptions {
    * 命名空间
    * @default ''
    */
-  namespace: MaybeGetter<string>
+  namespace: MaybeFn<string>
 }
 
 /**
@@ -16,7 +16,15 @@ createBEM.defaults = {
   namespace: '',
 } as CreateBEMOptions
 
-function _bem(namespace = '', block = '', blockSuffix = '', element = '', modifier = '') {
+function _bem(
+  namespace: MaybeFn<string> = '',
+  block = '',
+  blockSuffix = '',
+  element = '',
+  modifier = '',
+) {
+  namespace = toValue(namespace)
+
   let cls = ''
 
   if (namespace) cls += namespace
@@ -62,10 +70,9 @@ function _bem(namespace = '', block = '', blockSuffix = '', element = '', modifi
  */
 export function createBEM(
   block: string,
-  namespaceOverrides: MaybeGetter<string> = createBEM.defaults.namespace,
+  namespaceOverrides: MaybeFn<string> = createBEM.defaults.namespace,
 ) {
-  const opts = { namespace: namespaceOverrides }
-  const namespace = toValue(opts.namespace)
+  const namespace = namespaceOverrides
 
   const b = (blockSuffix = '') => _bem(namespace, block, blockSuffix, '', '')
   const e = (element = '') => (element ? _bem(namespace, block, '', element, '') : '')
@@ -79,8 +86,8 @@ export function createBEM(
   const bem = (blockSuffix = '', element = '', modifier = '') =>
     blockSuffix && element && modifier ? _bem(namespace, block, blockSuffix, element, modifier) : ''
 
-  return {
-    namespace,
+  const result = {
+    block,
     b,
     e,
     m,
@@ -89,14 +96,22 @@ export function createBEM(
     bm,
     bem,
   }
+
+  Object.defineProperty(result, 'namespace', {
+    enumerable: true,
+    get: () => toValue(namespace),
+  })
+
+  return result as Simplify<{ namespace: string } & typeof result>
 }
 
 if (import.meta.vitest) {
-  const bem = createBEM('test', 'app')
+  const bem = createBEM('test', () => 'app')
 
   describe('基础功能', () => {
     it('Block', () => {
       expect(bem.b()).toBe('app-test')
+      expect(bem.namespace).toBe('app')
       expect(bem.b('box')).toBe('app-test-box')
     })
 

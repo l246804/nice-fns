@@ -15,13 +15,13 @@
  * resolve()
  * ```
  */
-export function promiseWithControl<T = any>() {
+export function promiseWithControl<T>() {
   const controls = {
-    resolve: undefined as unknown as (value: T | PromiseLike<T>) => void,
+    resolve: undefined as unknown as (value?: T | PromiseLike<T>) => void,
     reject: undefined as unknown as (reason?: any) => void,
   }
   const promise = new Promise<T>((resolve, reject) => {
-    controls.resolve = resolve
+    controls.resolve = resolve as any
     controls.reject = reject
   })
   return {

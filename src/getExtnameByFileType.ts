@@ -1,4 +1,4 @@
-import { fileTypeAndExtnamePairs } from './_fileTypeAndExtnamePairs'
+import { fileTypeAndExtNamePairs } from './_fileTypeAndExtNamePairs'
 
 /**
  * 根据文件类型获取扩展名列表
@@ -6,25 +6,25 @@ import { fileTypeAndExtnamePairs } from './_fileTypeAndExtnamePairs'
  *
  * @example
  * ```ts
- * console.log(getExtnameByFileType(''))
+ * console.log(getExtNameByFileType(''))
  * // => []
  *
- * console.log(getExtnameByFileType('image/png'))
+ * console.log(getExtNameByFileType('image/png'))
  * // => ['.png']
  *
- * console.log(getExtnameByFileType('image/jpeg'))
+ * console.log(getExtNameByFileType('image/jpeg'))
  * // => ['.jpeg', '.jpg', '.jpg2']
  * ```
  */
-export function getExtnameByFileType(fileType: string) {
-  const [_, names = []] = fileTypeAndExtnamePairs.find(([type]) => type === fileType) || []
+export function getExtNameByFileType(fileType: string) {
+  const [_, names = []] = fileTypeAndExtNamePairs.find(([type]) => type === fileType) || []
   return names
 }
 
 if (import.meta.vitest) {
   it('基础功能', () => {
-    expect(getExtnameByFileType('')).toStrictEqual([])
-    expect(getExtnameByFileType('image/png')).toStrictEqual(['.png'])
-    expect(getExtnameByFileType('text/html')).toStrictEqual(['.html', '.shtml', '.htm'])
+    expect(getExtNameByFileType('')).toStrictEqual([])
+    expect(getExtNameByFileType('image/png')).toStrictEqual(['.png'])
+    expect(getExtNameByFileType('text/html')).toStrictEqual(['.html', '.shtml', '.htm'])
   })
 }

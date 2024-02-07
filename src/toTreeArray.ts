@@ -1,29 +1,39 @@
-import type { IfEmpty, Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions } from './tree'
+import type { IfEmpty, IfNever, Simplify } from '@rhao/types-base'
 import { batchUnset } from './batchUnset'
 
-export interface ToTreeArrayOptions<DataKey extends string = never, DropKeys extends string = never>
-  extends Pick<BasicTreeOptions<string, string, string, DataKey>, 'childrenKey' | 'dataKey'> {
+export interface ToTreeArrayOptions<
+  DataKey extends string = never,
+  DropKeys extends string = never,
+> {
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: string
+  /**
+   * 数据存放键
+   */
+  dataKey?: DataKey
   /**
    * 需要放弃的键，设置后将会移除对应键，例如节点上的 `children` 或其他。
    */
   dropKeys?: DropKeys[]
 }
 
-type ArrayItemWithData<T extends Recordable, DataKey extends string> = T & Recordable<T, DataKey>
+type ArrayItemBase<T extends {}, DataKey extends keyof T> = IfNever<DataKey, T, T[DataKey]>
 
-type ArrayItemWithDropKeys<T extends Recordable, DropKeys extends string> = Omit<T, DropKeys>
+type ArrayItemWithDropKeys<T, DropKeys extends string> = Omit<T, DropKeys>
 
 export type ArrayItem<
-  T extends Recordable = Recordable,
-  DataKey extends string = never,
+  T extends {} = {},
+  DataKey extends keyof T = never,
   DropKeys extends string = never,
-> = ArrayItemWithDropKeys<ArrayItemWithData<T, DataKey>, DropKeys>
+> = Simplify<ArrayItemWithDropKeys<ArrayItemBase<T, DataKey>, DropKeys>>
 
-function unTreeList<T extends Recordable, DataKey extends string, DropKeys extends string>(
+function unTreeList<T extends {}, DataKey extends keyof T, DropKeys extends string>(
   result: T[],
   array: T[],
-  opts: ToTreeArrayOptions<DataKey, DropKeys>,
+  opts: ToTreeArrayOptions<DataKey extends string ? DataKey : never, DropKeys>,
 ) {
   array.forEach((item: any) => {
     // 获取子级列表
@@ -40,7 +50,11 @@ function unTreeList<T extends Recordable, DataKey extends string, DropKeys exten
     if (opts.dropKeys) batchUnset(item, opts.dropKeys)
   })
 
-  return result as ArrayItem<T, IfEmpty<DataKey, never>, IfEmpty<DropKeys, never>>[]
+  return result as unknown as ArrayItem<
+    T,
+    IfEmpty<DataKey, never, DataKey>,
+    IfEmpty<DropKeys, never, DropKeys>
+  >[]
 }
 
 /**
@@ -49,10 +63,13 @@ function unTreeList<T extends Recordable, DataKey extends string, DropKeys exten
  * @param options 配置项
  */
 export function toTreeArray<
-  T extends Recordable = Recordable,
-  DataKey extends string = never,
+  T extends {},
+  DataKey extends keyof T = never,
   DropKeys extends string = never,
->(array: T[], options: ToTreeArrayOptions<DataKey, DropKeys> = {}) {
+>(
+  array: T[],
+  options: ToTreeArrayOptions<DataKey extends string ? DataKey : never, DropKeys> = {},
+) {
   return unTreeList<T, DataKey, DropKeys>([], array, {
     childrenKey: 'children',
     ...options,

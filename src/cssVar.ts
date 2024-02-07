@@ -1,4 +1,3 @@
-import type { Recordable } from '@rhao/types-base'
 import type { CssVarNameProcessor } from './cssVarName'
 import { cssVarName } from './cssVarName'
 
@@ -21,15 +20,13 @@ import { cssVarName } from './cssVarName'
  * // => { '--elColor': 'red', '--elBgColor': 'black' }
  * ```
  */
-export function cssVar<T extends Recordable = Recordable>(
-  object: T,
-  namespace = '',
-  processor?: CssVarNameProcessor,
-) {
-  const styles: Recordable<string> = {}
+export function cssVar<T extends {}>(object: T, namespace = '', processor?: CssVarNameProcessor) {
+  const styles: Record<string, string> = {}
 
-  for (const key in object)
-    if (object[key] != null) styles[cssVarName(key, false, namespace, processor)] = object[key]
+  for (const key in object) {
+    if (object[key] != null)
+      styles[cssVarName(key, false, namespace, processor)] = object[key] as string
+  }
 
   return styles
 }

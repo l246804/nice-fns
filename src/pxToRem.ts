@@ -6,6 +6,11 @@ export interface PxToRemOptions {
    * @default 6
    */
   precision?: number
+  /**
+   * 是否强制更新根字体大小
+   * @default false
+   */
+  forceUpdateRootFontSize?: boolean
 }
 
 /**
@@ -28,8 +33,8 @@ pxToRem.defaults = {} as PxToRemOptions
  * ```
  */
 export function pxToRem(value: number, options: PxToRemOptions = {}) {
-  const { precision = 6 } = { ...pxToRem.defaults, ...options }
-  return `${+(value / getRootFontSize()).toFixed(precision)}rem`
+  const { precision = 6, forceUpdateRootFontSize = false } = { ...pxToRem.defaults, ...options }
+  return `${+(value / getRootFontSize(forceUpdateRootFontSize)).toFixed(precision)}rem`
 }
 
 if (import.meta.vitest) {

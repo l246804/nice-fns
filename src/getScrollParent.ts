@@ -1,4 +1,5 @@
 import { isElement } from 'lodash-unified'
+import type { MaybeNullish } from '@rhao/types-base'
 import { isClient } from './isClient'
 import { defaultWindow } from './defaultWindow'
 
@@ -8,7 +9,7 @@ export type ScrollType = 'x' | 'y' | 'both'
 const overflowScrollReg = /scroll|auto|overlay/i
 
 /**
- * 获取可滚动的父元素，若直到终点元素仍未找到则返回 `null`
+ * 获取可滚动的父元素
  * @param start 起点元素
  * @param type 滚动类型
  * @param end 终点元素
@@ -26,11 +27,11 @@ const overflowScrollReg = /scroll|auto|overlay/i
  * ```
  */
 export function getScrollParent(
-  start?: Element | null,
+  start: MaybeNullish<Element>,
   type: ScrollType = 'both',
   end: ScrollElement = defaultWindow as ScrollElement,
 ) {
-  if (!isClient) return null
+  if (!isClient) return undefined
 
   let styleName = 'overflow'
   if (type !== 'both' && ['x', 'y'].includes(type)) styleName += type.toUpperCase()
@@ -43,11 +44,11 @@ export function getScrollParent(
     node = node.parentNode as Element
   }
 
-  return null
+  return undefined
 }
 
 if (import.meta.vitest) {
   it('基础功能', () => {
-    expect(getScrollParent(null)).toBe(null)
+    expect(getScrollParent(null)).toBeUndefined()
   })
 }

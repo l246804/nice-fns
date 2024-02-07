@@ -1,36 +1,19 @@
-import type { NotNullish } from '@rhao/types-base'
-import { isFunction, isNil } from 'lodash-unified'
+import type { MaybeFn } from '@rhao/types-base'
+import { isNil } from 'lodash-unified'
+import { castFunction } from './castFunction'
 
-export interface ParseJSONOptions<T = any> {
+export interface ParseJSONOptions<T> {
   /**
    * 解析结果为 `null` 或 `undefined` 时执行并返回最终结果
    * @param error 解析错误时的错误信息
    * @param value 解析结果，固定为 `null` 或 `undefined`
    * @param text 解析的 `JSON` 文本
-   *
-   * @example
-   * ```ts
-   * parseJSON('这是错误的 JSON 文本', {
-   *   onNil(error, value) {
-   *     if (error) return 'error'
-   *     return value === null ? 'null' : 'default'
-   *   },
-   * })
-   * // => 'error'
-   *
-   * parseJSON('直接设置默认值', { onNil: 'default' })
-   * // => 'default'
-   * ```
    */
-  onNil?: T | ((error: Error | undefined, value: null | undefined, text: string) => T)
+  onNil?: MaybeFn<T, [error: Error | undefined, value: null | undefined, text: string]>
   /**
    * `JSON.parse(text, reviver)`
    */
   reviver?: Parameters<typeof JSON.parse>[1]
-}
-
-const defaultOnNil: NotNullish<ParseJSONOptions['onNil']> = (_: any, value: any) => {
-  return value
 }
 
 /**
@@ -55,8 +38,8 @@ const defaultOnNil: NotNullish<ParseJSONOptions['onNil']> = (_: any, value: any)
  * ```
  */
 export function parseJSON<T>(text: string, options: ParseJSONOptions<T> = {}): T {
-  const { onNil = defaultOnNil, reviver } = options
-  const _onNil = isFunction(onNil) ? onNil : () => onNil
+  const { onNil = (_, v) => v, reviver } = options
+  const _onNil = castFunction(onNil)
   try {
     const result = JSON.parse(text, reviver)
     return isNil(result) ? _onNil(undefined, result, text) : result

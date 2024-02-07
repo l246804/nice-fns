@@ -1,9 +1,12 @@
-import type { Fn, Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions, TreeIterator } from './tree'
+import type { Fn, Simplify } from '@rhao/types-base'
+import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
 
-export interface SearchTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'> {
+export interface SearchTreeOptions<
+  ChildrenKey extends string = string,
+  MappingChildrenKey extends string = never,
+> {
   /**
    * 是否返回源对象引用，易改变源对象数据结构
    * @default false
@@ -14,19 +17,25 @@ export interface SearchTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'>
    */
   originalDataKey?: string
   /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: ChildrenKey
+  /**
    * 映射后的子节点键，设置后则必定存在于节点上
    */
-  mapChildrenKey?: string
+  mapChildrenKey?: MappingChildrenKey
 }
 
 const _searchTreeNode: Fn<
   [
-    allowParent: boolean,
+    parentPass: boolean,
     ...args: Parameters<HelperCreateTreeFuncHandler<SearchTreeOptions, any[], boolean>>,
   ],
   any[]
-> = (allowParent, tree, iter, parent, paths, nodes, childrenKey, options) => {
-  let _paths, _nodes, result: any, isAllow
+> = (parentPass, tree, iter, parent, paths, nodes, childrenKey, options) => {
+  let _paths, _nodes, result, isPass
+
   const results: any[] = []
   const mapChildrenKey = options.mapChildrenKey || childrenKey
 
@@ -35,10 +44,10 @@ const _searchTreeNode: Fn<
     _nodes = nodes.concat(node)
 
     // 父级通过时则子级一律通过，否则执行外部迭代器获取结果
-    isAllow = allowParent || iter.call(tree, node, index, parent, _paths, _nodes, tree)
+    isPass = parentPass || iter.call(tree, node, index, parent, _paths, _nodes, tree)
 
     // 通过时或有子级时则递归遍历
-    if (isAllow || node[childrenKey]) {
+    if (isPass || node[childrenKey]) {
       // 处理源对象引用
       if (options.original) {
         result = node
@@ -51,7 +60,7 @@ const _searchTreeNode: Fn<
       // 存在子级时同步映射子级和原始子级
       if (node[childrenKey]) {
         result[mapChildrenKey] = result[childrenKey] = _searchTreeNode(
-          isAllow,
+          isPass,
           node[childrenKey],
           iter,
           node,
@@ -63,7 +72,7 @@ const _searchTreeNode: Fn<
       }
 
       // 如果通过或子级存在通过则添加结果
-      if (isAllow || result[mapChildrenKey]?.length) results.push(result)
+      if (isPass || result[mapChildrenKey]?.length) results.push(result)
     }
   })
 
@@ -76,11 +85,23 @@ const searchTreeNode: HelperCreateTreeFuncHandler<SearchTreeOptions, any[], bool
   return _searchTreeNode(false, ...args)
 }
 
-type SearchTreeFunc = <T extends Recordable = Recordable>(
+type WithChildren<T, ChildrenKey extends string, MappingChildrenKey extends string> = Simplify<
+  T & Record<ChildrenKey | MappingChildrenKey, WithChildren<T, ChildrenKey, MappingChildrenKey>[]>
+>
+
+type SearchTreeFunc = <
+  T extends {},
+  ChildrenKey extends string = 'children',
+  MappingChildrenKey extends string = never,
+>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
-  options?: SearchTreeOptions,
-) => (T & Recordable)[]
+  options?: SearchTreeOptions<ChildrenKey, MappingChildrenKey>,
+) => WithChildren<
+  Simplify<Omit<T, ChildrenKey | MappingChildrenKey>>,
+  ChildrenKey,
+  MappingChildrenKey
+>[]
 
 /**
  * 根据迭代器搜索树列表的子项数据，区别于 `filterTree` 会返回完整的树形结构列表

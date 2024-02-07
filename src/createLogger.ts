@@ -1,7 +1,21 @@
 /* eslint-disable no-console */
+
+/**
+ * 默认信息格式化器
+ * @param module 模块名
+ * @param msg 消息内容
+ * @param type 消息类型
+ * @returns 格式化后的消息内容
+ */
+function defaultFormatter(module: string, msg: string, type = '') {
+  if (type) type = ` ${type}`
+  return `[${module + type}]: ${msg}`
+}
+
 /**
  * 基于 `console` 创建简单的信息输出工具
  * @param module 模块名
+ * @param formatter 信息格式化器
  * @returns 信息输出工具
  *
  * @example
@@ -16,9 +30,18 @@
  *
  * logger.error('这是一条错误')
  * // => '[Module A error]: 这是一条错误'
+ *
+ * // 自定义消息格式化器
+ * const logger2 = createLogger('Module A', (module, msg, type) => {
+ *   if (type) type = ` - ${type}`
+ *   return `[${module + type}]: ${msg}`
+ * })
+ *
+ * logger2.info('这是一条普通消息')
+ * // => '[Module A - error]: 这是一条普通消息'
  * ```
  */
-export function createLogger(module: string) {
+export function createLogger(module: string, formatter = defaultFormatter) {
   /**
    * 格式化消息内容
    * @param msg 消息内容
@@ -39,14 +62,12 @@ export function createLogger(module: string) {
    * // => '[Module error]: 这是一个错误'
    * ```
    */
-  function format(msg: string, type?: string) {
-    if (type != null) type = ` ${type}`
-    else type = ''
-    return `[${module + type}]: ${msg}`
+  function format(msg: string, type = '') {
+    return formatter(module, msg, type)
   }
 
   /**
-   * 输出一条普通信息，同 `console.log`
+   * 输出一条普通信息，同 `console.info`
    * @param msg 消息内容
    * @param args 额外参数
    */
@@ -78,4 +99,23 @@ export function createLogger(module: string) {
     warn,
     error,
   }
+}
+
+if (import.meta.vitest) {
+  describe('基础功能', () => {
+    it('默认格式化', () => {
+      const logger = createLogger('Module')
+      expect(logger.format('this is a msg.')).toBe('[Module]: this is a msg.')
+      expect(logger.format('this is a msg.', 'warn')).toBe('[Module warn]: this is a msg.')
+    })
+
+    it('自定义格式化', () => {
+      const logger = createLogger(
+        'Module',
+        (module, msg, type) => `[${module + (type ? ` - ${type}` : '')}]: ${msg}`,
+      )
+      expect(logger.format('this is a msg.')).toBe('[Module]: this is a msg.')
+      expect(logger.format('this is a msg.', 'warn')).toBe('[Module - warn]: this is a msg.')
+    })
+  })
 }

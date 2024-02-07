@@ -1,11 +1,11 @@
-import type { Fn, MaybeNullish, Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions, TreeIterator } from './tree'
+import type { Fn } from '@rhao/types-base'
+import type { TreeIterator } from './tree'
 
-export type HelperCreateTreeFuncHandler<O extends BasicTreeOptions, R = void, IR = R> = Fn<
+export type HelperCreateTreeFuncHandler<O extends {} = {}, R = void, IR = R> = Fn<
   [
     tree: any[],
     iter: TreeIterator<any, IR>,
-    parent: MaybeNullish<any>,
+    parent: any,
     paths: string[],
     nodes: any[],
     childrenKey: string,
@@ -14,7 +14,7 @@ export type HelperCreateTreeFuncHandler<O extends BasicTreeOptions, R = void, IR
   R
 >
 
-export type HelperCreateTreeFuncResult<O, IR, R> = <T extends Recordable = Recordable>(
+export type HelperCreateTreeFuncResult<O, IR, R> = <T extends {}>(
   array: T[],
   iterator: TreeIterator<T, IR>,
   options?: O,
@@ -22,17 +22,16 @@ export type HelperCreateTreeFuncResult<O, IR, R> = <T extends Recordable = Recor
 
 export function helperCreateTreeFunc<
   H extends HelperCreateTreeFuncHandler<any, any, any>,
-  O extends BasicTreeOptions = H extends HelperCreateTreeFuncHandler<infer HO, any, any> ? HO : any,
-  IR = H extends HelperCreateTreeFuncHandler<any, any, infer HIR> ? HIR : any,
-  R = H extends HelperCreateTreeFuncHandler<any, infer HR, any> ? HR : any,
->(handler: H): HelperCreateTreeFuncResult<O, IR, R> {
-  return function (array, iterator, options = {} as O) {
+  O = H extends HelperCreateTreeFuncHandler<infer HO, any, any> ? HO : {},
+  IR = H extends HelperCreateTreeFuncHandler<any, any, infer HIR> ? HIR : void,
+>(handler: H) {
+  return function <T extends {}>(array: T[], iterator: TreeIterator<T, IR>, options = {} as O) {
     const opts = {
       key: 'id',
       parentKey: 'parentId',
       childrenKey: 'children',
       ...options,
     }
-    return handler(array, iterator, null, [], [], opts.childrenKey || 'children', opts)
+    return handler(array, iterator, undefined, [], [], opts.childrenKey, opts)
   }
 }

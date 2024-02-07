@@ -13,8 +13,8 @@ export type Numeric = string | number
  * // => true
  * ```
  */
-export function isNumeric(value: any) {
-  return typeof value === 'number' || /^-?\d+(\.\d+)?$/.test(value)
+export function isNumeric(value: any): value is Numeric {
+  return typeof value === 'number' || /^-?\d+(\.\d+)?$/.test(value == null ? '' : value)
 }
 
 if (import.meta.vitest) {

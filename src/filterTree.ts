@@ -1,8 +1,13 @@
-import type { Recordable } from '@rhao/types-base'
 import { eachTree } from './eachTree'
-import type { BasicTreeOptions, TreeIterator } from './tree'
+import type { TreeIterator } from './tree'
 
-export interface FilterTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'> {}
+export interface FilterTreeOptions {
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: string
+}
 
 /**
  * 根据迭代器过滤树列表的子项数据，仅返回符合过滤规则的节点列表
@@ -34,10 +39,10 @@ export interface FilterTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'>
  * // => [{ id: 3, text: '3', }, { id: 2, text: '3', }]
  * ```
  */
-export function filterTree<T extends Recordable = Recordable>(
+export function filterTree<T extends {}>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
-  options: BasicTreeOptions = {},
+  options: FilterTreeOptions = {},
 ) {
   const result: T[] = []
   eachTree(

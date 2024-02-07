@@ -1,4 +1,4 @@
-import type { Fn, Getter, NoopFn } from '@rhao/types-base'
+import type { Fn, NoopFn } from '@rhao/types-base'
 import { createCallbacks } from './createCallbacks'
 
 type SwitchCallback<T> = Fn<[value: T]>
@@ -105,7 +105,7 @@ export interface SwitchControls<T> {
  */
 export function createSwitch<T = boolean>(
   options: CreateSwitchOptions<T> = {},
-): [readValue: Getter<T>, SwitchControls<T>] {
+): [readValue: Fn<[], T>, SwitchControls<T>] {
   const { initialValue = false, closeValue = false, openValue = true, once = false } = options
 
   let allowWrite = true
@@ -121,7 +121,7 @@ export function createSwitch<T = boolean>(
     if (once) allowWrite = false
 
     value = _value
-    callbacks.runAll(value)
+    callbacks.run(value)
   }
   function toggle(_value?: T) {
     if (_value != null && [openValue, closeValue].includes(_value))

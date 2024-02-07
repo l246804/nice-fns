@@ -1,9 +1,9 @@
-import type { FileTypeAndExtnamePairs } from './fileTypeAndExtname'
+import type { FileTypeAndExtNamePairs } from './fileTypeAndExtName'
 
 /**
  * 文件类型和扩展名成对列表
  */
-export const fileTypeAndExtnamePairs: FileTypeAndExtnamePairs = [
+export const fileTypeAndExtNamePairs: FileTypeAndExtNamePairs = [
   // Microsoft Word
   ['application/msword', ['.doc']],
   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', ['.docx']],

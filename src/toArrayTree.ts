@@ -1,54 +1,121 @@
 import { orderBy } from 'lodash-unified'
-import type { IfEmpty, IfNever, Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions } from './tree'
+import type { IfEmpty, IfNever, Simplify } from '@rhao/types-base'
 import { batchUnset } from './batchUnset'
 import type { _OrderByParams } from './_orderBy'
 
 export interface ToArrayTreeOptions<
-  T extends Recordable = Recordable,
+  T extends {} = {},
   Key extends string = string,
   ParentKey extends string = string,
   ChildrenKey extends string = string,
   DataKey extends string = never,
   Strict extends boolean = false,
-> extends BasicTreeOptions<Key, ParentKey, ChildrenKey, DataKey, Strict> {
+  MappingKey extends string = string,
+  MappingParentKey extends string = string,
+  MappingChildrenKey extends string = string,
+> {
+  /**
+   * 节点键
+   * @default 'id'
+   */
+  key?: Key
+  /**
+   * 父节点键
+   * @default 'parentId'
+   */
+  parentKey?: ParentKey
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: ChildrenKey
+  /**
+   * 数据存放键，未设置时将平铺属性
+   */
+  dataKey?: DataKey
   /**
    * 键映射，映射后节点将必定包含映射键
    */
-  keyMap?: Pick<BasicTreeOptions, 'key' | 'parentKey' | 'childrenKey'>
+  keyMap?: {
+    key?: MappingKey
+    parentKey?: MappingParentKey
+    childrenKey?: MappingChildrenKey
+  }
+  /**
+   * 严格模式，如果设为 `true`，会去掉父子关联不存在数据，当子节点为空时将没有 `childrenKey` 和 `keyMap.childrenKey` 属性
+   * @default false
+   */
+  strict?: Strict
   /**
    * 排序数组，依赖于 `orderBy()`
    */
   orderBy?: _OrderByParams<T>
 }
 
-type TreeNodeWithDataKey<
+type TreeNodeBase<
   T,
-  Key extends string,
-  ParentKey extends string,
+  Key extends keyof T,
+  ParentKey extends keyof T,
   DataKey extends string,
-> = IfNever<DataKey, Omit<T, Key | ParentKey | DataKey>, Recordable<T, DataKey>> &
-Pick<T, Key extends keyof T ? Key : never> &
-Pick<T, ParentKey extends keyof T ? ParentKey : never> &
-Recordable
+  MappingKey extends string,
+  MappingParentKey extends string,
+> = Simplify<
+  IfNever<DataKey, T, Record<DataKey, T>> &
+  Pick<T, Key | ParentKey> &
+  Record<MappingKey, T[Key]> &
+  Record<MappingParentKey, T[ParentKey]>
+>
 
-type TreeNodeChildren<T, Strict extends boolean> = Strict extends true ? T | undefined : T
+type ChildrenWithStrict<T, Strict extends boolean> = Strict extends true ? T | undefined : T
+
+type TreeNodeChildren<
+  T,
+  ChildrenKey extends string,
+  MappingChildrenKey extends string,
+> = Record<ChildrenKey | MappingChildrenKey, T>
 
 type TreeNodeWithChildren<
-  T extends Recordable,
+  T,
   ChildrenKey extends string,
+  MappingChildrenKey extends string,
   Strict extends boolean,
-> = Omit<T, ChildrenKey> &
-Recordable<TreeNodeChildren<TreeNodeWithChildren<T, ChildrenKey, Strict>[], Strict>, ChildrenKey>
+> = Simplify<
+  Omit<T, ChildrenKey | MappingChildrenKey> &
+  TreeNodeChildren<
+      ChildrenWithStrict<
+        TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, Strict>[],
+        Strict
+      >,
+      ChildrenKey,
+      MappingChildrenKey
+    >
+>
 
 export type TreeNode<
-  T extends Recordable = Recordable,
+  T extends {} = {},
   Key extends string = string,
   ParentKey extends string = string,
   ChildrenKey extends string = string,
   DataKey extends string = never,
   Strict extends boolean = false,
-> = TreeNodeWithChildren<TreeNodeWithDataKey<T, Key, ParentKey, DataKey>, ChildrenKey, Strict>
+  MappingKey extends string = never,
+  MappingParentKey extends string = never,
+  MappingChildrenKey extends string = never,
+> = Simplify<
+  TreeNodeWithChildren<
+    TreeNodeBase<
+      T,
+      Key extends keyof T ? Key : never,
+      ParentKey extends keyof T ? ParentKey : never,
+      DataKey,
+      MappingKey,
+      MappingParentKey
+    >,
+    ChildrenKey,
+    MappingChildrenKey,
+    Strict
+  >
+>
 
 function strictTree(array: any[], opts: ToArrayTreeOptions) {
   array.forEach((item) => {
@@ -57,7 +124,7 @@ function strictTree(array: any[], opts: ToArrayTreeOptions) {
   })
 }
 
-function setAttr(treeData: Recordable, key?: string, value?: any) {
+function setAttr(treeData: any, key?: string, value?: any) {
   if (key) treeData[key] = value
 }
 
@@ -106,22 +173,38 @@ function setAttr(treeData: Recordable, key?: string, value?: any) {
  * ```
  */
 export function toArrayTree<
-  T extends Recordable = Recordable,
+  T extends {},
   Key extends string = 'id',
   ParentKey extends string = 'parentId',
   ChildrenKey extends string = 'children',
   DataKey extends string = never,
   Strict extends boolean = false,
+  MappingKey extends string = never,
+  MappingParentKey extends string = never,
+  MappingChildrenKey extends string = never,
 >(
   array: T[],
-  options: ToArrayTreeOptions<T, Key, ParentKey, ChildrenKey, DataKey, Strict> = {},
+  options: ToArrayTreeOptions<
+    T,
+    Key,
+    ParentKey,
+    ChildrenKey,
+    DataKey,
+    Strict,
+    MappingKey,
+    MappingParentKey,
+    MappingChildrenKey
+  > = {},
 ): TreeNode<
   T,
   Key,
   ParentKey,
-  IfNever<IfEmpty<ChildrenKey, never>, 'children'>,
-  IfEmpty<DataKey, never>,
-  Strict
+  IfNever<IfEmpty<ChildrenKey, never, ChildrenKey>, 'children', ChildrenKey>,
+  IfEmpty<DataKey, never, DataKey>,
+  Strict,
+  MappingKey,
+  MappingParentKey,
+  MappingChildrenKey
 >[] {
   // 合并配置项
   const opts = {
@@ -134,9 +217,9 @@ export function toArrayTree<
   // 浅克隆并排序数组
   if (opts.orderBy) array = orderBy(array.slice(0), ...opts.orderBy) as T[]
 
-  const result: T[] = []
-  const treeMap: Recordable<T[]> = {}
-  const idsMap: Recordable<boolean> = {}
+  const result: any[] = []
+  const treeMap: Record<string, T[]> = {}
+  const idsMap: Record<string, boolean> = {}
   let id, parentId, treeData: any
 
   // 记录 id

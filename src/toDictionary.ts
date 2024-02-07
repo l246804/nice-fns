@@ -1,16 +1,17 @@
-import type { IfUnknown, KeyOf, Primitive, Recordable } from '@rhao/types-base'
+import type { AnyFn, KeyOf, Primitive } from '@rhao/types-base'
 import { isArray, isNil, isObject, orderBy, toString } from 'lodash-unified'
 import type { _OrderByParams } from './_orderBy'
 
 /**
  * 字典排序参数
  */
-export type DictionaryOrderByParams<T extends DictionaryItem = DictionaryItem> = _OrderByParams<T>
+export type DictionaryOrderByParams<T extends DictionaryItem<any, any> = DictionaryItem<any, any>> =
+  _OrderByParams<T>
 
 /**
  * 字典项
  */
-export interface DictionaryItem<T = any, V = any> {
+export interface DictionaryItem<Data = unknown, Value = unknown> {
   /**
    * 字典项键
    */
@@ -18,7 +19,7 @@ export interface DictionaryItem<T = any, V = any> {
   /**
    * 字典项值
    */
-  value: V
+  value: Value
   /**
    * 字典项标签
    */
@@ -26,39 +27,20 @@ export interface DictionaryItem<T = any, V = any> {
   /**
    * 字典项数据，来源于字典原始数据项
    */
-  data: T
+  data: Data
 }
-
-/**
- * 字典原始数据
- */
-export type DictionaryRawData = Recordable | Array<any>
-
-/**
- * 提取字典原始数据项
- */
-export type ExtractDictionaryRawDataItem<T extends DictionaryRawData> = T extends Array<infer TA>
-  ? TA
-  : T extends Recordable<infer TO>
-    ? TO
-    : any
 
 /**
  * 字典内置方法
  */
 export interface DictionaryBuiltinMethods<
-  T extends DictionaryRawData = Recordable,
-  V = any,
-  K extends string = string,
-  I extends DictionaryItem = DictionaryItem<ExtractDictionaryRawDataItem<T>, V>,
-> extends Pick<Array<I>, 'forEach' | 'filter' | 'find' | 'every' | 'some'> {
-  /**
-   * 获取字典项数量
-   */
-  size(this: Dictionary<T, V, K>): number
+  Data = unknown,
+  Value = unknown,
+  Key extends string = string,
+  Item extends DictionaryItem = DictionaryItem<Data, Value>,
+> extends Pick<Array<Item>, 'forEach' | 'filter' | 'find' | 'every' | 'some'> {
   /**
    * 获取字典键项对列表
-   * @param this 字典对象
    * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
@@ -82,10 +64,10 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  entries(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): [string, I][]
+  entries(orderParams?: DictionaryOrderByParams<Item>): [string, Item][]
+
   /**
    * 获取字典项列表
-   * @param this 字典对象
    * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
@@ -109,10 +91,10 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  items(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): I[]
+  items(orderParams?: DictionaryOrderByParams<Item>): Item[]
+
   /**
    * 获取字典键列表
-   * @param this 字典对象
    * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
@@ -130,10 +112,10 @@ export interface DictionaryBuiltinMethods<
    * ['b', 'a']
    * ```
    */
-  keys(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): string[]
+  keys(orderParams?: DictionaryOrderByParams<Item>): string[]
+
   /**
    * 获取字典项值列表
-   * @param this 字典对象
    * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
@@ -151,10 +133,10 @@ export interface DictionaryBuiltinMethods<
    * [2, 1]
    * ```
    */
-  values(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): V[]
+  values(orderParams?: DictionaryOrderByParams<Item>): Value[]
+
   /**
    * 获取字典项标签列表
-   * @param this 字典对象
    * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
@@ -174,10 +156,10 @@ export interface DictionaryBuiltinMethods<
    * ['B', 'A']
    * ```
    */
-  labels(this: Dictionary<T, V, K>, orderParams?: DictionaryOrderByParams<I>): string[]
+  labels(orderParams?: DictionaryOrderByParams<Item>): string[]
+
   /**
    * 根据指定键获取字典项
-   * @param this 字典对象
    * @param key 指定键
    *
    * @example
@@ -194,10 +176,10 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  get(this: Dictionary<T, V, K>, key: K): I | undefined
+  get(key: Key): Item | undefined
+
   /**
    * 根据指定键获取字典项值
-   * @param this 字典对象
    * @param key 指定键
    *
    * @example
@@ -214,7 +196,8 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getValue(this: Dictionary<T, V, K>, key: K): V | undefined
+  getValue(key: Key): Value | undefined
+
   /**
    * 根据指定键获取字典项键，用于明确字面量意义
    * @param this 字典对象
@@ -241,7 +224,8 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  getKey(this: Dictionary<T, V, K>, key: K): string
+  getKey(key: Key): string
+
   /**
    * 根据指定键获取字典项标签
    * @param this 字典对象
@@ -261,7 +245,8 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getLabel(this: Dictionary<T, V, K>, key: K): string
+  getLabel(key: Key): string
+
   /**
    * 根据指定键获取字典项数据
    * @param this 字典对象
@@ -281,7 +266,8 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getData(this: Dictionary<T, V, K>, key: K): I['data'] | undefined
+  getData(key: Key): Item['data'] | undefined
+
   /**
    * 根据指定字典项值获取字典项
    * @param this 字典对象
@@ -301,7 +287,8 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getByValue(this: Dictionary<T, V, K>, value: any): I | undefined
+  getByValue(value: unknown): Item | undefined
+
   /**
    * 根据指定字典项值获取字典项键
    * @param this 字典对象
@@ -321,7 +308,8 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getKeyByValue(this: Dictionary<T, V, K>, value: any): string
+  getKeyByValue(value: unknown): string
+
   /**
    * 根据指定字典项值获取字典项标签
    * @param this 字典对象
@@ -341,7 +329,8 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getLabelByValue(this: Dictionary<T, V, K>, value: any): string
+  getLabelByValue(value: unknown): string
+
   /**
    * 根据指定字典项值获取字典项数据
    * @param this 字典对象
@@ -361,7 +350,8 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getDataByValue(this: Dictionary<T, V, K>, value: any): I['data'] | undefined
+  getDataByValue(value: unknown): Item['data'] | undefined
+
   /**
    * 根据指定键判断是否存在字典项
    * @param this 字典对象
@@ -381,76 +371,69 @@ export interface DictionaryBuiltinMethods<
    * // => false
    * ```
    */
-  has(this: Dictionary<T, V, K>, key: K): boolean
+  has(key: Key): boolean
 }
 
 /**
- * 字典方法
+ * 基础字典
  */
-export type DictionaryMethod<
-  T extends DictionaryRawData = Recordable,
-  V = any,
-  K extends string = string,
-> = (this: Dictionary<T, V, K> & { [key: string]: any }, ...args: any[]) => any
+export interface DictionaryBase<Raw = unknown, Data = unknown, Value = unknown> {
+  /**
+   * 字典原始数据
+   */
+  readonly raw: Raw
 
-/**
- * 字典自定义方法
- */
-export type DictionaryMethods<
-  T extends DictionaryRawData = Recordable,
-  V = any,
-  K extends string = string,
-> = Recordable<DictionaryMethod<T, V, K>>
+  /**
+   * 字典内置原始数据映射对象
+   */
+  readonly map: Map<string, DictionaryItem<Data, Value>>
+
+  /**
+   * 字典项数量
+   */
+  readonly size: number
+}
 
 /**
  * 字典
  */
-export interface Dictionary<
-  T extends DictionaryRawData = Recordable,
-  V = any,
-  K extends string = string,
-> extends DictionaryBuiltinMethods<T, V, K> {
-  /**
-   * 字典原始数据
-   */
-  readonly raw: T
-  /**
-   * 字典内置原始数据映射对象
-   */
-  readonly map: Map<string, DictionaryItem<ExtractDictionaryRawDataItem<T>, V>>
-}
+export type Dictionary<
+  Raw = unknown,
+  Data = unknown,
+  Value = unknown,
+  Key extends string = string,
+  Methods extends Record<PropertyKey, AnyFn> = {},
+> = DictionaryBase<Raw, Data, Value> & DictionaryBuiltinMethods<Data, Value, Key> & Methods
 
 /**
  * 字典配置项
  */
 export interface DictionaryOptions<
-  VK extends string = string,
-  LK extends string = string,
-  K extends string = string,
-  T extends DictionaryRawData = Recordable,
-  V = any,
-  DK extends string = string,
-  M extends DictionaryMethods<T, V, DK> = DictionaryMethods<T, V, DK>,
+  ValueKey extends string,
+  LabelKey extends string = ValueKey,
+  Key extends string = ValueKey,
+  Methods extends Record<PropertyKey, AnyFn> = {},
+  Instance = Dictionary,
 > {
-  /**
-   * 字典键，值必须唯一
-   * @default options.valueKey
-   */
-  key?: K
   /**
    * 字典项的值键，值必须唯一
    * @default 'value'
    */
-  valueKey?: VK
+  valueKey?: ValueKey
+  /**
+   * 字典键，值必须唯一
+   * @default options.valueKey
+   */
+  key?: Key
   /**
    * 字典项的标签键
    * @default options.valueKey
    */
-  labelKey?: LK
+  labelKey?: LabelKey
   /**
    * 字典自定义方法
    */
-  methods?: M
+  methods?: Methods & ThisType<Instance>
 }
 
 /**
@@ -503,17 +486,18 @@ const builtinMethods = {
   has(key) {
     return this.keys().includes(key)
   },
-  size() {
-    return this.map.size
-  },
-} as DictionaryBuiltinMethods
+  forEach: createArrayMethods('forEach'),
+  filter: createArrayMethods('filter'),
+  find: createArrayMethods('find'),
+  every: createArrayMethods('every'),
+  some: createArrayMethods('some'),
+} as DictionaryBuiltinMethods & ThisType<Dictionary>
 
-const arrayPrototypeMethods = ['forEach', 'filter', 'find', 'every', 'some'] as const
-arrayPrototypeMethods.forEach((method) => {
-  ;(builtinMethods as any)[method] = function arrayFunc(...args: any[]) {
-    return this.items()[method](...args)
+function createArrayMethods(method: keyof Array<DictionaryItem>) {
+  return function func(this: Dictionary, ...args: any[]) {
+    return Array.prototype[method].apply(this.items(), args)
   }
-})
+}
 
 /**
  * 内置方法
@@ -540,20 +524,33 @@ toDictionary.builtinMethods = builtinMethods
  * ```
  */
 export function toDictionary<
-  T,
-  VK extends string = 'value',
-  LK extends string = VK,
-  K extends string = VK,
-  V = T extends Primitive ? T : T extends Recordable<infer _V, VK> ? IfUnknown<_V, any> : any,
-  DK extends string = T extends Primitive
-    ? T[] extends Array<infer _T>
+  Data,
+  ValueKey extends string = 'value',
+  LabelKey extends string = ValueKey,
+  Key extends string = ValueKey,
+  Value = Data extends Primitive
+    ? Data
+    : Data extends Record<ValueKey, infer Value>
+      ? Value
+      : unknown,
+  DataKey extends string = Data extends Primitive
+    ? Data[] extends Array<infer _T>
       ? _T extends string
         ? _T
         : string
       : string
     : string,
-  M extends DictionaryMethods<T[], V, DK> = DictionaryMethods<T[], V, DK>,
->(array: T[], options?: DictionaryOptions<VK, LK, K, T[], V, DK, M>): Dictionary<T[], V, DK> & M
+  Methods extends Record<PropertyKey, AnyFn> = {},
+>(
+  array: Data[],
+  options?: DictionaryOptions<
+    ValueKey,
+    LabelKey,
+    Key,
+    Methods,
+    Dictionary<Data[], Data, Value, DataKey, Methods>
+  >,
+): Dictionary<Data[], Data, Value, DataKey, Methods>
 
 /**
  * 对象转字典
@@ -575,18 +572,31 @@ export function toDictionary<
  * ```
  */
 export function toDictionary<
-  T extends Recordable,
-  VT = T extends Recordable<infer _T> ? _T : any,
-  VK extends string = 'value',
-  LK extends string = VK,
-  K extends string = VK,
-  V = VT extends Primitive ? VT : VT extends Recordable<infer _V, VK> ? IfUnknown<_V, any> : any,
-  DK extends KeyOf<T> = KeyOf<T>,
-  M extends DictionaryMethods<T, V, DK> = DictionaryMethods<T, V, DK>,
+  Raw extends {},
+  Data = Raw extends Record<PropertyKey, infer Value> ? Value : unknown,
+  ValueKey extends string = 'value',
+  LabelKey extends string = ValueKey,
+  Key extends string = ValueKey,
+  Value = Data extends Primitive
+    ? Data
+    : Data extends Record<ValueKey, infer Value>
+      ? Value
+      : unknown,
+  DataKey extends KeyOf<Raw, string> = KeyOf<Raw, string>,
+  Methods extends Record<PropertyKey, AnyFn> = {},
 >(
-  object: T,
-  options?: Omit<DictionaryOptions<VK, LK, K, T, V, DK, M>, 'key'>,
-): Dictionary<T, V, DK> & M
+  object: Raw,
+  options?: Omit<
+    DictionaryOptions<
+      ValueKey,
+      LabelKey,
+      Key,
+      Methods,
+      Dictionary<Raw, Data, Value, DataKey, Methods>
+    >,
+    'key'
+  >,
+): Dictionary<Raw, Data, Value, DataKey, Methods>
 
 /**
  * 支持对象和数组转为字典
@@ -619,12 +629,31 @@ export function toDictionary<
  * // => { key: 'a', label: 'a', value: 1, data: { id: 1, name: 'a' } }
  * ```
  */
-export function toDictionary(data: any, options: DictionaryOptions = {}) {
+export function toDictionary(data: any, options: DictionaryOptions<'value'> = {}) {
   const { valueKey = 'value', labelKey = valueKey, key = valueKey } = options
 
+  // 字典方法
   const methods = Object.assign({}, toDictionary.builtinMethods, options.methods)
-  const dictionary = Object.assign(Object.create(methods), { raw: data, map: new Map() })
-  const map = dictionary.map
+  // 字典实例
+  const instance = Object.create(methods)
+  // 字典实例内置 Map 实例
+  const map = new Map()
+
+  // 设置内置属性
+  Object.defineProperties(instance, {
+    raw: {
+      enumerable: true,
+      get: () => data,
+    },
+    map: {
+      enumerable: true,
+      get: () => map,
+    },
+    size: {
+      enumerable: true,
+      get: () => map.size,
+    },
+  })
 
   if (isArray(data)) {
     data.forEach((item) => {
@@ -641,7 +670,7 @@ export function toDictionary(data: any, options: DictionaryOptions = {}) {
   }
 
   Object.entries(methods).forEach(([name, value]) => {
-    methods[name as keyof typeof methods] = value.bind(dictionary)
+    methods[name as keyof typeof methods] = value.bind(instance)
   })
 
   function toItem(item: any): DictionaryItem {
@@ -654,7 +683,7 @@ export function toDictionary(data: any, options: DictionaryOptions = {}) {
     }
   }
 
-  return dictionary as Dictionary
+  return instance
 }
 
 if (import.meta.vitest) {
@@ -737,7 +766,7 @@ if (import.meta.vitest) {
       ])
 
       expect(dict.has('a')).toBe(true)
-      expect(dict.size()).toBe(2)
+      expect(dict.size).toBe(2)
       expect(dict.getTag('a')).toBe('primary')
     })
   })
@@ -822,7 +851,7 @@ if (import.meta.vitest) {
       ])
 
       expect(dict.has('a')).toBe(true)
-      expect(dict.size()).toBe(2)
+      expect(dict.size).toBe(2)
       expect(dict.getTag('a')).toBe('primary')
     })
   })

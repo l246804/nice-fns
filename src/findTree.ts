@@ -1,28 +1,29 @@
-import type { MaybeNullish, Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions, TreeIterator } from './tree'
+import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
 
-export interface FindTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'> {}
+export interface FindTreeOptions {
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: string
+}
 
-export interface FindResult<T = any> {
+export interface FindResult<T> {
   index: number
   node: T
   paths: string[]
   nodes: T[]
-  parent: MaybeNullish<T>
+  parent?: T
   tree: T[]
 }
 
-const findTreeNode: HelperCreateTreeFuncHandler<FindTreeOptions, FindResult | null, boolean> = (
-  tree,
-  iter,
-  parent,
-  paths,
-  nodes,
-  childrenKey,
-  options,
-) => {
+const findTreeNode: HelperCreateTreeFuncHandler<
+  FindTreeOptions,
+  FindResult<any> | undefined,
+  boolean
+> = (tree, iter, parent, paths, nodes, childrenKey, options) => {
   let _paths, _nodes, match
   for (let index = 0; index < tree.length; index++) {
     const node = tree[index]
@@ -58,15 +59,14 @@ const findTreeNode: HelperCreateTreeFuncHandler<FindTreeOptions, FindResult | nu
     }
   }
 
-  // 递归结束时返回 null
-  return null
+  return undefined
 }
 
-type FindTreeFunc = <T extends Recordable = Recordable>(
+type FindTreeFunc = <T extends {}>(
   array: T[],
   iterator: TreeIterator<T, boolean>,
   options?: FindTreeOptions,
-) => FindResult<T> | null
+) => FindResult<T> | undefined
 
 /**
  * 根据迭代器查找树列表子节点

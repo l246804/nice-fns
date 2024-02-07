@@ -1,4 +1,4 @@
-import type { MaybeGetter, NoopFn } from '@rhao/types-base'
+import type { MaybeFn, NoopFn } from '@rhao/types-base'
 import { createSwitch } from './createSwitch'
 import { isClient } from './isClient'
 import { toValue } from './toValue'
@@ -8,7 +8,7 @@ export interface TimerWithControlOptions {
    * 延迟时间，单位：`ms`，小于等于 `0` 时不会开启定时器，若 `timerType='requestAnimation'`，则此参数无效
    * @default 0
    */
-  ms?: MaybeGetter<number>
+  ms?: MaybeFn<number>
   /**
    * 启动定时器时立即执行一次回调
    * @default false

@@ -71,7 +71,7 @@
     "docs:prepare": "run-s docs:clean test:only docs:gen docs:gen:lib"
   },
   "dependencies": {
-    "@rhao/types-base": "^0.6.0",
+    "@rhao/types-base": "^1.0.0",
     "@types/lodash": "^4.14.202",
     "@types/lodash-es": "^4.17.12",
     "lodash": "^4.17.21",

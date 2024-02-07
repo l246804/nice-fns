@@ -24,6 +24,11 @@ export interface ScalePxOptions {
    * @default 6
    */
   precision?: number
+  /**
+   * 使用 `document.documentElement` 获取窗口大小进行计算，将会排除窗口边框和滚动条大小
+   * @default false
+   */
+  useDocument?: boolean
 }
 
 /**
@@ -53,9 +58,10 @@ export function scalePx(value: number, options: ScalePxOptions = {}) {
     designWidth = 1920,
     designHeight = 1080,
     precision = 6,
+    useDocument = false,
   } = { ...scalePx.defaults, ...options }
 
-  const realValue = getWindowSize()[mode]
+  const realValue = getWindowSize(useDocument)[mode]
   const designValue = mode === 'height' ? designHeight : designWidth
 
   return +((realValue / designValue) * value).toFixed(precision)

@@ -1,13 +1,21 @@
-import type { Recordable } from '@rhao/types-base'
-import type { BasicTreeOptions, TreeIterator } from './tree'
+import type { Simplify } from '@rhao/types-base'
+import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
 
-export interface MapTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'> {
+export interface MapTreeOptions<
+  ChildrenKey extends string = string,
+  MappingChildrenKey extends string = never,
+> {
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: ChildrenKey
   /**
    * 映射后的子节点键，设置后则必定存在于节点上
    */
-  mapChildrenKey?: string
+  mapChildrenKey?: MappingChildrenKey
 }
 
 const mapTreeNode: HelperCreateTreeFuncHandler<MapTreeOptions, any[], any> = (
@@ -48,11 +56,26 @@ const mapTreeNode: HelperCreateTreeFuncHandler<MapTreeOptions, any[], any> = (
   })
 }
 
-type MapTreeFunc = <T extends Recordable = Recordable, U extends Recordable = Recordable>(
+type WithChildren<
+  T,
+  ChildrenKey extends string,
+  MappingChildrenKey extends string,
+> = Simplify<T & Record<ChildrenKey | MappingChildrenKey, T[]>>
+
+type MapTreeFunc = <
+  T extends {},
+  U extends {},
+  ChildrenKey extends string = 'children',
+  MappingChildrenKey extends string = never,
+>(
   array: T[],
   iterator: TreeIterator<T, U>,
-  options?: MapTreeOptions,
-) => U[]
+  options?: MapTreeOptions<ChildrenKey, MappingChildrenKey>,
+) => WithChildren<
+  Simplify<Omit<U, ChildrenKey | MappingChildrenKey>>,
+  ChildrenKey,
+  MappingChildrenKey
+>[]
 
 /**
  * 根据迭代器映射子节点生成新的树列表
@@ -109,14 +132,12 @@ if (import.meta.vitest) {
     },
   ]
 
-  it('映射树节点', () => {
+  it('映射树节', () => {
     const result = mapTree(
       tree,
       (node) => {
-        if (node.id === 1)
-          delete node.subs
-        if (node.id === 2)
-          node.text = '222222'
+        if (node.id === 1) delete node.subs
+        if (node.id === 2) node.text = '222222'
         return node
       },
       { childrenKey: 'subs' },

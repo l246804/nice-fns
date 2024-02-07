@@ -1,8 +1,13 @@
-import type { BasicTreeOptions } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
 
-export interface EachTreeOptions extends Pick<BasicTreeOptions, 'childrenKey'> {}
+export interface EachTreeOptions {
+  /**
+   * 子节点键
+   * @default 'children'
+   */
+  childrenKey?: string
+}
 
 const eachTreeNode: HelperCreateTreeFuncHandler<EachTreeOptions> = (
   tree,

@@ -91,7 +91,6 @@ export function classState(statePrefix = ''): Is {
     const stateClasses: [stateClass: string, state: boolean, prefix: string][] = []
 
     if (isArray(stateClass)) {
-      // ['cls1', ['cls2'], ['cls3', false], ['cls4', true, 'no-']]
       const prefix = typeof state === 'string' ? state : statePrefix
       stateClass.forEach((item) => {
         if (typeof item === 'string') {

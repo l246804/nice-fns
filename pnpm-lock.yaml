@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@rhao/types-base':
-    specifier: ^0.6.0
-    version: 0.6.0(typescript@5.3.2)
+    specifier: ^1.0.0
+    version: 1.0.0(typescript@5.3.2)
   '@types/lodash':
     specifier: ^4.14.202
     version: 4.14.202
@@ -1208,12 +1208,13 @@ packages:
       - inquirer
     dev: true
 
-  /@rhao/types-base@0.6.0(typescript@5.3.2):
-    resolution: {integrity: sha512-u5CB2FbWlBmdcwdAuU1QIRAUr09I9J4NM4SLWhbX6NK1Qwu9XJ38X/Lp0gKngjrYBzcR6jdLCPB3MNzBjUlP9g==}
+  /@rhao/types-base@1.0.0(typescript@5.3.2):
+    resolution: {integrity: sha512-iQa7AQXoMtMgMPbkQm8SOeuQUv1BPt2RjemfdmK79yeQNpvFJn+oILTykyHadho5IbAu6Nm+jQZT7oBU0y8zLQ==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=5'
     dependencies:
+      type-fest: 4.10.2
       typescript: 5.3.2
     dev: false
 
@@ -7942,6 +7943,11 @@ packages:
     resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
     engines: {node: '>=14.16'}
     dev: true
+
+  /type-fest@4.10.2:
+    resolution: {integrity: sha512-anpAG63wSpdEbLwOqH8L84urkL6PiVIov3EMmgIhhThevh9aiMQov+6Btx0wldNcvm4wV+e2/Rt1QdDwKHFbHw==}
+    engines: {node: '>=16'}
+    dev: false
 
   /type-fest@4.8.2:
     resolution: {integrity: sha512-mcvrCjixA5166hSrUoJgGb9gBQN4loMYyj9zxuMs/66ibHNEFd5JXMw37YVDx58L4/QID9jIzdTBB4mDwDJ6KQ==}
