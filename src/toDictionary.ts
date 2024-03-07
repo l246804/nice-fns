@@ -372,6 +372,26 @@ export interface DictionaryBuiltinMethods<
    * ```
    */
   has(key: Key): boolean
+  /**
+   * 比较指定字典键值，若指定字典键不存在则恒为 `false`
+   * @param this 字典对象
+   * @param key 指定键
+   *
+   * @example
+   * ```ts
+   * const dict = toDictionary(
+   *   { a: { id: 1, text: 'A' }, b: { id: 2, text: 'B' } },
+   *   { valueKey: 'id', labelKey: 'text' },
+   * )
+   *
+   * dict.eqValue('a', 1)
+   * // => true
+   *
+   * dict.eqValue('c', undefined)
+   * // => false
+   * ```
+   */
+  eqValue(key: Key, value: any): boolean
 }
 
 /**
@@ -398,11 +418,11 @@ export interface DictionaryBase<Raw = unknown, Data = unknown, Value = unknown> 
  * 字典
  */
 export type Dictionary<
-  Raw = unknown,
   Data = unknown,
   Value = unknown,
   Key extends string = string,
   Methods extends Record<PropertyKey, AnyFn> = {},
+  Raw = Data[] | Record<string, Data>,
 > = DictionaryBase<Raw, Data, Value> & DictionaryBuiltinMethods<Data, Value, Key> & Methods
 
 /**
@@ -486,6 +506,9 @@ const builtinMethods = {
   has(key) {
     return this.keys().includes(key)
   },
+  eqValue(key, value) {
+    return this.has(key) && this.getValue(key) === value
+  },
   forEach: createArrayMethods('forEach'),
   filter: createArrayMethods('filter'),
   find: createArrayMethods('find'),
@@ -548,9 +571,9 @@ export function toDictionary<
     LabelKey,
     Key,
     Methods,
-    Dictionary<Data[], Data, Value, DataKey, Methods>
+    Dictionary<Data, Value, DataKey, Methods, Data[]>
   >,
-): Dictionary<Data[], Data, Value, DataKey, Methods>
+): Dictionary<Data, Value, DataKey, Methods, Data[]>
 
 /**
  * 对象转字典
@@ -592,11 +615,11 @@ export function toDictionary<
       LabelKey,
       Key,
       Methods,
-      Dictionary<Raw, Data, Value, DataKey, Methods>
+      Dictionary<Data, Value, DataKey, Methods, Raw>
     >,
     'key'
   >,
-): Dictionary<Raw, Data, Value, DataKey, Methods>
+): Dictionary<Data, Value, DataKey, Methods, Raw>
 
 /**
  * 支持对象和数组转为字典
@@ -768,6 +791,9 @@ if (import.meta.vitest) {
       expect(dict.has('a')).toBe(true)
       expect(dict.size).toBe(2)
       expect(dict.getTag('a')).toBe('primary')
+      expect(dict.eqValue('a', dict.getValue('a'))).toBe(true)
+      expect(dict.eqValue('a', dict.getValue('b'))).toBe(false)
+      expect(dict.eqValue('c', undefined)).toBe(false)
     })
   })
 
