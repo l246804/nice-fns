@@ -19,7 +19,7 @@ import { getFileTypeByExtName } from './getFileTypeByExtName'
  */
 export function parseContentDisposition(contentDisposition: string, keyword = 'filename') {
   const pattern = new RegExp(
-    `${keyword}=['"]?([^'"]+)['"]?(?:;\\s*${keyword}\\*=['"]?(?:[\\w-]+'+)([^'"]+)['"]?)?`,
+    `${keyword}=['"]?([^'";]+)['"]?(?:;\\s*${keyword}\\*=['"]?(?:[\\w-]+'+)([^'"]+)['"]?)?`,
   )
   const match = contentDisposition.match(pattern)
 
