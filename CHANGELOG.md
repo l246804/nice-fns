@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/l246804/nice-fns/compare/v1.0.2...v1.1.0) (2024-03-21)
+
+
+### Features
+
+* 🎸 timerWithControl support cleanup callback ([96b5039](https://github.com/l246804/nice-fns/commit/96b503966f890ae18451c25b0f1d1aa99658f73f))
+
 ## [1.0.2](https://github.com/l246804/nice-fns/compare/v1.0.1...v1.0.2) (2024-03-08)
 
 
