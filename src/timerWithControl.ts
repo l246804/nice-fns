@@ -2,6 +2,7 @@ import type { MaybeFn, NoopFn } from '@rhao/types-base'
 import { createSwitch } from './createSwitch'
 import { isClient } from './isClient'
 import { toValue } from './toValue'
+import { noop } from 'lodash-unified'
 
 export interface TimerWithControlOptions {
   /**
@@ -22,6 +23,10 @@ export interface TimerWithControlOptions {
    * @default 'setTimeout'
    */
   type?: 'setTimeout' | 'setInterval' | 'requestAnimationFrame'
+  /**
+   * 手动执行 `stop(cleanup = true)` 时触发，用于清理 `callback()` 中的任务资源
+   */
+  onCleanup?(): void
 }
 
 /**
@@ -49,7 +54,7 @@ export interface TimerWithControlOptions {
  * ```
  */
 export function timerWithControl(callback: NoopFn, options: TimerWithControlOptions = {}) {
-  const { immediateCallback = false, ms = 0, type = 'setTimeout' } = options
+  const { immediateCallback = false, ms = 0, type = 'setTimeout', onCleanup = noop } = options
 
   type TimerFn = (callback: () => void, ms?: number) => any
   type ClearTimerFn = (id: any) => void
@@ -79,10 +84,11 @@ export function timerWithControl(callback: NoopFn, options: TimerWithControlOpti
     if (type === 'requestAnimationFrame') start()
   }
 
-  function clean() {
+  function clean(cleanup = false) {
     if (timer) {
       clearTimerFn(timer)
       timer = null
+      cleanup && onCleanup()
     }
   }
 
@@ -97,14 +103,15 @@ export function timerWithControl(callback: NoopFn, options: TimerWithControlOpti
     timer = timerFn(wrapCallback, type !== 'requestAnimationFrame' ? msValue : undefined)
   }
 
-  function stop() {
+  function stop(cleanup = false) {
     active.close()
-    clean()
+    clean(cleanup)
   }
 
   function flush() {
     stop()
     callback()
+    onCleanup()
   }
 
   return {
