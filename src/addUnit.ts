@@ -34,7 +34,8 @@ addUnit.defaultUnit = 'px'
  * ```
  */
 export function addUnit(value: any, unit = addUnit.defaultUnit) {
-  if (value == null) value = ''
+  if (value == null)
+    value = ''
   return isNumeric(value) ? value + unit : String(value)
 }
 

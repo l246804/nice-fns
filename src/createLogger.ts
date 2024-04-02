@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  * 默认信息格式化器
  * @param module 模块名
@@ -8,7 +6,8 @@
  * @returns 格式化后的消息内容
  */
 function defaultFormatter(module: string, msg: string, type = '') {
-  if (type) type = ` ${type}`
+  if (type)
+    type = ` ${type}`
   return `[${module + type}]: ${msg}`
 }
 

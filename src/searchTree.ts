@@ -54,7 +54,8 @@ const _searchTreeNode: Fn<
       }
       else {
         result = Object.assign({}, node)
-        if (options.originalDataKey) result[options.originalDataKey] = node
+        if (options.originalDataKey)
+          result[options.originalDataKey] = node
       }
 
       // 存在子级时同步映射子级和原始子级
@@ -72,7 +73,8 @@ const _searchTreeNode: Fn<
       }
 
       // 如果通过或子级存在通过则添加结果
-      if (isPass || result[mapChildrenKey]?.length) results.push(result)
+      if (isPass || result[mapChildrenKey]?.length)
+        results.push(result)
     }
   })
 

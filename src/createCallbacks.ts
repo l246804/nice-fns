@@ -73,7 +73,8 @@ export function createCallbacks<T extends AnyFn>() {
    * ```
    */
   function add(handler: T, prepend?: boolean) {
-    if (!has(handler)) prepend ? handlers.unshift(handler) : handlers.push(handler)
+    if (!has(handler))
+      prepend ? handlers.unshift(handler) : handlers.push(handler)
     return () => remove(handler)
   }
 
@@ -94,7 +95,8 @@ export function createCallbacks<T extends AnyFn>() {
    */
   function remove(callback: T) {
     const index = handlers.indexOf(callback)
-    if (index > -1) handlers.splice(index, 1)
+    if (index > -1)
+      handlers.splice(index, 1)
   }
 
   /**

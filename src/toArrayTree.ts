@@ -125,7 +125,8 @@ function strictTree(array: any[], opts: ToArrayTreeOptions) {
 }
 
 function setAttr(treeData: any, key?: string, value?: any) {
-  if (key) treeData[key] = value
+  if (key)
+    treeData[key] = value
 }
 
 /**
@@ -215,7 +216,8 @@ export function toArrayTree<
   }
 
   // 浅克隆并排序数组
-  if (opts.orderBy) array = orderBy(array.slice(0), ...opts.orderBy) as T[]
+  if (opts.orderBy)
+    array = orderBy(array.slice(0), ...opts.orderBy) as T[]
 
   const result: any[] = []
   const treeMap: Record<string, T[]> = {}
@@ -264,11 +266,13 @@ export function toArrayTree<
     }
 
     // 根节点
-    if ((!opts.strict || parentId == null) && !idsMap[parentId]) result.push(treeData)
+    if ((!opts.strict || parentId == null) && !idsMap[parentId])
+      result.push(treeData)
   })
 
   // 严格模式去掉子级属性
-  if (opts.strict) strictTree(array, opts as ToArrayTreeOptions)
+  if (opts.strict)
+    strictTree(array, opts as ToArrayTreeOptions)
 
   return result
 }

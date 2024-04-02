@@ -57,13 +57,18 @@ function convertVminAndVMax(value: string, windowSize = getWindowSize()) {
  * ```
  */
 export function unitToPx(value: Numeric) {
-  if (typeof value === 'number') return value
+  if (typeof value === 'number')
+    return value
 
   if (isClient) {
-    if (value.includes('rem')) return convertRem(value)
-    if (value.includes('vw')) return convertVw(value)
-    if (value.includes('vh')) return convertVh(value)
-    if (/vmin|vmax/.test(value)) return convertVminAndVMax(value)
+    if (value.includes('rem'))
+      return convertRem(value)
+    if (value.includes('vw'))
+      return convertVw(value)
+    if (value.includes('vh'))
+      return convertVh(value)
+    if (/vmin|vmax/.test(value))
+      return convertVminAndVMax(value)
   }
 
   return Number.parseFloat(value)

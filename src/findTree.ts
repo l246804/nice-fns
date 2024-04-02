@@ -55,7 +55,8 @@ const findTreeNode: HelperCreateTreeFuncHandler<
       )
 
       // 递归遍历的结果存在时返回
-      if (match) return match
+      if (match)
+        return match
     }
   }
 

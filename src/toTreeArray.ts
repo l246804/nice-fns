@@ -40,14 +40,17 @@ function unTreeList<T extends {}, DataKey extends keyof T, DropKeys extends stri
     const children = item[opts.childrenKey!]
 
     // 取出原始数据
-    if (opts.dataKey) item = item[opts.dataKey]
+    if (opts.dataKey)
+      item = item[opts.dataKey]
 
     // 将数据添加进结果，若存在子级列表则递归遍历
     result.push(item)
-    if (children?.length) unTreeList(result, children, opts)
+    if (children?.length)
+      unTreeList(result, children, opts)
 
     // 移除数据上的键
-    if (opts.dropKeys) batchUnset(item, opts.dropKeys)
+    if (opts.dropKeys)
+      batchUnset(item, opts.dropKeys)
   })
 
   return result as unknown as ArrayItem<

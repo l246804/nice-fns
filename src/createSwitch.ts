@@ -30,32 +30,32 @@ export interface SwitchControls<T> {
   /**
    * 切换开关状态
    */
-  toggle(value?: T): void
+  toggle: (value?: T) => void
   /**
    * 打开开关
    */
-  open(): void
+  open: () => void
   /**
    * 关闭开关
    */
-  close(): void
+  close: () => void
   /**
    * 重置开关
    */
-  reset(): void
+  reset: () => void
   /**
    * 注册回调句柄，返回移除回调句柄函数
    */
-  on(callback: SwitchCallback<T>): NoopFn
+  on: (callback: SwitchCallback<T>) => NoopFn
   /**
    * 移除回调句柄
    * @param callback 回调句柄
    */
-  off(callback: SwitchCallback<T>): void
+  off: (callback: SwitchCallback<T>) => void
   /**
    * 重置回调句柄
    */
-  offAll(): void
+  offAll: () => void
 }
 
 /**
@@ -117,8 +117,10 @@ export function createSwitch<T = boolean>(
     return value
   }
   function write(_value: any) {
-    if (!allowWrite) return
-    if (once) allowWrite = false
+    if (!allowWrite)
+      return
+    if (once)
+      allowWrite = false
 
     value = _value
     callbacks.run(value)

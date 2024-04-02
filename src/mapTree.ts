@@ -136,8 +136,10 @@ if (import.meta.vitest) {
     const result = mapTree(
       tree,
       (node) => {
-        if (node.id === 1) delete node.subs
-        if (node.id === 2) node.text = '222222'
+        if (node.id === 1)
+          delete node.subs
+        if (node.id === 2)
+          node.text = '222222'
         return node
       },
       { childrenKey: 'subs' },

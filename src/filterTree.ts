@@ -48,7 +48,8 @@ export function filterTree<T extends {}>(
   eachTree(
     array,
     (node, ...args) => {
-      if (iterator.call(array, node, ...args)) result.push(node)
+      if (iterator.call(array, node, ...args))
+        result.push(node)
     },
     options,
   )

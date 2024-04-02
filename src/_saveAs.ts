@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prefer-dom-node-text-content */
 import { isClient } from './isClient'
 
 function download(url: string, name: string) {
@@ -66,7 +67,8 @@ export function saveAs(
   name = '',
   popup: Window | null = null,
 ) {
-  if (!isClient) return
+  if (!isClient)
+    return
 
   // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
   if ('download' in HTMLAnchorElement.prototype && !isMacOSWebView) {
@@ -80,7 +82,8 @@ export function saveAs(
       // Support regular links
       a.href = blob
       if (a.origin !== location.origin) {
-        if (corsEnabled(a.href)) return download(blob, name)
+        if (corsEnabled(a.href))
+          return download(blob, name)
 
         a.target = '_blank'
       }
@@ -102,9 +105,11 @@ export function saveAs(
     // Open a popup immediately do go around popup blocker
     // Mostly only available on user interaction and the fileReader is async so...
     popup = popup || open('', '_blank')
-    if (popup) popup.document.title = popup.document.body.innerText = 'downloading...'
+    if (popup)
+      popup.document.title = popup.document.body.innerText = 'downloading...'
 
-    if (typeof blob === 'string') return download(blob, name)
+    if (typeof blob === 'string')
+      return download(blob, name)
 
     const force = blob.type === 'application/octet-stream'
     const isSafari = /Safari/.test(navigator.userAgent)
@@ -119,7 +124,8 @@ export function saveAs(
       reader.onloadend = function () {
         let url = reader.result as string
         url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, 'data:attachment/file;')
-        if (popup) popup.location.href = url
+        if (popup)
+          popup.location.href = url
         else location.href = url
         popup = null // reverse-tabnabbing #460
       }
@@ -127,7 +133,8 @@ export function saveAs(
     }
     else {
       const url = URL.createObjectURL(blob)
-      if (popup) popup.location = url
+      if (popup)
+        popup.location = url
       else location.href = url
       popup = null // reverse-tabnabbing #460
       setTimeout(() => {

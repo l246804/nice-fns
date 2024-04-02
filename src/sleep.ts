@@ -37,7 +37,8 @@ export function sleep(ms = 0) {
  * ```
  */
 export function sleepSync(ms: number) {
-  if (ms <= 0) return
+  if (ms <= 0)
+    return
 
   const start = Date.now()
   while (Date.now() - start >= ms) continue

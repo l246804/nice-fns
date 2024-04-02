@@ -52,7 +52,8 @@ scalePx.defaults = {} as ScalePxOptions
  * ```
  */
 export function scalePx(value: number, options: ScalePxOptions = {}) {
-  if (!isClient) return value
+  if (!isClient)
+    return value
   const {
     mode = 'width',
     designWidth = 1920,

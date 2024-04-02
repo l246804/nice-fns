@@ -33,20 +33,20 @@ export function cssVar<T extends {}>(object: T, namespace = '', processor?: CssV
 
 if (import.meta.vitest) {
   it('基础功能', () => {
-    expect(cssVar({ color: 'red', 'bg-color': 'black' })).toStrictEqual({
+    expect(cssVar({ 'color': 'red', 'bg-color': 'black' })).toStrictEqual({
       '--color': 'red',
       '--bg-color': 'black',
     })
-    expect(cssVar({ color: 'red', 'bg-color': 'black' }, 'el')).toStrictEqual({
+    expect(cssVar({ 'color': 'red', 'bg-color': 'black' }, 'el')).toStrictEqual({
       '--el-color': 'red',
       '--el-bg-color': 'black',
     })
-    expect(cssVar({ color: 'red', 'bg-color': 'black', font: null }, 'el')).toStrictEqual({
+    expect(cssVar({ 'color': 'red', 'bg-color': 'black', 'font': null }, 'el')).toStrictEqual({
       '--el-color': 'red',
       '--el-bg-color': 'black',
     })
     expect(
-      cssVar({ color: 'red', 'bg-color': 'black', font: null }, 'el', (namespace, name) =>
+      cssVar({ 'color': 'red', 'bg-color': 'black', 'font': null }, 'el', (namespace, name) =>
         _.camelCase(`${namespace}-${name}`)),
     ).toStrictEqual({
       '--elColor': 'red',

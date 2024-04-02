@@ -97,7 +97,8 @@ export async function saveAs(data: any, filenameOrOptions: any = '', options: an
   }
 
   const blob = await opts.fetcher(data, opts)
-  if (!(blob instanceof Blob)) return
+  if (!(blob instanceof Blob))
+    return
 
   baseSaveAs(blob, opts.filename)
 }

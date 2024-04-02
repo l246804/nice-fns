@@ -64,7 +64,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  entries(orderParams?: DictionaryOrderByParams<Item>): [string, Item][]
+  entries: (orderParams?: DictionaryOrderByParams<Item>) => [string, Item][]
 
   /**
    * 获取字典项列表
@@ -91,7 +91,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  items(orderParams?: DictionaryOrderByParams<Item>): Item[]
+  items: (orderParams?: DictionaryOrderByParams<Item>) => Item[]
 
   /**
    * 获取字典键列表
@@ -112,7 +112,7 @@ export interface DictionaryBuiltinMethods<
    * ['b', 'a']
    * ```
    */
-  keys(orderParams?: DictionaryOrderByParams<Item>): string[]
+  keys: (orderParams?: DictionaryOrderByParams<Item>) => string[]
 
   /**
    * 获取字典项值列表
@@ -133,7 +133,7 @@ export interface DictionaryBuiltinMethods<
    * [2, 1]
    * ```
    */
-  values(orderParams?: DictionaryOrderByParams<Item>): Value[]
+  values: (orderParams?: DictionaryOrderByParams<Item>) => Value[]
 
   /**
    * 获取字典项标签列表
@@ -156,7 +156,7 @@ export interface DictionaryBuiltinMethods<
    * ['B', 'A']
    * ```
    */
-  labels(orderParams?: DictionaryOrderByParams<Item>): string[]
+  labels: (orderParams?: DictionaryOrderByParams<Item>) => string[]
 
   /**
    * 根据指定键获取字典项
@@ -176,7 +176,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  get(key: Key): Item | undefined
+  get: (key: Key) => Item | undefined
 
   /**
    * 根据指定键获取字典项值
@@ -196,7 +196,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getValue(key: Key): Value | undefined
+  getValue: (key: Key) => Value | undefined
 
   /**
    * 根据指定键获取字典项键，用于明确字面量意义
@@ -224,7 +224,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  getKey(key: Key): string
+  getKey: (key: Key) => string
 
   /**
    * 根据指定键获取字典项标签
@@ -245,7 +245,7 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getLabel(key: Key): string
+  getLabel: (key: Key) => string
 
   /**
    * 根据指定键获取字典项数据
@@ -266,7 +266,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getData(key: Key): Item['data'] | undefined
+  getData: (key: Key) => Item['data'] | undefined
 
   /**
    * 根据指定字典项值获取字典项
@@ -287,7 +287,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getByValue(value: unknown): Item | undefined
+  getByValue: (value: unknown) => Item | undefined
 
   /**
    * 根据指定字典项值获取字典项键
@@ -308,7 +308,7 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getKeyByValue(value: unknown): string
+  getKeyByValue: (value: unknown) => string
 
   /**
    * 根据指定字典项值获取字典项标签
@@ -329,7 +329,7 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getLabelByValue(value: unknown): string
+  getLabelByValue: (value: unknown) => string
 
   /**
    * 根据指定字典项值获取字典项数据
@@ -350,7 +350,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getDataByValue(value: unknown): Item['data'] | undefined
+  getDataByValue: (value: unknown) => Item['data'] | undefined
 
   /**
    * 根据指定键判断是否存在字典项
@@ -371,7 +371,7 @@ export interface DictionaryBuiltinMethods<
    * // => false
    * ```
    */
-  has(key: Key): boolean
+  has: (key: Key) => boolean
   /**
    * 比较指定字典键值，若指定字典键不存在则恒为 `false`
    * @param this 字典对象
@@ -391,7 +391,7 @@ export interface DictionaryBuiltinMethods<
    * // => false
    * ```
    */
-  eqValue(key: Key, value: any): boolean
+  eqValue: (key: Key, value: any) => boolean
 }
 
 /**
@@ -680,7 +680,8 @@ export function toDictionary(data: any, options: DictionaryOptions<'value'> = {}
 
   if (isArray(data)) {
     data.forEach((item) => {
-      if (isNil(item)) return
+      if (isNil(item))
+        return
 
       const _item = toItem(item)
       map.set(_item.key, _item)

@@ -31,4 +31,4 @@ pascalCase('test string')
 4. 部分函数返回中的 `null` 变更为 `undefined`。
 5. `Extname` 更名为 `ExtName`，相关文件名和变量名已变更。
 6. `tree` 相关函数类型重构。
-7. `toDictionary` 将 `size` 函数变更为 `size` 属性，类型重构。 
+7. `toDictionary` 将 `size` 函数变更为 `size` 属性，类型重构。

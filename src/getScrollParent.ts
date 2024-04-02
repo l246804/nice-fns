@@ -31,15 +31,18 @@ export function getScrollParent(
   type: ScrollType = 'both',
   end: ScrollElement = defaultWindow as ScrollElement,
 ) {
-  if (!isClient) return undefined
+  if (!isClient)
+    return undefined
 
   let styleName = 'overflow'
-  if (type !== 'both' && ['x', 'y'].includes(type)) styleName += type.toUpperCase()
+  if (type !== 'both' && ['x', 'y'].includes(type))
+    styleName += type.toUpperCase()
 
   let node = start
   while (node && node !== end && isElement(node)) {
     const style = window.getComputedStyle(node)
-    if (overflowScrollReg.test(style[styleName as any])) return node
+    if (overflowScrollReg.test(style[styleName as any]))
+      return node
 
     node = node.parentNode as Element
   }

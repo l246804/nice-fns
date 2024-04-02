@@ -27,15 +27,20 @@ function _bem(
 
   let cls = ''
 
-  if (namespace) cls += namespace
+  if (namespace)
+    cls += namespace
 
-  if (block) cls += `${cls ? '-' : ''}${block}`
+  if (block)
+    cls += `${cls ? '-' : ''}${block}`
 
-  if (blockSuffix) cls += `-${blockSuffix}`
+  if (blockSuffix)
+    cls += `-${blockSuffix}`
 
-  if (element) cls += `__${element}`
+  if (element)
+    cls += `__${element}`
 
-  if (modifier) cls += `--${modifier}`
+  if (modifier)
+    cls += `--${modifier}`
 
   return cls
 }

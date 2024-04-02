@@ -41,7 +41,8 @@ export function appendFileTypeAndExtNamePairs(pairs: FileTypeAndExtNamePairs) {
  * ```
  */
 export function hasFileTypeAndExtNamePairs(fileType: FileType = '', extName: ExtName = '') {
-  if (!fileType && !extName) return false
+  if (!fileType && !extName)
+    return false
   return fileTypeAndExtNamePairs.some(([type, names]) => {
     return type === fileType || names.includes(extName)
   })

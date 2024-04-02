@@ -9,7 +9,8 @@ const sidebar: DefaultTheme.SidebarItem[] = typedocSidebar
 eachTree(
   sidebar,
   (node) => {
-    if (!node.items) batchUnset(node, ['collapsed'])
+    if (!node.items)
+      batchUnset(node, ['collapsed'])
   },
   { childrenKey: 'items' },
 )
