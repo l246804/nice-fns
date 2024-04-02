@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0](https://github.com/l246804/nice-fns/compare/v1.1.0...v1.2.0) (2024-04-02)
+
+
+### Features
+
+* 🎸 add baseAssign ([8a5d814](https://github.com/l246804/nice-fns/commit/8a5d814a2659e0822ec121820678060867c00f11))
+* 🎸 add findUpElement ([7cfd7c8](https://github.com/l246804/nice-fns/commit/7cfd7c890ab2c72e1fd53374b2cb9a6bd36e863f))
+* 🎸 add fromEntries ([d4e111a](https://github.com/l246804/nice-fns/commit/d4e111ae569ab05ee532b7c1245caac8a8963bce))
+* 🎸 add toEntries ([fb94234](https://github.com/l246804/nice-fns/commit/fb94234603f11fc5d38607d1bea0dd5c0a413b0c))
+
+
+### Chores
+
+* 🤖 格式化代码 ([d484a6f](https://github.com/l246804/nice-fns/commit/d484a6f9c68c53ce3bfe92ab76e42e42c0352f09))
+
 ## [1.1.0](https://github.com/l246804/nice-fns/compare/v1.0.2...v1.1.0) (2024-03-21)
 
 
