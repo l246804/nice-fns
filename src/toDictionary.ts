@@ -176,7 +176,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  get: (key: Key) => Item | undefined
+  get: <T = Key>(key: T) => Item | undefined
 
   /**
    * 根据指定键获取字典项值
@@ -196,7 +196,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getValue: (key: Key) => Value | undefined
+  getValue: <V = Value, T = Key>(key: T) => V | undefined
 
   /**
    * 根据指定键获取字典项键，用于明确字面量意义
@@ -224,7 +224,7 @@ export interface DictionaryBuiltinMethods<
    * ]
    * ```
    */
-  getKey: (key: Key) => string
+  getKey: <T = Key>(key: T) => string
 
   /**
    * 根据指定键获取字典项标签
@@ -245,7 +245,7 @@ export interface DictionaryBuiltinMethods<
    * // => ''
    * ```
    */
-  getLabel: (key: Key) => string
+  getLabel: <T = Key>(key: T) => string
 
   /**
    * 根据指定键获取字典项数据
@@ -266,7 +266,7 @@ export interface DictionaryBuiltinMethods<
    * // => undefined
    * ```
    */
-  getData: (key: Key) => Item['data'] | undefined
+  getData: <T = Key>(key: T) => Item['data'] | undefined
 
   /**
    * 根据指定字典项值获取字典项
@@ -371,7 +371,7 @@ export interface DictionaryBuiltinMethods<
    * // => false
    * ```
    */
-  has: (key: Key) => boolean
+  has: <T = Key>(key: T) => boolean
   /**
    * 比较指定字典键值，若指定字典键不存在则恒为 `false`
    * @param this 字典对象
@@ -391,7 +391,7 @@ export interface DictionaryBuiltinMethods<
    * // => false
    * ```
    */
-  eqValue: (key: Key, value: any) => boolean
+  eqValue: <T = Key>(key: T, value: unknown) => boolean
 }
 
 /**
@@ -477,7 +477,7 @@ const builtinMethods = {
     return this.items(orderParams).map((item) => item.label)
   },
   get(key) {
-    return this.map.get(key)
+    return this.map.get(toString(key))
   },
   getValue(key) {
     return this.get(key)?.value
@@ -504,7 +504,7 @@ const builtinMethods = {
     return this.getByValue(value)?.data
   },
   has(key) {
-    return this.keys().includes(key)
+    return this.keys().includes(toString(key))
   },
   eqValue(key, value) {
     return this.has(key) && this.getValue(key) === value
