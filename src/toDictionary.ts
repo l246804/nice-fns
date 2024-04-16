@@ -133,7 +133,7 @@ export interface DictionaryBuiltinMethods<
    * [2, 1]
    * ```
    */
-  values: (orderParams?: DictionaryOrderByParams<Item>) => Value[]
+  values: <T = Value>(orderParams?: DictionaryOrderByParams<Item>) => T[]
 
   /**
    * 获取字典项标签列表
