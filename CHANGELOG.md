@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.2](https://github.com/l246804/nice-fns/compare/v1.1.0...v1.2.2) (2024-04-16)
+
+
+### Features
+
+* 🎸 add baseAssign ([8a5d814](https://github.com/l246804/nice-fns/commit/8a5d814a2659e0822ec121820678060867c00f11))
+* 🎸 add findUpElement ([7cfd7c8](https://github.com/l246804/nice-fns/commit/7cfd7c890ab2c72e1fd53374b2cb9a6bd36e863f))
+* 🎸 add fromEntries ([d4e111a](https://github.com/l246804/nice-fns/commit/d4e111ae569ab05ee532b7c1245caac8a8963bce))
+* 🎸 add toEntries ([fb94234](https://github.com/l246804/nice-fns/commit/fb94234603f11fc5d38607d1bea0dd5c0a413b0c))
+
+
+### Chores
+
+* 🤖 格式化代码 ([d484a6f](https://github.com/l246804/nice-fns/commit/d484a6f9c68c53ce3bfe92ab76e42e42c0352f09))
+* 🤖 优化 toDictionary 内置函数类型 ([da07143](https://github.com/l246804/nice-fns/commit/da0714332c468842193ee8ace684e70fa66cb428))
+* 🤖 优化 useDictionary 类型 ([9285508](https://github.com/l246804/nice-fns/commit/9285508741dad1b318bf8ff41917cd3154d7e0b7))
+
 ## [1.2.1](https://github.com/l246804/nice-fns/compare/v1.1.0...v1.2.1) (2024-04-15)
 
 
