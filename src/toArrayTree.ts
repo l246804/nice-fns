@@ -1,7 +1,8 @@
 import { orderBy } from 'lodash-unified'
-import type { IfEmpty, IfNever, Simplify } from '@rhao/types-base'
+import type { IfEmpty, IfNever, MaybeFn, Simplify } from '@rhao/types-base'
 import { batchUnset } from './batchUnset'
 import type { _OrderByParams } from './_orderBy'
+import { castFunction } from './castFunction'
 
 export interface ToArrayTreeOptions<
   T extends {} = {},
@@ -9,7 +10,7 @@ export interface ToArrayTreeOptions<
   ParentKey extends string = string,
   ChildrenKey extends string = string,
   DataKey extends string = never,
-  Strict extends boolean = false,
+  RemoveEmptyChildrenKey extends boolean = false,
   MappingKey extends string = string,
   MappingParentKey extends string = string,
   MappingChildrenKey extends string = string,
@@ -42,10 +43,30 @@ export interface ToArrayTreeOptions<
     childrenKey?: MappingChildrenKey
   }
   /**
-   * 严格模式，如果设为 `true`，会去掉父子关联不存在数据，当子节点为空时将没有 `childrenKey` 和 `keyMap.childrenKey` 属性
+   * 是否移除空子节点属性，设为 `true` 时当子节点为空将没有 `childrenKey` 和 `keyMap.childrenKey` 属性
+   * @default options.strict
+   */
+  removeEmptyChildrenKey?: MaybeFn<
+    RemoveEmptyChildrenKey,
+    [
+      node: TreeNode<
+        T,
+        Key,
+        ParentKey,
+        ChildrenKey,
+        DataKey,
+        false,
+        MappingKey,
+        MappingParentKey,
+        MappingChildrenKey
+      >,
+    ]
+  >
+  /**
+   * 严格模式，如果设为 `true`，会去掉父子关联不存在数据
    * @default false
    */
-  strict?: Strict
+  strict?: boolean
   /**
    * 排序数组，依赖于 `orderBy()`
    */
@@ -66,25 +87,24 @@ type TreeNodeBase<
   Record<MappingParentKey, T[ParentKey]>
 >
 
-type ChildrenWithStrict<T, Strict extends boolean> = Strict extends true ? T | undefined : T
+type ChildrenWithStrict<T, Strict extends boolean> = Strict extends false ? T : T | undefined
 
-type TreeNodeChildren<
-  T,
-  ChildrenKey extends string,
-  MappingChildrenKey extends string,
-> = Record<ChildrenKey | MappingChildrenKey, T>
+type TreeNodeChildren<T, ChildrenKey extends string, MappingChildrenKey extends string> = Record<
+  ChildrenKey | MappingChildrenKey,
+  T
+>
 
 type TreeNodeWithChildren<
   T,
   ChildrenKey extends string,
   MappingChildrenKey extends string,
-  Strict extends boolean,
+  RemoveEmptyChildrenKey extends boolean,
 > = Simplify<
   Omit<T, ChildrenKey | MappingChildrenKey> &
   TreeNodeChildren<
       ChildrenWithStrict<
-        TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, Strict>[],
-        Strict
+        TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, RemoveEmptyChildrenKey>[],
+        RemoveEmptyChildrenKey
       >,
       ChildrenKey,
       MappingChildrenKey
@@ -97,7 +117,7 @@ export type TreeNode<
   ParentKey extends string = string,
   ChildrenKey extends string = string,
   DataKey extends string = never,
-  Strict extends boolean = false,
+  RemoveEmptyChildrenKey extends boolean = false,
   MappingKey extends string = never,
   MappingParentKey extends string = never,
   MappingChildrenKey extends string = never,
@@ -113,13 +133,16 @@ export type TreeNode<
     >,
     ChildrenKey,
     MappingChildrenKey,
-    Strict
+    RemoveEmptyChildrenKey
   >
 >
 
-function strictTree(array: any[], opts: ToArrayTreeOptions) {
+function processTree(array: any[], opts: ToArrayTreeOptions) {
+  const { removeEmptyChildrenKey = opts.strict } = opts
+  const removeEmptyChildrenKeyFn = castFunction(removeEmptyChildrenKey)
+
   array.forEach((item) => {
-    if (!item[opts.childrenKey!]?.length)
+    if (!item[opts.childrenKey!]?.length && removeEmptyChildrenKeyFn(item))
       batchUnset(item, [opts.childrenKey, opts.keyMap?.childrenKey].filter(Boolean) as string[])
   })
 }
@@ -179,7 +202,7 @@ export function toArrayTree<
   ParentKey extends string = 'parentId',
   ChildrenKey extends string = 'children',
   DataKey extends string = never,
-  Strict extends boolean = false,
+  RemoveEmptyChildrenKey extends boolean = false,
   MappingKey extends string = never,
   MappingParentKey extends string = never,
   MappingChildrenKey extends string = never,
@@ -191,7 +214,7 @@ export function toArrayTree<
     ParentKey,
     ChildrenKey,
     DataKey,
-    Strict,
+    RemoveEmptyChildrenKey,
     MappingKey,
     MappingParentKey,
     MappingChildrenKey
@@ -202,7 +225,7 @@ export function toArrayTree<
   ParentKey,
   IfNever<IfEmpty<ChildrenKey, never, ChildrenKey>, 'children', ChildrenKey>,
   IfEmpty<DataKey, never, DataKey>,
-  Strict,
+  RemoveEmptyChildrenKey,
   MappingKey,
   MappingParentKey,
   MappingChildrenKey
@@ -270,9 +293,8 @@ export function toArrayTree<
       result.push(treeData)
   })
 
-  // 严格模式去掉子级属性
-  if (opts.strict)
-    strictTree(array, opts as ToArrayTreeOptions)
+  // 处理树
+  processTree(array, opts as ToArrayTreeOptions)
 
   return result
 }
@@ -283,10 +305,11 @@ if (import.meta.vitest) {
     { id: 2, parentId: 1, name: '222' },
     { id: 3, name: '333' },
     { id: 4, parentId: 2, name: '444' },
+    { id: 5, parentId: 10, name: '555' },
   ]
   describe('基础功能', () => {
     it('松散模式', () => {
-      const tree = toArrayTree(array)
+      const tree = toArrayTree(_.cloneDeep(array))
       expect(tree).toEqual([
         {
           id: 1,
@@ -312,11 +335,17 @@ if (import.meta.vitest) {
           name: '333',
           children: [],
         },
+        {
+          id: 5,
+          parentId: 10,
+          name: '555',
+          children: [],
+        },
       ])
     })
 
     it('严格模式', () => {
-      const tree = toArrayTree(array, { strict: true })
+      const tree = toArrayTree(_.cloneDeep(array), { strict: true })
       expect(tree).toEqual([
         {
           id: 1,
@@ -339,6 +368,39 @@ if (import.meta.vitest) {
         {
           id: 3,
           name: '333',
+        },
+      ])
+    })
+
+    it('移除空子级属性', () => {
+      const tree = toArrayTree(_.cloneDeep(array), { removeEmptyChildrenKey: true })
+      expect(tree).toEqual([
+        {
+          id: 1,
+          name: '111',
+          children: [
+            {
+              id: 2,
+              name: '222',
+              parentId: 1,
+              children: [
+                {
+                  id: 4,
+                  name: '444',
+                  parentId: 2,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 3,
+          name: '333',
+        },
+        {
+          id: 5,
+          parentId: 10,
+          name: '555',
         },
       ])
     })
