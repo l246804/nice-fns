@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.1](https://github.com/l246804/nice-fns/compare/v1.2.2...v1.4.1) (2024-04-24)
+
+
+### Features
+
+* 🎸 add flattenPaths ([cb7e36b](https://github.com/l246804/nice-fns/commit/cb7e36b49145a268595534e2ec622df09991e9b5))
+* 🎸 toArrayTree 支持仅移除空子级属性功能 ([7721921](https://github.com/l246804/nice-fns/commit/7721921f9c4212fa855682efb61e2b9684662cf9))
+
+
+### Bug Fixes
+
+* 🐛 修复 flattenPaths 错误引用 lodash ([2adc9a1](https://github.com/l246804/nice-fns/commit/2adc9a139429c4cffb8d64a98c1fbfbc61fb931f))
+
 ## [1.4.0](https://github.com/l246804/nice-fns/compare/v1.2.2...v1.4.0) (2024-04-24)
 
 
