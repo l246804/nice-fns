@@ -1,4 +1,4 @@
-import { isObjectLike } from 'lodash'
+import { isObjectLike } from 'lodash-unified'
 
 /**
  * 扁平化对象属性路径
