@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/l246804/nice-fns/compare/v1.4.1...v1.4.2) (2024-05-08)
+
+
+### Chores
+
+* 🤖 优化 toArrayTree 类型 ([478971b](https://github.com/l246804/nice-fns/commit/478971b93a4a880cc3458ef6899d0dcc21a48931))
+
 ## [1.4.1](https://github.com/l246804/nice-fns/compare/v1.2.2...v1.4.1) (2024-04-24)
 
 
