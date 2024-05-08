@@ -14,6 +14,7 @@ export interface ToArrayTreeOptions<
   MappingKey extends string = string,
   MappingParentKey extends string = string,
   MappingChildrenKey extends string = string,
+  Strict extends boolean = false,
 > {
   /**
    * 节点键
@@ -66,7 +67,7 @@ export interface ToArrayTreeOptions<
    * 严格模式，如果设为 `true`，会去掉父子关联不存在数据
    * @default false
    */
-  strict?: boolean
+  strict?: Strict
   /**
    * 排序数组，依赖于 `orderBy()`
    */
@@ -202,10 +203,11 @@ export function toArrayTree<
   ParentKey extends string = 'parentId',
   ChildrenKey extends string = 'children',
   DataKey extends string = never,
-  RemoveEmptyChildrenKey extends boolean = false,
+  RemoveEmptyChildrenKey extends boolean = never,
   MappingKey extends string = never,
   MappingParentKey extends string = never,
   MappingChildrenKey extends string = never,
+  Strict extends boolean = false,
 >(
   array: T[],
   options: ToArrayTreeOptions<
@@ -214,10 +216,11 @@ export function toArrayTree<
     ParentKey,
     ChildrenKey,
     DataKey,
-    RemoveEmptyChildrenKey,
+    IfNever<RemoveEmptyChildrenKey, Strict, RemoveEmptyChildrenKey>,
     MappingKey,
     MappingParentKey,
-    MappingChildrenKey
+    MappingChildrenKey,
+    Strict
   > = {},
 ): TreeNode<
   T,
@@ -225,7 +228,7 @@ export function toArrayTree<
   ParentKey,
   IfNever<IfEmpty<ChildrenKey, never, ChildrenKey>, 'children', ChildrenKey>,
   IfEmpty<DataKey, never, DataKey>,
-  RemoveEmptyChildrenKey,
+  IfNever<RemoveEmptyChildrenKey, Strict, RemoveEmptyChildrenKey>,
   MappingKey,
   MappingParentKey,
   MappingChildrenKey
