@@ -8,7 +8,7 @@ import { toValue } from './toValue'
 export interface CreateFlexibleOptions {
   /**
    * 根字体大小
-   * @default () => document.clientWidth / 10
+   * @default 16
    */
   rootFontSize?: MaybeFn<Numeric>
   /**
@@ -30,7 +30,8 @@ interface FontSizeRecord {
  * @example
  * ```ts
  * const { setup, unmount } = createFlexible({
- *   rootFontSize: document.clientWidth / 10, bodyFontSize: 16
+ *   rootFontSize: 16,
+ *   bodyFontSize: 16
  * })
  *
  * setup() // 安装灵活布局功能
@@ -38,8 +39,7 @@ interface FontSizeRecord {
  * ```
  */
 export function createFlexible(options: CreateFlexibleOptions = {}) {
-  const { bodyFontSize = 16, rootFontSize = () => document.documentElement.clientWidth / 10 }
-    = options
+  const { rootFontSize = 16, bodyFontSize = 16 } = options
   const record: FontSizeRecord = {}
 
   /**
