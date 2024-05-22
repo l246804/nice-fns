@@ -10,7 +10,7 @@ export interface CreateFlexibleOptions {
    * 根字体大小
    * @default () => document.clientWidth / 10
    */
-  rootFontSize?: () => Numeric
+  rootFontSize?: MaybeFn<Numeric>
   /**
    * `document.body` 字体大小
    * @default 16
@@ -49,7 +49,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
     if (record.root == null)
       record.root = document.documentElement.style.fontSize
 
-    document.documentElement.style.fontSize = addUnit(rootFontSize(), 'px')
+    document.documentElement.style.fontSize = addUnit(toValue(rootFontSize), 'px')
   }
 
   /**
