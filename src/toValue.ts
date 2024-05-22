@@ -1,3 +1,4 @@
+import type { MaybeFn } from '@rhao/types-base'
 import { isFunction } from 'lodash-unified'
 
 /**
@@ -17,11 +18,7 @@ import { isFunction } from 'lodash-unified'
  * // => 1
  * ```
  */
-export function toValue<
-  T,
-  P extends any[] = T extends (...args: infer Args) => any ? Args : [],
-  R = T extends (...args: any[]) => infer Value ? Value : T,
->(value: T, ...args: P): R {
+export function toValue<T, P extends any[]>(value: MaybeFn<T, P>, ...args: P): T {
   return isFunction(value) ? value(...args) : value
 }
 
@@ -33,7 +30,7 @@ if (import.meta.vitest) {
       expect(toValue((value: string, value2: number) => value + value2, '1', 0)).toBe('10')
 
       expectTypeOf(
-        toValue((value: string, value2: number) => value + value2),
+        toValue((value: string, value2: number) => value + value2, '1', 2),
       ).toMatchTypeOf<string>()
     })
 
