@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.2](https://github.com/l246804/nice-fns/compare/v1.5.0...v1.5.2) (2024-05-22)
+
+
+### Chores
+
+* 🤖 更改 createFlexible.rootFontSize 默认值 ([0dbcfd9](https://github.com/l246804/nice-fns/commit/0dbcfd99cae9399e4f5c8e2a6c90d1dd7e0c8bc4))
+* 🤖 优化 createFlexible.rootFontSize 配置 ([0cac62b](https://github.com/l246804/nice-fns/commit/0cac62bf5aa5221f25acb929dc2f3b223d707bde))
+
 ## [1.5.1](https://github.com/l246804/nice-fns/compare/v1.5.0...v1.5.1) (2024-05-22)
 
 
