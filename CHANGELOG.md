@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/l246804/nice-fns/compare/v1.4.2...v1.5.0) (2024-05-22)
+
+
+### Features
+
+* 🎸 add createFlexible、getDpr、detectHalfPX ([ae33c25](https://github.com/l246804/nice-fns/commit/ae33c256a2e071169f7b69b56998814671b662d4))
+
 ## [1.4.2](https://github.com/l246804/nice-fns/compare/v1.4.1...v1.4.2) (2024-05-08)
 
 
