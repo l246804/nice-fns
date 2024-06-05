@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.4](https://github.com/l246804/nice-fns/compare/v1.5.2...v1.5.4) (2024-06-05)
+
+
+### Bug Fixes
+
+* 🐛 修复部署脚本 403 权限问题 ([596bf01](https://github.com/l246804/nice-fns/commit/596bf01e2f0074acd66223bf4ae9c0c7ae8602dd))
+
+
+### Chores
+
+* 🤖 更改文档部署方式 ([a673ac1](https://github.com/l246804/nice-fns/commit/a673ac11f47275d318705f87c824c363f102c26a))
+* 🤖 修改部署脚本 ([e8ed0c9](https://github.com/l246804/nice-fns/commit/e8ed0c9c682b8a0662c9afbd51bdacd44f764f26))
+* 🤖 优化函数类型 ([e0c2620](https://github.com/l246804/nice-fns/commit/e0c262052802f1bc71a2ab206c91e1c8697ae1b4))
+* 🤖 update homepage ([c4ef851](https://github.com/l246804/nice-fns/commit/c4ef85151b1f1dafe8c781cbd472cbd0ef8224a9))
+
 ## [1.5.3](https://github.com/l246804/nice-fns/compare/v1.5.2...v1.5.3) (2024-06-05)
 
 
