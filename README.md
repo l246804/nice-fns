@@ -2,7 +2,7 @@
 
 一个基于 TypeScript 和 Lodash 开发的现代 JS 函数库。
 
-[文档地址](http://rootwater.gitee.io/nice-fns/)
+[文档地址](https://l246804.github.io/nice-fns/)
 
 ## 安装方式
 
