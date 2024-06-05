@@ -1,18 +1,14 @@
-import type { Fn } from '@rhao/types-base'
 import type { TreeIterator } from './tree'
 
-export type HelperCreateTreeFuncHandler<O extends {} = {}, R = void, IR = R> = Fn<
-  [
-    tree: any[],
-    iter: TreeIterator<any, IR>,
-    parent: any,
-    paths: string[],
-    nodes: any[],
-    childrenKey: string,
-    options: O,
-  ],
-  R
->
+export type HelperCreateTreeFuncHandler<O extends {} = {}, R = void, IR = R> = (
+  tree: any[],
+  iter: TreeIterator<any, IR>,
+  parent: any,
+  paths: string[],
+  nodes: any[],
+  childrenKey: string,
+  options: O,
+) => R
 
 export type HelperCreateTreeFuncResult<O, IR, R> = <T extends {}>(
   array: T[],

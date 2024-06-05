@@ -1,7 +1,7 @@
-import type { Fn, NoopFn } from '@rhao/types-base'
+import type { NoopFn } from '@rhao/types-base'
 import { createCallbacks } from './createCallbacks'
 
-type SwitchCallback<T> = Fn<[value: T]>
+type SwitchCallback<T> = (value: T) => void
 
 export interface CreateSwitchOptions<T = boolean> {
   /**
@@ -105,7 +105,7 @@ export interface SwitchControls<T> {
  */
 export function createSwitch<T = boolean>(
   options: CreateSwitchOptions<T> = {},
-): [readValue: Fn<[], T>, SwitchControls<T>] {
+): [readValue: () => T, SwitchControls<T>] {
   const { initialValue = false, closeValue = false, openValue = true, once = false } = options
 
   let allowWrite = true

@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@rhao/types-base':
-    specifier: ^1.0.0
-    version: 1.0.0(typescript@5.3.2)
+    specifier: ^1.4.0
+    version: 1.4.0(typescript@5.3.2)
   '@types/lodash':
     specifier: ^4.14.202
     version: 4.14.202
@@ -1204,8 +1204,8 @@ packages:
       - inquirer
     dev: true
 
-  /@rhao/types-base@1.0.0(typescript@5.3.2):
-    resolution: {integrity: sha512-iQa7AQXoMtMgMPbkQm8SOeuQUv1BPt2RjemfdmK79yeQNpvFJn+oILTykyHadho5IbAu6Nm+jQZT7oBU0y8zLQ==}
+  /@rhao/types-base@1.4.0(typescript@5.3.2):
+    resolution: {integrity: sha512-ejObuKkd/+tiWEvwC2pMp2pz+ih7pxuhM+tCQsHZgwX8HTEZoGYh7wGvo/1/Ht9iXcYhsJry4FQfhUTAWyFvAQ==}
     engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=5'
@@ -7265,7 +7265,7 @@ packages:
     dependencies:
       find-up: 6.3.0
       read-pkg: 8.1.0
-      type-fest: 4.8.2
+      type-fest: 4.10.2
     dev: true
 
   /read-pkg-up@7.0.1:
@@ -7303,7 +7303,7 @@ packages:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 6.0.0
       parse-json: 7.1.1
-      type-fest: 4.8.2
+      type-fest: 4.10.2
     dev: true
 
   /readable-stream@3.6.2:
@@ -8234,12 +8234,6 @@ packages:
   /type-fest@4.10.2:
     resolution: {integrity: sha512-anpAG63wSpdEbLwOqH8L84urkL6PiVIov3EMmgIhhThevh9aiMQov+6Btx0wldNcvm4wV+e2/Rt1QdDwKHFbHw==}
     engines: {node: '>=16'}
-    dev: false
-
-  /type-fest@4.8.2:
-    resolution: {integrity: sha512-mcvrCjixA5166hSrUoJgGb9gBQN4loMYyj9zxuMs/66ibHNEFd5JXMw37YVDx58L4/QID9jIzdTBB4mDwDJ6KQ==}
-    engines: {node: '>=16'}
-    dev: true
 
   /typed-array-buffer@1.0.0:
     resolution: {integrity: sha512-Y8KTSIglk9OZEr8zywiIHG/kmQ7KWyjseXs1CbSo8vC42w7hg2HgYTxSWwP0+is7bWDc1H+Fo026CpHFwm8tkw==}

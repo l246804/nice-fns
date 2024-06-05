@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash-unified'
-import type { IfEmpty, IfNever, MaybeFn, Simplify } from '@rhao/types-base'
+import type { IfNever, MaybeFn, ReplaceEmpty, ReplaceNever } from '@rhao/types-base'
 import { batchUnset } from './batchUnset'
 import type { _OrderByParams } from './_orderBy'
 import { castFunction } from './castFunction'
@@ -81,12 +81,10 @@ type TreeNodeBase<
   DataKey extends string,
   MappingKey extends string,
   MappingParentKey extends string,
-> = Simplify<
-  IfNever<DataKey, T, Record<DataKey, T>> &
-  Pick<T, Key | ParentKey> &
-  Record<MappingKey, T[Key]> &
-  Record<MappingParentKey, T[ParentKey]>
->
+> = IfNever<DataKey, T, Record<DataKey, T>> &
+Pick<T, Key | ParentKey> &
+Record<MappingKey, T[Key]> &
+Record<MappingParentKey, T[ParentKey]>
 
 type ChildrenWithStrict<T, Strict extends boolean> = Strict extends false ? T : T | undefined
 
@@ -100,17 +98,15 @@ type TreeNodeWithChildren<
   ChildrenKey extends string,
   MappingChildrenKey extends string,
   RemoveEmptyChildrenKey extends boolean,
-> = Simplify<
-  Omit<T, ChildrenKey | MappingChildrenKey> &
-  TreeNodeChildren<
-      ChildrenWithStrict<
-        TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, RemoveEmptyChildrenKey>[],
-        RemoveEmptyChildrenKey
-      >,
-      ChildrenKey,
-      MappingChildrenKey
-    >
->
+> = Omit<T, ChildrenKey | MappingChildrenKey> &
+TreeNodeChildren<
+    ChildrenWithStrict<
+      TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, RemoveEmptyChildrenKey>[],
+      RemoveEmptyChildrenKey
+    >,
+    ChildrenKey,
+    MappingChildrenKey
+  >
 
 export type TreeNode<
   T extends {} = {},
@@ -122,20 +118,18 @@ export type TreeNode<
   MappingKey extends string = never,
   MappingParentKey extends string = never,
   MappingChildrenKey extends string = never,
-> = Simplify<
-  TreeNodeWithChildren<
-    TreeNodeBase<
-      T,
-      Key extends keyof T ? Key : never,
-      ParentKey extends keyof T ? ParentKey : never,
-      DataKey,
-      MappingKey,
-      MappingParentKey
-    >,
-    ChildrenKey,
-    MappingChildrenKey,
-    RemoveEmptyChildrenKey
-  >
+> = TreeNodeWithChildren<
+  TreeNodeBase<
+    T,
+    Key extends keyof T ? Key : never,
+    ParentKey extends keyof T ? ParentKey : never,
+    DataKey,
+    MappingKey,
+    MappingParentKey
+  >,
+  ChildrenKey,
+  MappingChildrenKey,
+  RemoveEmptyChildrenKey
 >
 
 function processTree(array: any[], opts: ToArrayTreeOptions) {
@@ -216,7 +210,7 @@ export function toArrayTree<
     ParentKey,
     ChildrenKey,
     DataKey,
-    IfNever<RemoveEmptyChildrenKey, Strict, RemoveEmptyChildrenKey>,
+    ReplaceNever<RemoveEmptyChildrenKey, Strict>,
     MappingKey,
     MappingParentKey,
     MappingChildrenKey,
@@ -226,9 +220,9 @@ export function toArrayTree<
   T,
   Key,
   ParentKey,
-  IfNever<IfEmpty<ChildrenKey, never, ChildrenKey>, 'children', ChildrenKey>,
-  IfEmpty<DataKey, never, DataKey>,
-  IfNever<RemoveEmptyChildrenKey, Strict, RemoveEmptyChildrenKey>,
+  ReplaceNever<ReplaceEmpty<ChildrenKey, never>, 'children'>,
+  ReplaceEmpty<DataKey, never>,
+  ReplaceNever<RemoveEmptyChildrenKey, Strict>,
   MappingKey,
   MappingParentKey,
   MappingChildrenKey

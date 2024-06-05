@@ -1,5 +1,5 @@
 import { isFunction } from 'lodash-unified'
-import type { ToFn } from '@rhao/types-base'
+import type { MaybeFn } from '@rhao/types-base'
 
 /**
  * 转换值为 `Function`
@@ -14,8 +14,8 @@ import type { ToFn } from '@rhao/types-base'
  * // => () => '1'
  * ```
  */
-export function castFunction<T, Args extends any[] = []>(value: T) {
-  return (isFunction(value) ? value : () => value) as ToFn<T, Args>
+export function castFunction<T, Args extends any[] = []>(value: MaybeFn<T, Args>) {
+  return (isFunction(value) ? value : () => value) as (...args: Args) => T
 }
 
 if (import.meta.vitest) {

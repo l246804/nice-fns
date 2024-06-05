@@ -18,7 +18,7 @@ import { isFunction } from 'lodash-unified'
  * // => 1
  * ```
  */
-export function toValue<T, P extends any[]>(value: MaybeFn<T, P>, ...args: P): T {
+export function toValue<T, Args extends any[]>(value: MaybeFn<T, Args>, ...args: Args): T {
   return isFunction(value) ? value(...args) : value
 }
 

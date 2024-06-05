@@ -1,4 +1,4 @@
-import type { Fn, Simplify } from '@rhao/types-base'
+import type { Fn, WithChildren } from '@rhao/types-base'
 import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
@@ -87,10 +87,6 @@ const searchTreeNode: HelperCreateTreeFuncHandler<SearchTreeOptions, any[], bool
   return _searchTreeNode(false, ...args)
 }
 
-type WithChildren<T, ChildrenKey extends string, MappingChildrenKey extends string> = Simplify<
-  T & Record<ChildrenKey | MappingChildrenKey, WithChildren<T, ChildrenKey, MappingChildrenKey>[]>
->
-
 type SearchTreeFunc = <
   T extends {},
   ChildrenKey extends string = 'children',
@@ -100,9 +96,9 @@ type SearchTreeFunc = <
   iterator: TreeIterator<T, boolean>,
   options?: SearchTreeOptions<ChildrenKey, MappingChildrenKey>,
 ) => WithChildren<
-  Simplify<Omit<T, ChildrenKey | MappingChildrenKey>>,
-  ChildrenKey,
-  MappingChildrenKey
+  Omit<T, ChildrenKey | MappingChildrenKey>,
+  ChildrenKey | MappingChildrenKey,
+  false
 >[]
 
 /**

@@ -38,7 +38,7 @@ export interface ParseJSONOptions<T> {
  * ```
  */
 export function parseJSON<T>(text: string, options: ParseJSONOptions<T> = {}): T {
-  const { onNil = (_, v) => v, reviver } = options
+  const { onNil = (_, v, __) => v as T, reviver } = options
   const _onNil = castFunction(onNil)
   try {
     const result = JSON.parse(text, reviver)

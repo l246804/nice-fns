@@ -1,4 +1,4 @@
-import type { IfEmpty, IfNever, Simplify } from '@rhao/types-base'
+import type { IfNever, ReplaceEmpty } from '@rhao/types-base'
 import { batchUnset } from './batchUnset'
 
 export interface ToTreeArrayOptions<
@@ -28,7 +28,7 @@ export type ArrayItem<
   T extends {} = {},
   DataKey extends keyof T = never,
   DropKeys extends string = never,
-> = Simplify<ArrayItemWithDropKeys<ArrayItemBase<T, DataKey>, DropKeys>>
+> = ArrayItemWithDropKeys<ArrayItemBase<T, DataKey>, DropKeys>
 
 function unTreeList<T extends {}, DataKey extends keyof T, DropKeys extends string>(
   result: T[],
@@ -55,8 +55,8 @@ function unTreeList<T extends {}, DataKey extends keyof T, DropKeys extends stri
 
   return result as unknown as ArrayItem<
     T,
-    IfEmpty<DataKey, never, DataKey>,
-    IfEmpty<DropKeys, never, DropKeys>
+    ReplaceEmpty<DataKey, never>,
+    ReplaceEmpty<DropKeys, never>
   >[]
 }
 

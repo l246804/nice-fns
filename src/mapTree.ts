@@ -1,4 +1,4 @@
-import type { Simplify } from '@rhao/types-base'
+import type { WithChildren } from '@rhao/types-base'
 import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
@@ -56,12 +56,6 @@ const mapTreeNode: HelperCreateTreeFuncHandler<MapTreeOptions, any[], any> = (
   })
 }
 
-type WithChildren<
-  T,
-  ChildrenKey extends string,
-  MappingChildrenKey extends string,
-> = Simplify<T & Record<ChildrenKey | MappingChildrenKey, T[]>>
-
 type MapTreeFunc = <
   T extends {},
   U extends {},
@@ -72,9 +66,9 @@ type MapTreeFunc = <
   iterator: TreeIterator<T, U>,
   options?: MapTreeOptions<ChildrenKey, MappingChildrenKey>,
 ) => WithChildren<
-  Simplify<Omit<U, ChildrenKey | MappingChildrenKey>>,
-  ChildrenKey,
-  MappingChildrenKey
+  Omit<U, ChildrenKey | MappingChildrenKey>,
+  ChildrenKey | MappingChildrenKey,
+  false
 >[]
 
 /**

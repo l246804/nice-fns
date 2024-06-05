@@ -1,11 +1,9 @@
-import type { Fn } from '@rhao/types-base'
-
 type CssVarNameType = string | number
 
 /**
  * 变量名处理器
  */
-export type CssVarNameProcessor = Fn<[namespace: string, name: CssVarNameType], string>
+export type CssVarNameProcessor = (namespace: string, name: CssVarNameType) => string
 
 /**
  * 默认变量名处理器
