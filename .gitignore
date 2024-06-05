@@ -140,3 +140,4 @@ types/auto-imports.d.ts
 docs/api
 docs/.vitepress/nice-fns.ts
 **/.vitepress/cache
+website
