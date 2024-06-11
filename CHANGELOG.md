@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.6](https://github.com/l246804/nice-fns/compare/v1.5.5...v1.5.6) (2024-06-11)
+
+
+### Chores
+
+* 🤖 优化 createFlexible 功能 ([78c0cd1](https://github.com/l246804/nice-fns/commit/78c0cd1d6c541af4507618e1baaee6e49feea63b))
+
 ## [1.5.5](https://github.com/l246804/nice-fns/compare/v1.5.4...v1.5.5) (2024-06-11)
 
 
