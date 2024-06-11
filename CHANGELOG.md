@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.5](https://github.com/l246804/nice-fns/compare/v1.5.4...v1.5.5) (2024-06-11)
+
+
+### Chores
+
+* 🤖 更改 createFlexible.bodyFontSize 默认值为 inherit ([5cb639d](https://github.com/l246804/nice-fns/commit/5cb639dcddb62d576ae24baf0ec2097e261f06fb))
+* 🤖 更改部署脚本 ([a67b777](https://github.com/l246804/nice-fns/commit/a67b777bdbff5b6dd6ba4c642993f1b6f777c210))
+
 ## [1.5.4](https://github.com/l246804/nice-fns/compare/v1.5.2...v1.5.4) (2024-06-05)
 
 
