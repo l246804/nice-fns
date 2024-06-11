@@ -13,7 +13,7 @@ export interface CreateFlexibleOptions {
   rootFontSize?: MaybeFn<Numeric>
   /**
    * `document.body` 字体大小
-   * @default 16
+   * @default 'inherit'
    */
   bodyFontSize?: MaybeFn<Numeric>
 }
@@ -31,7 +31,7 @@ interface FontSizeRecord {
  * ```ts
  * const { setup, unmount } = createFlexible({
  *   rootFontSize: 16,
- *   bodyFontSize: 16
+ *   bodyFontSize: 'inherit'
  * })
  *
  * setup() // 安装灵活布局功能
@@ -39,7 +39,7 @@ interface FontSizeRecord {
  * ```
  */
 export function createFlexible(options: CreateFlexibleOptions = {}) {
-  const { rootFontSize = 16, bodyFontSize = 16 } = options
+  const { rootFontSize = 16, bodyFontSize = 'inherit' } = options
   const record: FontSizeRecord = {}
 
   /**
@@ -61,7 +61,10 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
         record.body = document.body.style.fontSize
 
       const dpr = getDpr()
-      document.body.style.fontSize = `calc(${addUnit(toValue(bodyFontSize), 'px')} * ${dpr})`
+      const fs = toValue(bodyFontSize)
+      document.body.style.fontSize = /^[\d\.]/.test(fs as string)
+        ? `calc(${addUnit(fs, 'px')} * ${dpr})`
+        : (fs as string)
     }
     else {
       document.addEventListener('DOMContentLoaded', setBodyFontSize)
