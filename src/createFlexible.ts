@@ -4,6 +4,7 @@ import { getDpr } from './getDpr'
 import { isClient } from './isClient'
 import type { Numeric } from './isNumeric'
 import { toValue } from './toValue'
+import { createCallbacks } from './createCallbacks'
 
 export interface CreateFlexibleOptions {
   /**
@@ -23,8 +24,15 @@ interface FontSizeRecord {
   body?: string
 }
 
+const NUMBER_FONT_SIZE_RE = /^[\d\.]/
+function isNumberFontSize(value: Numeric): value is number {
+  return NUMBER_FONT_SIZE_RE.test(value as string)
+}
+
+type FlexibleCallback = () => void
+
 /**
- * 创建灵活布局工具
+ * 创建基于 `rem` 的灵活布局工具
  * @param options 配置项
  *
  * @example
@@ -41,15 +49,22 @@ interface FontSizeRecord {
 export function createFlexible(options: CreateFlexibleOptions = {}) {
   const { rootFontSize = 16, bodyFontSize = 'inherit' } = options
   const record: FontSizeRecord = {}
+  const callbacks = createCallbacks<FlexibleCallback>()
 
   /**
    * 设置根字体大小
    */
-  function setRootFontSize() {
+  function setRootFontSize(emit?: boolean) {
     if (record.root == null)
       record.root = document.documentElement.style.fontSize
 
-    document.documentElement.style.fontSize = addUnit(toValue(rootFontSize), 'px')
+    const fontSize = toValue(rootFontSize)
+    document.documentElement.style.fontSize = isNumberFontSize(fontSize)
+      ? addUnit(fontSize, 'px')
+      : fontSize
+
+    if (emit)
+      callbacks.run()
   }
 
   /**
@@ -61,35 +76,37 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
         record.body = document.body.style.fontSize
 
       const dpr = getDpr()
-      const fs = toValue(bodyFontSize)
-      document.body.style.fontSize = /^[\d\.]/.test(fs as string)
-        ? `calc(${addUnit(fs, 'px')} * ${dpr})`
-        : (fs as string)
+      const fontSize = toValue(bodyFontSize)
+      document.body.style.fontSize = isNumberFontSize(fontSize)
+        ? `calc(${addUnit(fontSize, 'px')} * ${dpr})`
+        : fontSize
     }
     else {
-      document.addEventListener('DOMContentLoaded', setBodyFontSize)
+      document.addEventListener('DOMContentLoaded', setBodyFontSize, { passive: true })
     }
   }
 
-  const pageShowListener = (e: PageTransitionEvent) => e.persisted && setRootFontSize()
+  const resizeListener = setRootFontSize.bind(null, true)
+  const pageShowListener = (e: PageTransitionEvent) => e.persisted && setRootFontSize(true)
+
   /**
    * 添加页面监听器
    */
   function addPageListener() {
-    window.addEventListener('resize', setRootFontSize)
-    window.addEventListener('pageshow', pageShowListener)
+    window.addEventListener('resize', resizeListener, { passive: true })
+    window.addEventListener('pageshow', pageShowListener, { passive: true })
   }
 
   /**
    * 移除页面监听器
    */
   function removePageListener() {
-    window.removeEventListener('resize', setRootFontSize)
+    window.removeEventListener('resize', resizeListener)
     window.removeEventListener('pageshow', pageShowListener)
   }
 
   /**
-   * 安装灵活布局功能
+   * 安装 `rem` 灵活布局功能
    * 1. 设置根字体大小
    * 2. 设置 `document.body` 字体大小
    * 3. 添加页面监听器
@@ -104,7 +121,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
   }
 
   /**
-   * 卸载灵活布局功能
+   * 卸载 `rem` 灵活布局功能
    * 1. 还原根字体大小
    * 2. 还原 `document.body` 字体大小
    * 3. 移除页面监听器
@@ -116,8 +133,43 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
     removePageListener()
   }
 
+  /**
+   * 注册 `rem` 更新回调
+   * @example
+   * ```ts
+   * const flexible = createFlexible()
+   *
+   * // 注册监听
+   * const off = flexible.on(() => {
+   *   console.log('rem 更新了！')
+   * })
+   *
+   * // 移除监听
+   * off()
+   * ```
+   */
+  function on(callback: FlexibleCallback, once?: boolean) {
+    const wrapCallback = () => {
+      if (once)
+        off(wrapCallback)
+
+      return callback()
+    }
+    const remove = callbacks.add(wrapCallback)
+    return remove
+  }
+
+  /**
+   * 移除 `rem` 更新回调
+   */
+  function off(callback: FlexibleCallback) {
+    return callbacks.remove(callback)
+  }
+
   return {
     setup,
     unmount,
+    on,
+    off,
   }
 }

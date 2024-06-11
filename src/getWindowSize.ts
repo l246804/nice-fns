@@ -2,23 +2,23 @@ import { isClient } from './isClient'
 
 /**
  * 获取窗口尺寸
- * @param useDocument 使用 `document.documentElement` 获取窗口大小，将排除窗口边框和滚动条大小
+ * @param excludeScrollbar 是否排除滚动条，默认包含滚动条大小
  *
  * @example
  * ```ts
  * getWindowSize()
  * // => { width: 1920, height: 1080 }
  *
- * // 排除边框和滚动条
+ * // 排除滚动条尺寸
  * getWindowSize(true)
  * // => { width: 1910, height: 1080 }
  * ```
  */
-export function getWindowSize(useDocument?: boolean) {
+export function getWindowSize(excludeScrollbar?: boolean) {
   const size = { width: 0, height: 0 }
   if (isClient) {
-    size.width = useDocument ? document.documentElement.clientWidth : window.innerWidth
-    size.height = useDocument ? document.documentElement.clientHeight : window.innerHeight
+    size.width = excludeScrollbar ? document.documentElement.clientWidth : window.innerWidth
+    size.height = excludeScrollbar ? document.documentElement.clientHeight : window.innerHeight
   }
   return size
 }
