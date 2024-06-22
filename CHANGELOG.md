@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/l246804/nice-fns/compare/v1.5.5...v1.6.0) (2024-06-22)
+
+
+### Features
+
+* 🎸 add createScrollbarHelper ([1f8b795](https://github.com/l246804/nice-fns/commit/1f8b795c4a862d68f7aaea55f1d4a4f2931e62e4))
+* 🎸 add listenWindowResize ([95bef5e](https://github.com/l246804/nice-fns/commit/95bef5ebc575a690a48ba070f02a85d8253ccf75))
+* 🎸 add scaleDom ([84982db](https://github.com/l246804/nice-fns/commit/84982dbdc6bc7510e130f13b497710a6a1474c91))
+
+
+### Chores
+
+* 🤖 优化 createFlexible 功能 ([78c0cd1](https://github.com/l246804/nice-fns/commit/78c0cd1d6c541af4507618e1baaee6e49feea63b))
+
 ## [1.5.6](https://github.com/l246804/nice-fns/compare/v1.5.5...v1.5.6) (2024-06-11)
 
 
