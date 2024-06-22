@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/l246804/nice-fns/compare/v1.6.1...v1.7.0) (2024-06-22)
+
+
+### Features
+
+* 🎸 scaleDom 支持还原 ([6521f44](https://github.com/l246804/nice-fns/commit/6521f4490f5fe2abca9468b916e3c68ffbab0140))
+
+
+### Chores
+
+* 🤖 优化 scaleDom 错误边界 ([175dd31](https://github.com/l246804/nice-fns/commit/175dd318a35fb70044ba7afae4500993406e5e1d))
+
 ## [1.6.2](https://github.com/l246804/nice-fns/compare/v1.6.1...v1.6.2) (2024-06-22)
 
 
