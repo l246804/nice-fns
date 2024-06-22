@@ -1,4 +1,6 @@
 import type { MaybeNullish } from '@rhao/types-base'
+import { pick } from 'lodash-unified'
+import { baseAssign } from './baseAssign'
 
 export interface ScaleDomOptions {
   /**
@@ -24,7 +26,7 @@ export interface ScaleDomOptions {
    */
   origin?: string
   /**
-   * 若指定 `dom` 已存在需要缩放更改的属性（`width、height、transform`）时是否覆盖
+   * 若指定 DOM 已存在需要缩放更改的属性（`width、height、transform`）时是否覆盖
    * @default true
    */
   override?: boolean
@@ -35,7 +37,30 @@ export interface ScaleDomOptions {
   parentHideOverflow?: boolean
 }
 
+interface ScaleMeta {
+  options: ScaleDomOptions
+  parentRawStyle: Partial<CSSStyleDeclaration>
+  selfRawStyle: Partial<CSSStyleDeclaration>
+}
+
 const SCALE_RE = /\s*scale[XY]?\(.+\)/
+const META_KEY = Symbol('scaleMeta')
+
+type ScaleDomElement = HTMLElement & { [META_KEY]?: ScaleMeta }
+
+/**
+ * 还原缩放效果，仅对该函数已缩放元素有效
+ * @param dom 缩放的 DOM 元素
+ */
+scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
+  const meta = dom?.[META_KEY]
+  if (!meta)
+    return
+
+  const style = dom.style
+  baseAssign(style, meta.selfRawStyle)
+  dom.parentElement && baseAssign(dom.parentElement, meta.parentRawStyle)
+}
 
 /**
  * 根据当前窗口大小与设计稿大小比例缩放指定元素
@@ -60,7 +85,7 @@ const SCALE_RE = /\s*scale[XY]?\(.+\)/
  * // => 'scale(2, 2)'
  * ```
  */
-export function scaleDom(dom: MaybeNullish<HTMLElement>, options: ScaleDomOptions) {
+export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOptions) {
   if (!dom)
     return
 
@@ -100,11 +125,21 @@ export function scaleDom(dom: MaybeNullish<HTMLElement>, options: ScaleDomOption
           ? `scaleY(${scale.y})`
           : ''
 
+  const meta: ScaleMeta = {
+    options,
+    parentRawStyle: {},
+    selfRawStyle: pick(style, ['width', 'height', 'transformOrigin', 'transform']),
+  }
+
   style.width = `${designWidth}px`
   style.height = `${designHeight}px`
   style.transformOrigin = transformOrigin
   style.transform = [restTransform, space, scaleCss].join('')
 
-  if (parentHideOverflow && dom.parentElement)
+  if (parentHideOverflow && dom.parentElement) {
+    meta.parentRawStyle = pick(dom.parentElement.style, ['overflow'])
     dom.parentElement.style.overflow = 'hidden'
+  }
+
+  dom[META_KEY] = meta
 }
