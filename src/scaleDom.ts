@@ -1,3 +1,5 @@
+import type { MaybeNullish } from '@rhao/types-base'
+
 export interface ScaleDomOptions {
   /**
    * 缩放模式
@@ -58,7 +60,10 @@ const SCALE_RE = /\s*scale[XY]?\(.+\)/
  * // => 'scale(2, 2)'
  * ```
  */
-export function scaleDom(dom: HTMLElement, options: ScaleDomOptions) {
+export function scaleDom(dom: MaybeNullish<HTMLElement>, options: ScaleDomOptions) {
+  if (!dom)
+    return
+
   const {
     mode = 'both',
     designWidth,
