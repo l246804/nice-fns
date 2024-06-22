@@ -5,6 +5,7 @@ import { isClient } from './isClient'
 import type { Numeric } from './isNumeric'
 import { toValue } from './toValue'
 import { createCallbacks } from './createCallbacks'
+import { listenWindowResize } from './listenWindowResize'
 
 export interface CreateFlexibleOptions {
   /**
@@ -48,8 +49,14 @@ type FlexibleCallback = () => void
  */
 export function createFlexible(options: CreateFlexibleOptions = {}) {
   const { rootFontSize = 16, bodyFontSize = 'inherit' } = options
+
   const record: FontSizeRecord = {}
   const callbacks = createCallbacks<FlexibleCallback>()
+
+  const { start: startListen, stop: stopListen } = listenWindowResize(
+    setRootFontSize.bind(null, true),
+    { immediate: false },
+  )
 
   /**
    * 设置根字体大小
@@ -86,25 +93,6 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
     }
   }
 
-  const resizeListener = setRootFontSize.bind(null, true)
-  const pageShowListener = (e: PageTransitionEvent) => e.persisted && setRootFontSize(true)
-
-  /**
-   * 添加页面监听器
-   */
-  function addPageListener() {
-    window.addEventListener('resize', resizeListener, { passive: true })
-    window.addEventListener('pageshow', pageShowListener, { passive: true })
-  }
-
-  /**
-   * 移除页面监听器
-   */
-  function removePageListener() {
-    window.removeEventListener('resize', resizeListener)
-    window.removeEventListener('pageshow', pageShowListener)
-  }
-
   /**
    * 安装 `rem` 灵活布局功能
    * 1. 设置根字体大小
@@ -117,7 +105,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
 
     setBodyFontSize()
     setRootFontSize()
-    addPageListener()
+    startListen()
   }
 
   /**
@@ -130,7 +118,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
     document.documentElement.style.fontSize = record.root || ''
     document.body.style.fontSize = record.body || ''
     document.removeEventListener('DOMContentLoaded', setBodyFontSize)
-    removePageListener()
+    stopListen()
   }
 
   /**
@@ -149,14 +137,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
    * ```
    */
   function on(callback: FlexibleCallback, once?: boolean) {
-    const wrapCallback = () => {
-      if (once)
-        off(wrapCallback)
-
-      return callback()
-    }
-    const remove = callbacks.add(wrapCallback)
-    return remove
+    return once ? callbacks.addOnce(callback) : callbacks.add(callback)
   }
 
   /**

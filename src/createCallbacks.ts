@@ -16,10 +16,7 @@ import type { AnyFn } from '@rhao/types-base'
  * callbacks.remove(handler)
  *
  * // run
- * callbacks.run(0)
- *
- * // runAll
- * callbacks.runAll()
+ * callbacks.run()
  *
  * // list
  * callbacks.list()
@@ -76,6 +73,29 @@ export function createCallbacks<T extends AnyFn>() {
     if (!has(handler))
       prepend ? handlers.unshift(handler) : handlers.push(handler)
     return () => remove(handler)
+  }
+
+  /**
+   * 添加单次回调句柄
+   * @param handler 回调句柄
+   * @param prepend 是否为前置添加
+   * @returns 移除回调句柄
+   *
+   * @example
+   * ```ts
+   * const callbacks = createCallbacks()
+   * const remove = callbacks.addOnce(() => {
+   *   console.log('callback run')
+   * })
+   * remove()
+   * ```
+   */
+  function addOnce(handler: T, prepend?: boolean) {
+    const onceHandler = (...args: any[]) => {
+      remove(onceHandler as T)
+      return handler(...args)
+    }
+    return add(onceHandler as T, prepend)
   }
 
   /**
@@ -137,6 +157,7 @@ export function createCallbacks<T extends AnyFn>() {
   return {
     has,
     add,
+    addOnce,
     remove,
     list,
     run,
@@ -159,14 +180,25 @@ if (import.meta.vitest) {
       expect(callbacks.list()).toStrictEqual([handler])
     })
 
+    it('添加单次回调', () => {
+      callbacks.reset()
+      callbacks.addOnce(handler)
+      expect(callbacks.list().length).toStrictEqual(1)
+      expect(callbacks.run(1)).toStrictEqual(['1'])
+      expect(callbacks.list().length).toStrictEqual(0)
+    })
+
     it('删除回调', () => {
+      callbacks.reset()
+      callbacks.add(handler)
       callbacks.remove(handler)
       expect(callbacks.list().length).toBe(0)
       expect(callbacks.has(handler)).toBe(false)
-      callbacks.add(handler)
     })
 
     it('执行回调', () => {
+      callbacks.reset()
+      callbacks.add(handler)
       expect(callbacks.run(1)).toStrictEqual(['1'])
     })
   })
