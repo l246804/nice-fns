@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/l246804/nice-fns/compare/v1.6.1...v1.6.2) (2024-06-22)
+
+
+### Chores
+
+* 🤖 优化 scaleDom 错误边界 ([175dd31](https://github.com/l246804/nice-fns/commit/175dd318a35fb70044ba7afae4500993406e5e1d))
+
 ## [1.6.1](https://github.com/l246804/nice-fns/compare/v1.6.0...v1.6.1) (2024-06-22)
 
 
