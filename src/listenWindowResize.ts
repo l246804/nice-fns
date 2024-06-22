@@ -9,6 +9,11 @@ export interface ListenWindowResizeOptions {
    * @default true
    */
   immediate?: boolean
+  /**
+   * 是否立即执行一次回调
+   * @default false
+   */
+  immediateCallback?: boolean
 }
 
 /**
@@ -31,7 +36,7 @@ export interface ListenWindowResizeOptions {
  * callbacks.add(() => { console.log('callback3') })
  */
 export function listenWindowResize(callback: () => void, options: ListenWindowResizeOptions = {}) {
-  const { emitOnPageShow = true, immediate = true } = options
+  const { emitOnPageShow = true, immediate = true, immediateCallback = false } = options
   let ac: AbortController | null = null
 
   /**
@@ -69,6 +74,7 @@ export function listenWindowResize(callback: () => void, options: ListenWindowRe
   }
 
   immediate && start()
+  immediateCallback && callback()
 
   return {
     start,
