@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/l246804/nice-fns/compare/v1.6.0...v1.6.1) (2024-06-22)
+
+
+### Chores
+
+* 🤖 优化 listenWindowResize ([11e2245](https://github.com/l246804/nice-fns/commit/11e2245aede10315faccbf077c0cfe4c42c35727))
+* 🤖 优化 scaleDom 缩放逻辑 ([e2a7e28](https://github.com/l246804/nice-fns/commit/e2a7e2876b1cc6fdfc766bec351519d5778f0985))
+
 ## [1.6.0](https://github.com/l246804/nice-fns/compare/v1.5.5...v1.6.0) (2024-06-22)
 
 
