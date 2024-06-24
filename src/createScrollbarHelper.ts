@@ -1,4 +1,5 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeFn, MaybeNullish } from '@rhao/types-base'
+import { toValue } from './toValue'
 
 type Target = MaybeNullish<HTMLElement>
 
@@ -78,6 +79,49 @@ createScrollbarHelper.addScrollLeft = addScrollLeft
  */
 createScrollbarHelper.addScrollTop = addScrollTop
 
+export interface ScrollbarHelper {
+  /**
+   * 目标元素
+   */
+  readonly target: Target
+
+  /**
+   * 获取水平滚动位置
+   */
+  getScrollLeft: () => number
+  /**
+   * 获取垂直滚动位置
+   */
+  getScrollTop: () => number
+
+  /**
+   * 是否到达水平末端
+   */
+  isReachRight: () => boolean
+  /**
+   * 是否到达垂直末端
+   */
+  isReachBottom: () => boolean
+
+  /**
+   * 设置水平滚动距离
+   */
+  setScrollLeft: (value: number) => void
+  /**
+   * 设置垂直滚动距离
+   */
+  setScrollTop: (value: number) => void
+
+  /**
+   * 增加水平滚动距离
+   */
+  addScrollLeft: (value: number) => void
+  /**
+   * 增加垂直滚动距离
+   */
+  addScrollTop: (value: number) => void
+}
+
 /**
  * 创建元素滚动栏辅助工具
  * @param el 指定元素
@@ -100,20 +144,26 @@ createScrollbarHelper.addScrollTop = addScrollTop
  * }, 30)
  * ```
  */
-export function createScrollbarHelper(el: Target) {
-  return {
-    target: el,
+export function createScrollbarHelper(el: MaybeFn<Target>) {
+  const getElement = () => toValue(el)
+  const helper = {
+    getScrollLeft: () => getScrollLeft(getElement()),
+    getScrollTop: () => getScrollTop(getElement()),
 
-    getScrollLeft: getScrollLeft.bind(null, el),
-    getScrollTop: getScrollTop.bind(null, el),
+    isReachRight: () => isReachRight(getElement()),
+    isReachBottom: () => isReachBottom(getElement()),
 
-    isReachRight: isReachRight.bind(null, el),
-    isReachBottom: isReachBottom.bind(null, el),
+    setScrollLeft: (value: number) => setScrollLeft(getElement(), value),
+    setScrollTop: (value: number) => setScrollTop(getElement(), value),
 
-    setScrollLeft: setScrollLeft.bind(null, el),
-    setScrollTop: setScrollTop.bind(null, el),
-
-    addScrollLeft: addScrollLeft.bind(null, el),
-    addScrollTop: addScrollTop.bind(null, el),
+    addScrollLeft: (value: number) => addScrollLeft(getElement(), value),
+    addScrollTop: (value: number) => addScrollTop(getElement(), value),
   }
+
+  Object.defineProperty(helper, 'target', {
+    enumerable: true,
+    get: getElement,
+  })
+
+  return helper as ScrollbarHelper
 }
