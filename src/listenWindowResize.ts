@@ -34,6 +34,7 @@ export interface ListenWindowResizeOptions {
  * callbacks.add(() => { console.log('callback1') })
  * callbacks.add(() => { console.log('callback2') })
  * callbacks.add(() => { console.log('callback3') })
+ * ```
  */
 export function listenWindowResize(callback: () => void, options: ListenWindowResizeOptions = {}) {
   const { emitOnPageShow = true, immediate = true, immediateCallback = false } = options
