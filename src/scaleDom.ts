@@ -1,6 +1,7 @@
 import type { MaybeNullish } from '@rhao/types-base'
 import { pick } from 'lodash-unified'
 import { baseAssign } from './baseAssign'
+import { getWindowSize } from './getWindowSize'
 
 export interface ScaleDomOptions {
   /**
@@ -8,13 +9,25 @@ export interface ScaleDomOptions {
    */
   mode?: 'both' | 'x' | 'y'
   /**
-   * 元素在设计稿的宽度
+   * 设计稿的宽度，用于计算缩放比例
+   * @default 1920
    */
-  designWidth: number
+  designWidth?: number
   /**
-   * 元素在设计稿的高度
+   * 设计稿的高度，用于计算缩放比例
+   * @default 1080
    */
-  designHeight: number
+  designHeight?: number
+  /**
+   * 元素在设计稿的宽度，用于固定元素宽度
+   * @default options.designWidth
+   */
+  elementWidth?: number
+  /**
+   * 元素在设计稿的高度，用于固定元素高度
+   * @default options.designHeight
+   */
+  elementHeight?: number
   /**
    * 小数精度
    * @default 6
@@ -49,6 +62,11 @@ const META_KEY = Symbol('scaleMeta')
 type ScaleDomElement = HTMLElement & { [META_KEY]?: ScaleMeta }
 
 /**
+ * 默认配置项
+ */
+scaleDom.defaults = {} as Omit<ScaleDomOptions, 'elementWidth' | 'elementHeight'>
+
+/**
  * 还原缩放效果，仅对该函数已缩放元素有效
  * @param dom 缩放的 DOM 元素
  */
@@ -75,44 +93,55 @@ scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
  *   designHeight: 1080,
  * }
  *
- * // document.documentElement
- * { clientWidth: 3840, clientHeight: 2160 }
+ * // getWindowSize()
+ * { width: 3840, height: 2160 }
  *
  * // 缩放根元素
  * scaleDom(document.documentElement, { ...designSize, mode: 'both' })
  *
- * document.documentElement.style.transform
- * // => 'scale(2, 2)'
+ * document.documentElement.style
+ * // => 'width: 1920px; height:1080px; transform-origin:top left; transform: scale(2, 2);'
+ *
+ * // 单一元素缩放
+ * scaleDom(document.querySelector('.card'), {
+ *   designWidth: 1920,
+ *   designHeight: 1080,
+ *   elementWidth: 300,
+ *   elementHeight: 200,
+ * })
+ *
+ * .card
+ * // => 'width: 300px; height:200px; transform-origin:top left; transform: scale(2, 2);'
  * ```
  */
-export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOptions) {
+export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOptions = {}) {
   if (!dom)
     return
 
   const {
     mode = 'both',
-    designWidth,
-    designHeight,
+    designWidth = 1920,
+    designHeight = 1080,
     precision = 6,
     origin: transformOrigin = 'top left',
     override = true,
     parentHideOverflow = true,
-  } = options
-
-  const domSize = {
-    width: dom.clientWidth,
-    height: dom.clientHeight,
+  } = {
+    ...scaleDom.defaults,
+    ...options,
   }
-  const scale = {
-    x: (domSize.width / designWidth).toFixed(precision),
-    y: (domSize.height / designHeight).toFixed(precision),
-  }
+  const { elementWidth = designWidth, elementHeight = designHeight } = options
 
   const style = dom.style
-
-  // 检测是否存在缩放并判断是否继续
+  // 检测是否存在待更改属性并判断是否继续
   if ((SCALE_RE.test(style.transform) || style.width || style.height) && !override)
     return
+
+  const winSize = getWindowSize()
+  const scale = {
+    x: (winSize.width / designWidth).toFixed(precision),
+    y: (winSize.height / designHeight).toFixed(precision),
+  }
 
   const restTransform = style.transform.replace(SCALE_RE, '')
   const space = restTransform ? ' ' : ''
@@ -131,8 +160,8 @@ export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOp
     selfRawStyle: pick(style, ['width', 'height', 'transformOrigin', 'transform']),
   }
 
-  style.width = `${designWidth}px`
-  style.height = `${designHeight}px`
+  style.width = `${elementWidth}px`
+  style.height = `${elementHeight}px`
   style.transformOrigin = transformOrigin
   style.transform = [restTransform, space, scaleCss].join('')
 
