@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/l246804/nice-fns/compare/v1.7.0...v1.7.1) (2024-06-24)
+
+
+### Chores
+
+* 🤖 优化 scaleDom 实现方式 ([1b07a61](https://github.com/l246804/nice-fns/commit/1b07a611335258483372cba216f016830925d56f))
+
 ## [1.7.0](https://github.com/l246804/nice-fns/compare/v1.6.1...v1.7.0) (2024-06-22)
 
 
