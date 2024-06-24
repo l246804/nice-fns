@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.2](https://github.com/l246804/nice-fns/compare/v1.7.1...v1.7.2) (2024-06-24)
+
+
+### Chores
+
+* 🤖 修复示例注释 ([c2a1fb1](https://github.com/l246804/nice-fns/commit/c2a1fb1e6be2ee39ac8b50edf337e5b9f198f75d))
+* 🤖 优化scaleDom ([abf092e](https://github.com/l246804/nice-fns/commit/abf092eec5682ee653e5ceaefe1133d147350fb0))
+
 ## [1.7.1](https://github.com/l246804/nice-fns/compare/v1.7.0...v1.7.1) (2024-06-24)
 
 
