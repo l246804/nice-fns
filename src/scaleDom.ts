@@ -78,6 +78,7 @@ scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
   const style = dom.style
   baseAssign(style, meta.selfRawStyle)
   dom.parentElement && baseAssign(dom.parentElement, meta.parentRawStyle)
+  dom[META_KEY] = undefined
 }
 
 /**
