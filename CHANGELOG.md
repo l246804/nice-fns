@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.3](https://github.com/l246804/nice-fns/compare/v1.7.2...v1.7.3) (2024-06-24)
+
+
+### Chores
+
+* 🤖 优化 createScrollbarHelper ([7b6aa8c](https://github.com/l246804/nice-fns/commit/7b6aa8cc513063df48086d54f6a01c39621fa0ac))
+
 ## [1.7.2](https://github.com/l246804/nice-fns/compare/v1.7.1...v1.7.2) (2024-06-24)
 
 
