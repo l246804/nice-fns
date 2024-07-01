@@ -1,4 +1,4 @@
-import type { Nullish } from '@rhao/types-base'
+import type { MaybeNullish } from '@rhao/types-base'
 import { isFunction } from 'lodash-unified'
 
 /**
@@ -24,16 +24,16 @@ import { isFunction } from 'lodash-unified'
  * ```
  */
 export function findUpElement<T extends Element>(
-  source: Element | Nullish,
-  target: T | ((el: Element) => el is T) | ((el: Element) => boolean) | Nullish,
-  end?: Element | ((el: Element) => boolean),
-) {
+  source: MaybeNullish<Element>,
+  target: MaybeNullish<T | ((el: T) => boolean | void)>,
+  end?: MaybeNullish<Element | ((el: any) => boolean | void)>,
+): T | null {
   if (!source)
     return null
 
-  const targetFn = isFunction(target) ? target : (el: Element) => el === target
-  if (targetFn(source))
-    return source
+  const targetFn = isFunction(target) ? target : (el: T) => el === target
+  if (targetFn(source as T))
+    return source as T
 
   const endFn = isFunction(end) ? end : (el: Element) => el === end
   if (endFn(source))
