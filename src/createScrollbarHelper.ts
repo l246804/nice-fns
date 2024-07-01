@@ -18,13 +18,13 @@ function getScrollTop(el: Target) {
 function isReachRight(el: Target) {
   if (!el)
     return false
-  return getScrollLeft(el) + el.clientWidth >= el.scrollWidth
+  return Math.ceil(getScrollLeft(el) + el.clientWidth) >= el.scrollWidth
 }
 
 function isReachBottom(el: Target) {
   if (!el)
     return false
-  return getScrollTop(el) + el.clientHeight >= el.scrollHeight
+  return Math.ceil(getScrollTop(el) + el.clientHeight) >= el.scrollHeight
 }
 
 function setScrollLeft(el: Target, value: number) {
