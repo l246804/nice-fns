@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.4](https://github.com/l246804/nice-fns/compare/v1.7.3...v1.7.4) (2024-07-01)
+
+
+### Bug Fixes
+
+* 🐛 修复 createScrollbarHelper 的 isReach 系列函数计算误差 ([4f8601c](https://github.com/l246804/nice-fns/commit/4f8601cffe0844e88b417691db7bcb62079fb516))
+
+
+### Chores
+
+* 🤖 优化 findUpElement 类型声明 ([f46b860](https://github.com/l246804/nice-fns/commit/f46b86005d8d46f928cffb972efa13f0a1b0ba43))
+
 ## [1.7.3](https://github.com/l246804/nice-fns/compare/v1.7.2...v1.7.3) (2024-06-24)
 
 
