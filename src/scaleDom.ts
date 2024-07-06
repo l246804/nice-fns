@@ -54,6 +54,10 @@ interface ScaleMeta {
   options: ScaleDomOptions
   parentRawStyle: Partial<CSSStyleDeclaration>
   selfRawStyle: Partial<CSSStyleDeclaration>
+  scale: {
+    x: number
+    y: number
+  }
 }
 
 const SCALE_RE = /\s*scale[XY]?\(.+\)/
@@ -79,6 +83,20 @@ scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
   baseAssign(style, meta.selfRawStyle)
   dom.parentElement && baseAssign(dom.parentElement, meta.parentRawStyle)
   dom[META_KEY] = undefined
+}
+
+/**
+ * 默认的缩放比例
+ */
+const NORMAL_SCALE = { x: 1, y: 1 }
+
+/**
+ * 获取元素的缩放比例
+ * @param dom 缩放的 DOM 元素
+ */
+scaleDom.getScale = (dom: MaybeNullish<ScaleDomElement>) => {
+  const meta = dom?.[META_KEY]
+  return baseAssign({}, meta ? meta.scale : NORMAL_SCALE)
 }
 
 /**
@@ -140,8 +158,8 @@ export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOp
 
   const winSize = getWindowSize()
   const scale = {
-    x: (winSize.width / designWidth).toFixed(precision),
-    y: (winSize.height / designHeight).toFixed(precision),
+    x: +(winSize.width / designWidth).toFixed(precision),
+    y: +(winSize.height / designHeight).toFixed(precision),
   }
 
   const restTransform = style.transform.replace(SCALE_RE, '')
@@ -159,6 +177,7 @@ export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOp
     options,
     parentRawStyle: {},
     selfRawStyle: pick(style, ['width', 'height', 'transformOrigin', 'transform']),
+    scale,
   }
 
   style.width = `${elementWidth}px`
