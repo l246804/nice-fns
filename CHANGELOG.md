@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.5](https://github.com/l246804/nice-fns/compare/v1.7.4...v1.7.5) (2024-07-06)
+
+
+### Bug Fixes
+
+* 🐛 修复 createScrollbarHelper 在 dpr 小于 1 时 addScroll 系列函数无效 ([96c9eb6](https://github.com/l246804/nice-fns/commit/96c9eb68d1f68717dac428782b1546a6097179cd))
+
+
+### Chores
+
+* 🤖 scaleDom 支持获取元素的缩放比例 ([82efb01](https://github.com/l246804/nice-fns/commit/82efb01d37ed338bc875fc8fabc6615510707dc3))
+
 ## [1.7.4](https://github.com/l246804/nice-fns/compare/v1.7.3...v1.7.4) (2024-07-01)
 
 
