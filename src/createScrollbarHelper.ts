@@ -1,7 +1,10 @@
 import type { MaybeFn, MaybeNullish } from '@rhao/types-base'
 import { toValue } from './toValue'
+import { getDpr } from './getDpr'
 
 type Target = MaybeNullish<HTMLElement>
+
+const dpr = getDpr()
 
 function getScrollLeft(el: Target) {
   if (!el)
@@ -18,13 +21,13 @@ function getScrollTop(el: Target) {
 function isReachRight(el: Target) {
   if (!el)
     return false
-  return Math.ceil(getScrollLeft(el) + el.clientWidth) >= el.scrollWidth
+  return Math.abs(getScrollLeft(el) + el.clientWidth - el.scrollWidth) <= Math.max(dpr, 1)
 }
 
 function isReachBottom(el: Target) {
   if (!el)
     return false
-  return Math.ceil(getScrollTop(el) + el.clientHeight) >= el.scrollHeight
+  return Math.abs(getScrollTop(el) + el.clientHeight - el.scrollHeight) <= Math.max(dpr, 1)
 }
 
 function setScrollLeft(el: Target, value: number) {
@@ -36,10 +39,16 @@ function setScrollTop(el: Target, value: number) {
 }
 
 function addScrollLeft(el: Target, value: number) {
+  // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
+  if (dpr < 1)
+    value = Math.ceil(value / dpr)
   setScrollLeft(el, getScrollLeft(el) + value)
 }
 
 function addScrollTop(el: Target, value: number) {
+  // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
+  if (dpr < 1)
+    value = Math.ceil(value / dpr)
   setScrollTop(el, getScrollTop(el) + value)
 }
 
