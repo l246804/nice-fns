@@ -1,7 +1,7 @@
 import { isElement } from 'lodash-unified'
 import type { MaybeNullish } from '@rhao/types-base'
 import { isClient } from './isClient'
-import { defaultWindow } from './defaultWindow'
+import { clientRun } from './clientRun'
 
 export type ScrollElement = Element | Window
 export type ScrollType = 'x' | 'y' | 'both'
@@ -29,10 +29,12 @@ const overflowScrollReg = /scroll|auto|overlay/i
 export function getScrollParent(
   start: MaybeNullish<Element>,
   type: ScrollType = 'both',
-  end: ScrollElement = defaultWindow as ScrollElement,
+  end: ScrollElement = clientRun.defaults.window as ScrollElement,
 ) {
   if (!isClient)
     return undefined
+
+  const { window } = clientRun.resolveProfile()
 
   let styleName = 'overflow'
   if (type !== 'both' && ['x', 'y'].includes(type))

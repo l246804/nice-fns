@@ -4,8 +4,6 @@ import { getDpr } from './getDpr'
 
 type Target = MaybeNullish<HTMLElement>
 
-const dpr = getDpr()
-
 function getScrollLeft(el: Target) {
   if (!el)
     return 0
@@ -21,13 +19,13 @@ function getScrollTop(el: Target) {
 function isReachRight(el: Target) {
   if (!el)
     return false
-  return Math.abs(getScrollLeft(el) + el.clientWidth - el.scrollWidth) <= Math.max(dpr, 1)
+  return Math.abs(getScrollLeft(el) + el.clientWidth - el.scrollWidth) <= Math.max(getDpr(), 1)
 }
 
 function isReachBottom(el: Target) {
   if (!el)
     return false
-  return Math.abs(getScrollTop(el) + el.clientHeight - el.scrollHeight) <= Math.max(dpr, 1)
+  return Math.abs(getScrollTop(el) + el.clientHeight - el.scrollHeight) <= Math.max(getDpr(), 1)
 }
 
 function setScrollLeft(el: Target, value: number) {
@@ -39,6 +37,7 @@ function setScrollTop(el: Target, value: number) {
 }
 
 function addScrollLeft(el: Target, value: number) {
+  const dpr = getDpr()
   // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
   if (dpr < 1)
     value = Math.ceil(value / dpr)
@@ -46,6 +45,7 @@ function addScrollLeft(el: Target, value: number) {
 }
 
 function addScrollTop(el: Target, value: number) {
+  const dpr = getDpr()
   // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
   if (dpr < 1)
     value = Math.ceil(value / dpr)

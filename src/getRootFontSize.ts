@@ -1,3 +1,4 @@
+import { clientRun } from './clientRun'
 import { isClient } from './isClient'
 
 /**
@@ -22,6 +23,7 @@ getRootFontSize.__rootFontSize__ = 0
  */
 export function getRootFontSize(forceUpdate = false) {
   if (isClient && (!getRootFontSize.__rootFontSize__ || forceUpdate)) {
+    const { window, document } = clientRun.resolveProfile()
     const element = document.documentElement
     const fontSize = element.style.fontSize || window.getComputedStyle(element).fontSize
     getRootFontSize.__rootFontSize__ = Number.parseFloat(fontSize)

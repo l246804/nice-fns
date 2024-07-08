@@ -1,3 +1,4 @@
+import { clientRun } from './clientRun'
 import { getDpr } from './getDpr'
 import { isClient } from './isClient'
 
@@ -10,6 +11,7 @@ export function detectHalfPX() {
   if (!isClient)
     return false
 
+  const { document } = clientRun.resolveProfile()
   const dpr = getDpr()
   const docEl = document.documentElement
 

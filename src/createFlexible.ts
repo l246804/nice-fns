@@ -6,6 +6,7 @@ import type { Numeric } from './isNumeric'
 import { toValue } from './toValue'
 import { createCallbacks } from './createCallbacks'
 import { listenWindowResize } from './listenWindowResize'
+import { clientRun } from './clientRun'
 
 export interface CreateFlexibleOptions {
   /**
@@ -48,6 +49,7 @@ type FlexibleCallback = () => void
  * ```
  */
 export function createFlexible(options: CreateFlexibleOptions = {}) {
+  const { document } = clientRun.resolveProfile()
   const { rootFontSize = 16, bodyFontSize = 'inherit' } = options
 
   const record: FontSizeRecord = {}

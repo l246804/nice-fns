@@ -1,6 +1,8 @@
+import { clientRun } from './clientRun'
+
 /**
  * 获取客户端设备像素比
  */
 export function getDpr() {
-  return window?.devicePixelRatio || 1
+  return clientRun.resolveProfile().window?.devicePixelRatio || 1
 }

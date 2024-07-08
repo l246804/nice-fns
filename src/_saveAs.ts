@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prefer-dom-node-text-content */
+import { clientRun } from './clientRun'
 import { isClient } from './isClient'
 
 function download(url: string, name: string) {
@@ -70,6 +71,8 @@ export function saveAs(
   if (!isClient)
     return
 
+  const { window, document, location, navigator } = clientRun.resolveProfile()
+
   // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
   if ('download' in HTMLAnchorElement.prototype && !isMacOSWebView) {
     const a = document.createElement('a')
@@ -104,7 +107,7 @@ export function saveAs(
     // Fallback to using FileReader and a popup
     // Open a popup immediately do go around popup blocker
     // Mostly only available on user interaction and the fileReader is async so...
-    popup = popup || open('', '_blank')
+    popup = popup || window.open('', '_blank')
     if (popup)
       popup.document.title = popup.document.body.innerText = 'downloading...'
 

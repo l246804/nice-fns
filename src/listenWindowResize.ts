@@ -1,3 +1,5 @@
+import { clientRun } from './clientRun'
+
 export interface ListenWindowResizeOptions {
   /**
    * 是否在页面从隐藏转为显示时触发一次回调
@@ -37,6 +39,7 @@ export interface ListenWindowResizeOptions {
  * ```
  */
 export function listenWindowResize(callback: () => void, options: ListenWindowResizeOptions = {}) {
+  const { window } = clientRun.resolveProfile()
   const { emitOnPageShow = true, immediate = true, immediateCallback = false } = options
   let ac: AbortController | null = null
 
