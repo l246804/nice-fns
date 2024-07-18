@@ -1,3 +1,4 @@
+import type { MaybeNullish } from '@rhao/types-base'
 import { getFileTypeByExtName } from './getFileTypeByExtName'
 
 /**
@@ -17,11 +18,14 @@ import { getFileTypeByExtName } from './getFileTypeByExtName'
  * // extName => .pdf
  * ```
  */
-export function parseContentDisposition(contentDisposition: string, keyword = 'filename') {
+export function parseContentDisposition(
+  contentDisposition: MaybeNullish<string>,
+  keyword = 'filename',
+) {
   const pattern = new RegExp(
     `${keyword}=['"]?([^'";]+)['"]?(?:;\\s*${keyword}\\*=['"]?(?:[\\w-]+'+)([^'"]+)['"]?)?`,
   )
-  const match = contentDisposition.match(pattern)
+  const match = contentDisposition?.match(pattern)
 
   let rawFilename: string | undefined
   let filename: string | undefined
