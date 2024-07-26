@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/l246804/nice-fns/compare/v1.8.0...v1.8.1) (2024-07-26)
+
+
+### Chores
+
+* 🤖 parseContentDisposition 优化入参类型 ([6e6c74d](https://github.com/l246804/nice-fns/commit/6e6c74ddbcf507d18343aa54bf150699134c2d78))
+
 ## [1.8.0](https://github.com/l246804/nice-fns/compare/v1.7.4...v1.8.0) (2024-07-08)
 
 
