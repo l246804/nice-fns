@@ -3,18 +3,28 @@ import { isError } from 'lodash-unified'
 /**
  * 转换值为 `Error`
  * @param value 检测值
+ * @param options 配置项
+ * @param options.cause 错误原因，若未设置默认在 `value` 非 `Error` 类型时存储其自身值
  *
  * @example
  * ```ts
  * castError(1)
- * // => Error { error: 'error', message: '1' }
+ * // => Error { name: 'error', message: '1', cause: 1 }
  *
  * castError(new Error('This is error'))
  * // => Error { name: 'error', message: 'This is error' }
  * ```
  */
-export function castError(value: any) {
-  return isError(value) ? value : new Error(String(value))
+export function castError(value: any, options: { cause?: any } = {}) {
+  return isError(value) ? value : createError()
+
+  function createError() {
+    const { cause = value } = options
+    // 兼容 ES2022 以下版本
+    const e = new Error(String(value))
+    e.cause = cause
+    return e
+  }
 }
 
 if (import.meta.vitest) {
