@@ -70,10 +70,10 @@ serialCall.getContext = function getContext<T extends AnyFn = AnyFn>() {
 }
 
 /**
- * 异步串行执行函数列表并返回最终结果，可以通过 `serialCall.getContext()` 获取执行上下文
+ * 串行执行函数列表并返回最终结果，可以通过 `serialCall.getContext()` 获取执行上下文
  * @param fns 函数列表
- * @param args 函数入参列表
- * @returns 执行结果
+ * @param args 参数列表
+ * @returns 执行结果，存在异步函数时返回 Promise
  *
  * @example
  * ```ts
@@ -130,6 +130,26 @@ if (import.meta.vitest) {
   }
 
   describe('serialCall cases:', () => {
+    it('should return Promise', () => {
+      const fn1 = async () => {
+        return 1
+      }
+      const fn2 = () => {
+        return '2'
+      }
+      expect(serialCall([fn1, fn2])).is('Promise')
+    })
+
+    it('should return string', () => {
+      const fn1 = () => {
+        return 1
+      }
+      const fn2 = () => {
+        return '2'
+      }
+      expect(serialCall([fn1, fn2])).is('String')
+    })
+
     it('should return 3', async () => {
       type Fn = () => Promise<number> | number
       const fn1: Fn = async () => {

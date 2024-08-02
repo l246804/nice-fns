@@ -29,13 +29,13 @@ export interface ListenWindowResizeOptions {
  * // 需要时结束监听
  * stop()
  *
- * // 结合 `createCallbacks` 使用
- * const callbacks = createCallbacks()
- * listenWindowResize(() => callbacks.run())
+ * // 结合 `createEventHook` 使用
+ * const resizeEvent = createEventHook()
+ * listenWindowResize(resizeEvent.trigger)
  *
- * callbacks.add(() => { console.log('callback1') })
- * callbacks.add(() => { console.log('callback2') })
- * callbacks.add(() => { console.log('callback3') })
+ * resizeEvent.on(() => { console.log('callback1') })
+ * resizeEvent.on(() => { console.log('callback2') })
+ * resizeEvent.on(() => { console.log('callback3') })
  * ```
  */
 export function listenWindowResize(callback: () => void, options: ListenWindowResizeOptions = {}) {

@@ -2,7 +2,8 @@ import type { AnyFn } from '@rhao/types-base'
 
 /**
  * 创建回调管理器
- * @returns 回调管理器
+ *
+ * @deprecated 推荐使用 `createEventHook()`！
  *
  * @example
  * ```ts
