@@ -50,7 +50,7 @@ if (import.meta.vitest) {
       const fn2 = () => {
         return '2'
       }
-      expect(parallelCall([fn1, fn2])).is('Promise')
+      expect(parallelCall([fn1, fn2])).instanceOf(Promise)
     })
 
     it('should return array', () => {
@@ -60,7 +60,7 @@ if (import.meta.vitest) {
       const fn2 = () => {
         return '2'
       }
-      expect(parallelCall([fn1, fn2])).is('Array')
+      expect(parallelCall([fn1, fn2])).instanceOf(Array)
     })
   })
 }

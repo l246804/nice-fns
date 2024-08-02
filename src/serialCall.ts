@@ -123,8 +123,10 @@ export function serialCall<T extends AnyFn = AnyFn>(
 }
 
 if (import.meta.vitest) {
+  const { promiseWithControl } = await import('./promiseWithControl')
+
   const sleep = (ms: number) => {
-    const { promise, resolve } = Promise.withResolvers()
+    const { promise, resolve } = promiseWithControl()
     setTimeout(resolve, ms)
     return promise
   }
@@ -137,7 +139,7 @@ if (import.meta.vitest) {
       const fn2 = () => {
         return '2'
       }
-      expect(serialCall([fn1, fn2])).is('Promise')
+      expect(serialCall([fn1, fn2])).instanceOf(Promise)
     })
 
     it('should return string', () => {
@@ -147,7 +149,7 @@ if (import.meta.vitest) {
       const fn2 = () => {
         return '2'
       }
-      expect(serialCall([fn1, fn2])).is('String')
+      expect(serialCall([fn1, fn2])).toBe('2')
     })
 
     it('should return 3', async () => {
