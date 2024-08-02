@@ -1,5 +1,5 @@
 import type { AnyFn } from '@rhao/types-base'
-import { promiseWithControl } from './promiseWithControl'
+import { isPromiseLike } from './isPromiseLike'
 
 export interface CallWithSignalOptions<T extends AnyFn> {
   /**
@@ -35,49 +35,54 @@ export function callWithSignal<T extends AnyFn = AnyFn>(
   options: CallWithSignalOptions<T> = {},
 ): Promise<Awaited<ReturnType<T>>> {
   const { payload = [], signal } = options
-  const { promise, resolve, reject } = promiseWithControl<any>()
+  const run = () => fn(...payload)
 
-  let run = () => {
+  let unListen = () => {}
+  let freeMem = () => {
+    unListen()
     // @ts-expect-error 释放内存
-    run = null
-    try {
-      return fn(...payload)
-    }
-    catch (e) {
-      reject(e)
-    }
+    unListen = null
+    // @ts-expect-error 释放内存
+    freeMem = null
   }
 
-  if (!signal) {
-    resolve(run())
-  }
-  else if (signal.aborted) {
-    reject(signal.reason)
-  }
-  else {
-    let unListen = listenAbort(signal, reject)
-    promise.finally(() => {
-      unListen()
-      // @ts-expect-error 释放内存
-      unListen = null
+  const promise = new Promise((resolve, reject) => {
+    if (signal) {
+      signal.throwIfAborted()
+
+      let callback = () => reject(signal.reason)
+      signal.addEventListener('abort', callback)
+      unListen = () => {
+        signal.removeEventListener('abort', callback)
+        // @ts-expect-error 释放内存
+        callback = null
+      }
+    }
+
+    const results = run()
+    isPromiseLike(results) ? results.then(resolve, reject) : resolve(results)
+  })
+
+  return promise.finally(freeMem) as Promise<any>
+}
+
+if (import.meta.vitest) {
+  const { sleep } = await import('./sleep')
+
+  describe('callWithSignal cases:', () => {
+    it('should return 1', async () => {
+      const val = await callWithSignal(() => 1)
+      expect(val).toStrictEqual(1)
     })
 
-    let result = run()
-    if (result instanceof Promise)
-      result.then(resolve, reject)
-    else resolve(result)
+    it('should return abort reason', async () => {
+      const ac = new AbortController()
+      const fn = () => sleep(3000).then(() => 1)
 
-    result = null
-  }
+      setTimeout(() => ac.abort(), 500)
+      const val = await callWithSignal(fn, { signal: ac.signal }).catch((e) => e)
 
-  return promise
-
-  function listenAbort(signal: AbortSignal, callback: (e: Error) => void) {
-    if (signal) {
-      const _callback = () => callback(signal.reason)
-      signal.addEventListener('abort', _callback, { passive: true })
-      return () => signal.removeEventListener('abort', _callback)
-    }
-    return () => {}
-  }
+      expect(val).toStrictEqual(ac.signal.reason)
+    })
+  })
 }
