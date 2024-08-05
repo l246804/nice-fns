@@ -1,5 +1,5 @@
 import type { NoopFn } from '@rhao/types-base'
-import { createCallbacks } from './createCallbacks'
+import { createEventHook } from './createEventHook'
 
 type SwitchCallback<T> = (value: T) => void
 
@@ -111,7 +111,7 @@ export function createSwitch<T = boolean>(
   let allowWrite = true
   let value = initialValue as T
 
-  const callbacks = createCallbacks<SwitchCallback<T>>()
+  const event = createEventHook<SwitchCallback<T>>()
 
   function read() {
     return value
@@ -123,7 +123,7 @@ export function createSwitch<T = boolean>(
       allowWrite = false
 
     value = _value
-    callbacks.run(value)
+    event.trigger(value)
   }
   function toggle(_value?: T) {
     if (_value != null && [openValue, closeValue].includes(_value))
@@ -149,9 +149,9 @@ export function createSwitch<T = boolean>(
       open,
       close,
       reset,
-      on: callbacks.add,
-      off: callbacks.remove,
-      offAll: callbacks.reset,
+      on: event.on,
+      off: event.off,
+      offAll: event.offAll,
     },
   ]
 }

@@ -4,9 +4,9 @@ import { getDpr } from './getDpr'
 import { isClient } from './isClient'
 import type { Numeric } from './isNumeric'
 import { toValue } from './toValue'
-import { createCallbacks } from './createCallbacks'
 import { listenWindowResize } from './listenWindowResize'
 import { clientRun } from './clientRun'
+import { createEventHook } from './createEventHook'
 
 export interface CreateFlexibleOptions {
   /**
@@ -53,7 +53,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
   const { rootFontSize = 16, bodyFontSize = 'inherit' } = options
 
   const record: FontSizeRecord = {}
-  const callbacks = createCallbacks<FlexibleCallback>()
+  const event = createEventHook<FlexibleCallback>()
 
   const { start: startListen, stop: stopListen } = listenWindowResize(
     setRootFontSize.bind(null, true),
@@ -73,7 +73,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
       : fontSize
 
     if (emit)
-      callbacks.run()
+      event.trigger()
   }
 
   /**
@@ -139,14 +139,14 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
    * ```
    */
   function on(callback: FlexibleCallback, once?: boolean) {
-    return once ? callbacks.addOnce(callback) : callbacks.add(callback)
+    return once ? event.once(callback) : event.on(callback)
   }
 
   /**
    * 移除 `rem` 更新回调
    */
   function off(callback: FlexibleCallback) {
-    return callbacks.remove(callback)
+    return event.off(callback)
   }
 
   return {
