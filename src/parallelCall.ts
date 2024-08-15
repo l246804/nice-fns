@@ -1,11 +1,10 @@
-import type { AnyFn, IfTrue } from '@rhao/types-base'
+import type { AnyFn, IfTrue, UnionHas } from '@rhao/types-base'
 import { isPromiseLike } from './isPromiseLike'
-import type { HasPromise } from './_caller'
 
 export type ParallelCallReturn<F extends readonly AnyFn[] = []> = {
   -readonly [K in keyof F]: Awaited<ReturnType<F[K]>>
 } extends infer R
-  ? IfTrue<HasPromise<F>, Promise<R>, R>
+  ? IfTrue<UnionHas<ReturnType<F[number]>, Promise<any>>, Promise<R>, R>
   : []
 
 /**
