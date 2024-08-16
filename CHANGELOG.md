@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.9.0](https://github.com/l246804/nice-fns/compare/v1.8.1...v1.9.0) (2024-08-16)
+
+
+### Features
+
+* 🎸 add callWithSignal ([61a792b](https://github.com/l246804/nice-fns/commit/61a792b162f9ee6ad6e727f1c67f841f8b63c8fb))
+* 🎸 add createEventHook ([eae85a4](https://github.com/l246804/nice-fns/commit/eae85a40a29ea37c16ed023c73bb292849424b2f))
+* 🎸 add isPromise, isPromiseLike ([d01e470](https://github.com/l246804/nice-fns/commit/d01e47071c293c18ddbeb9c4d27620770651aaa7))
+* 🎸 add parallelCall ([d9db95b](https://github.com/l246804/nice-fns/commit/d9db95bae97dc55123573e7b669d279f3a4bb65c))
+* 🎸 add serialCall ([270968f](https://github.com/l246804/nice-fns/commit/270968fbccef834d65252e4e0334543b899777bd))
+
+
+### Chores
+
+* 🤖 替换 createCallbacks() 为 createEventHook() ([8eb1ddc](https://github.com/l246804/nice-fns/commit/8eb1ddcc8c461740a2336fc209711873910cc68d))
+* 🤖 完善 callWithSignal 单元测试 ([b5dcd10](https://github.com/l246804/nice-fns/commit/b5dcd109b903162869fa5c1d631955a6a0f8b4b8))
+* 🤖 完善 parallelCall、serialCall 测试用例 ([83ac30c](https://github.com/l246804/nice-fns/commit/83ac30c2fd734ff1246cf0b6aab4401cead6cc3e))
+* 🤖 优化 castError ([8ede79d](https://github.com/l246804/nice-fns/commit/8ede79de1e86bd030d151b594e436c8e0baf7bb3))
+* 🤖 update deps ([c064aca](https://github.com/l246804/nice-fns/commit/c064acab765a858eada6dc00f5ce77996c152e34))
+
 ## [1.8.1](https://github.com/l246804/nice-fns/compare/v1.8.0...v1.8.1) (2024-07-26)
 
 
