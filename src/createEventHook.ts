@@ -18,10 +18,6 @@ export type EventHookOff<T extends EventHookFn = EventHookFn> = (fn: T) => void
 export type EventHookOffAll = () => void
 
 export type EventHookTrigger<T extends EventHookFn = EventHookFn> = (...args: Parameters<T>) => void
-export type EventHookTriggerWith<T extends EventHookFn, Caller extends (fns: T[]) => void> = (
-  caller: Caller,
-  ...args: Parameters<T>
-) => ReturnType<Caller>
 
 export interface EventHook<T extends EventHookFn = EventHookFn> {
   list: () => T[]
