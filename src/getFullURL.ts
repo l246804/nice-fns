@@ -1,10 +1,12 @@
+import type { MaybeFn } from '@rhao/types-base'
 import { combineURLs } from './combineURLs'
 import { isAbsoluteURL } from './isAbsoluteURL'
+import { toValue } from './toValue'
 
 /**
  * 默认基路径
  */
-getFullURL.defaultBase = ''
+getFullURL.defaultBase = '' as MaybeFn<string>
 
 /**
  * 根据基路径获取完整的 URL
@@ -31,7 +33,9 @@ getFullURL.defaultBase = ''
  * // => 'd.exe'
  * ```
  */
-export function getFullURL(url: string, baseURL = getFullURL.defaultBase) {
+export function getFullURL(url: string, baseURL?: string) {
+  if (baseURL == null)
+    baseURL = toValue(getFullURL.defaultBase)
   return baseURL && !isAbsoluteURL(url) ? combineURLs(baseURL, url) : url
 }
 
