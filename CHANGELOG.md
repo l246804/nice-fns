@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/l246804/nice-fns/compare/v1.9.0...v1.10.0) (2024-09-11)
+
+
+### Features
+
+* 🎸 getFullURL.defaultBase 支持回调方式 ([f619425](https://github.com/l246804/nice-fns/commit/f6194255a82d888fd70c564413940a36002c2fae))
+
+
+### Chores
+
+* 🤖 移除无效类型 ([e54c1ac](https://github.com/l246804/nice-fns/commit/e54c1acc20a5030c3b5f54b60414834e5779f7aa))
+
 ## [1.9.0](https://github.com/l246804/nice-fns/compare/v1.8.1...v1.9.0) (2024-08-16)
 
 
