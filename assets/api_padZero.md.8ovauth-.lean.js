@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as t,R as s}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/padZero.md","filePath":"api/padZero.md"}'),i={name:"api/padZero.md"},n=s("",10),d=[n];function r(h,o,p,l,c,k){return e(),t("div",null,d)}const E=a(i,[["render",r]]);export{g as __pageData,E as default};

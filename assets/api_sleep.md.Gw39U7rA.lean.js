@@ -1,0 +1,1 @@
+import{_ as s,o as a,c as e,R as i}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/sleep.md","filePath":"api/sleep.md"}'),t={name:"api/sleep.md"},n=i("",21),l=[n];function h(p,r,o,d,k,c){return a(),e("div",null,l)}const u=s(t,[["render",h]]);export{g as __pageData,u as default};

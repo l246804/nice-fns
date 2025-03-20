@@ -1,0 +1,1 @@
+import{_ as s,o as a,c as i,R as e}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/cssVar.md","filePath":"api/cssVar.md"}'),t={name:"api/cssVar.md"},n=e("",12),r=[n];function h(d,l,o,p,c,k){return a(),i("div",null,r)}const y=s(t,[["render",h]]);export{g as __pageData,y as default};

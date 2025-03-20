@@ -1,0 +1,1 @@
+import{_ as t,o as a,c as e,R as s}from"./chunks/framework.KXHDQ-dn.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/batchUnset.md","filePath":"api/batchUnset.md"}'),i={name:"api/batchUnset.md"},n=s("",10),h=[n];function d(o,r,c,l,p,k){return a(),e("div",null,h)}const E=t(i,[["render",d]]);export{u as __pageData,E as default};

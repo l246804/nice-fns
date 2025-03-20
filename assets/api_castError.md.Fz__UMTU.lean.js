@@ -1,0 +1,1 @@
+import{_ as a,o as s,c as e,R as t}from"./chunks/framework.KXHDQ-dn.js";const u=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/castError.md","filePath":"api/castError.md"}'),r={name:"api/castError.md"},i=t("",10),o=[i];function n(d,c,h,l,p,k){return s(),e("div",null,o)}const m=a(r,[["render",n]]);export{u as __pageData,m as default};

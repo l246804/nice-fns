@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as a,R as o}from"./chunks/framework.KXHDQ-dn.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/symbolsOf.md","filePath":"api/symbolsOf.md"}'),r={name:"api/symbolsOf.md"},s=o("",9),d=[s];function c(l,n,i,b,h,m){return t(),a("div",null,d)}const f=e(r,[["render",c]]);export{_ as __pageData,f as default};

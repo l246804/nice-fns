@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as a,R as r}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"getDpr","description":"","frontmatter":{},"headers":[],"relativePath":"api/getDpr.md","filePath":"api/getDpr.md"}'),o={name:"api/getDpr.md"},n=r("",7),s=[n];function c(i,p,d,l,_,h){return t(),a("div",null,s)}const m=e(o,[["render",c]]);export{g as __pageData,m as default};

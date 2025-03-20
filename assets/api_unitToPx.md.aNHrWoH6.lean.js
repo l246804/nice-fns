@@ -1,0 +1,1 @@
+import{_ as s,o as i,c as a,R as n}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/unitToPx.md","filePath":"api/unitToPx.md"}'),t={name:"api/unitToPx.md"},e=n("",10),h=[e];function l(p,r,k,d,o,c){return i(),a("div",null,h)}const u=s(t,[["render",l]]);export{g as __pageData,u as default};

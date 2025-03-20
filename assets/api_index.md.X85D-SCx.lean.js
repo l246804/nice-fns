@@ -1,0 +1,1 @@
+import{_ as i,o as a,c as s,R as e}from"./chunks/framework.KXHDQ-dn.js";const u=JSON.parse('{"title":"nice-fns","description":"","frontmatter":{},"headers":[],"relativePath":"api/index.md","filePath":"api/index.md"}'),l={name:"api/index.md"},n=e("",11),t=[n];function o(c,d,p,h,r,k){return a(),s("div",null,t)}const m=i(l,[["render",o]]);export{u as __pageData,m as default};

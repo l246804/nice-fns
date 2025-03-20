@@ -1,0 +1,1 @@
+import{_ as a,o as s,c as i,R as t}from"./chunks/framework.KXHDQ-dn.js";const E=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/arrayToMap.md","filePath":"api/arrayToMap.md"}'),e={name:"api/arrayToMap.md"},n=t("",47),p=[n];function h(l,r,d,k,o,c){return s(),i("div",null,p)}const g=a(e,[["render",h]]);export{E as __pageData,g as default};
