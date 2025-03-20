@@ -1,5 +1,5 @@
 import type { MaybeFn, Simplify } from '@rhao/types-base'
-import { toValue } from './toValue'
+import { resolveValue } from './resolveValue'
 
 export interface CreateBEMOptions {
   /**
@@ -23,7 +23,7 @@ function _bem(
   element = '',
   modifier = '',
 ) {
-  namespace = toValue(namespace)
+  namespace = resolveValue(namespace)
 
   let cls = ''
 
@@ -104,7 +104,7 @@ export function createBEM(
 
   Object.defineProperty(result, 'namespace', {
     enumerable: true,
-    get: () => toValue(namespace),
+    get: () => resolveValue(namespace),
   })
 
   return result as Simplify<{ namespace: string } & typeof result>

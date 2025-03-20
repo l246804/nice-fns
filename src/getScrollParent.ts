@@ -1,5 +1,5 @@
-import { isElement } from 'lodash-unified'
 import type { MaybeNullish } from '@rhao/types-base'
+import { isElement } from './esToolkit'
 import { isClient } from './isClient'
 import { clientRun } from './clientRun'
 

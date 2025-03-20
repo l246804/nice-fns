@@ -1,5 +1,5 @@
 import type { IfNullish } from '@rhao/types-base'
-import { filter, flow, isNil, partialRight } from 'lodash-unified'
+import { filter, flow, isNil, partialRight } from './esToolkit'
 
 const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 

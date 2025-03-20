@@ -1,5 +1,5 @@
 import type { PromiseFn } from '@rhao/types-base'
-import { isFunction, isObject } from 'lodash-unified'
+import { isFunction, isObject } from './esToolkit'
 import { saveAs as baseSaveAs } from './_saveAs'
 
 export interface SaveAsOptions {

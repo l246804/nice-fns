@@ -1,4 +1,4 @@
-import { isObjectLike } from 'lodash-unified'
+import { isObjectLike } from './esToolkit'
 
 /**
  * 扁平化对象属性路径
@@ -32,7 +32,7 @@ export function flattenPaths(
   function flatten(obj: any, results: string[], parent = ''): string[] {
     if (isObjectLike(obj)) {
       for (const key of Object.keys(obj)) {
-        const el = obj[key]
+        const el = obj[key as keyof typeof obj]
         const path = parent + (/^[^a-zA-Z$_]/.test(key) ? `[${key}]` : `${parent ? '.' : ''}${key}`)
 
         // 保留属性路径

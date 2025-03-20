@@ -1,5 +1,5 @@
 import type { MaybeNullish } from '@rhao/types-base'
-import { isFunction } from 'lodash-unified'
+import { isFunction } from './esToolkit'
 
 /**
  * 自起始元素向上查找目标元素，父级元素不存在或终止条件成立时返回 `null`

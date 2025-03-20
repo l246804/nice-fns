@@ -25,14 +25,6 @@ export interface ScalePxOptions {
    */
   precision?: number
   /**
-   * 使用 `document.documentElement` 获取窗口大小进行计算，将会排除窗口边框和滚动条大小
-   *
-   * @deprecated 推荐使用 `excludeScrollbar` 代替
-   *
-   * @default false
-   */
-  useDocument?: boolean
-  /**
    * 获取窗口大小进行计算时是否排除滚动条大小
    * @default false
    */
@@ -69,8 +61,6 @@ export function scalePx(value: number, options: ScalePxOptions = {}) {
     precision = 6,
     excludeScrollbar = false,
   } = {
-    excludeScrollbar: options.useDocument ?? scalePx.defaults.useDocument,
-
     ...scalePx.defaults,
     ...options,
   }

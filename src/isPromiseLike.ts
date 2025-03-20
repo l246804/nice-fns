@@ -1,5 +1,4 @@
-import { isFunction } from 'lodash-unified'
-import { isPromise } from './isPromise'
+import { isFunction, isPromise } from './esToolkit'
 
 /**
  * 检测值是否支持 `then()` 回调

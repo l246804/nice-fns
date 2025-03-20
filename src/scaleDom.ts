@@ -1,6 +1,6 @@
 import type { MaybeNullish } from '@rhao/types-base'
-import { pick } from 'lodash-unified'
-import { baseAssign } from './baseAssign'
+import { pick } from './esToolkit'
+import { assign } from './assign'
 import { getWindowSize } from './getWindowSize'
 
 export interface ScaleDomOptions {
@@ -80,8 +80,8 @@ scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
     return
 
   const style = dom.style
-  baseAssign(style, meta.selfRawStyle)
-  dom.parentElement && baseAssign(dom.parentElement, meta.parentRawStyle)
+  assign(style, meta.selfRawStyle)
+  dom.parentElement && assign(dom.parentElement, meta.parentRawStyle)
   dom[META_KEY] = undefined
 }
 
@@ -96,7 +96,7 @@ const NORMAL_SCALE = { x: 1, y: 1 }
  */
 scaleDom.getScale = (dom: MaybeNullish<ScaleDomElement>) => {
   const meta = dom?.[META_KEY]
-  return baseAssign({}, meta ? meta.scale : NORMAL_SCALE)
+  return assign({}, meta ? meta.scale : NORMAL_SCALE)
 }
 
 /**

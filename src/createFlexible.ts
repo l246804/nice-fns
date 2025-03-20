@@ -3,7 +3,7 @@ import { addUnit } from './addUnit'
 import { getDpr } from './getDpr'
 import { isClient } from './isClient'
 import type { Numeric } from './isNumeric'
-import { toValue } from './toValue'
+import { resolveValue } from './resolveValue'
 import { listenWindowResize } from './listenWindowResize'
 import { clientRun } from './clientRun'
 import { createEventHook } from './createEventHook'
@@ -67,7 +67,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
     if (record.root == null)
       record.root = document.documentElement.style.fontSize
 
-    const fontSize = toValue(rootFontSize)
+    const fontSize = resolveValue(rootFontSize)
     document.documentElement.style.fontSize = isNumberFontSize(fontSize)
       ? addUnit(fontSize, 'px')
       : fontSize
@@ -85,7 +85,7 @@ export function createFlexible(options: CreateFlexibleOptions = {}) {
         record.body = document.body.style.fontSize
 
       const dpr = getDpr()
-      const fontSize = toValue(bodyFontSize)
+      const fontSize = resolveValue(bodyFontSize)
       document.body.style.fontSize = isNumberFontSize(fontSize)
         ? `calc(${addUnit(fontSize, 'px')} * ${dpr})`
         : fontSize

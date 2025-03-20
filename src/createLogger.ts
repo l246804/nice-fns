@@ -1,14 +1,16 @@
 /**
  * 默认信息格式化器
  * @param module 模块名
+ * @param subModule 子模块名
  * @param msg 消息内容
  * @param type 消息类型
  * @returns 格式化后的消息内容
  */
-function defaultFormatter(module: string, msg: string, type = '') {
+function defaultFormatter(module: string, subModule: string | undefined, msg: string, type = '') {
   if (type)
     type = ` ${type}`
-  return `[${module + type}]: ${msg}`
+  const modulePath = subModule ? `${module}.${subModule}` : module
+  return `[${modulePath + type}]: ${msg}`
 }
 
 /**
@@ -18,7 +20,7 @@ function defaultFormatter(module: string, msg: string, type = '') {
  * @returns 信息输出工具
  *
  * @example
- * ```
+ * ```ts
  * const logger = createLogger('Module A')
  *
  * logger.info('这是一条普通消息')
@@ -31,16 +33,31 @@ function defaultFormatter(module: string, msg: string, type = '') {
  * // => '[Module A error]: 这是一条错误'
  *
  * // 自定义消息格式化器
- * const logger2 = createLogger('Module A', (module, msg, type) => {
+ * const logger2 = createLogger('Module A', (module, subModule, msg, type) => {
  *   if (type) type = ` - ${type}`
- *   return `[${module + type}]: ${msg}`
+ *   const modulePath = subModule ? `${module}.${subModule}` : module;
+ *   return `[${modulePath + type}]: ${msg}`
  * })
  *
  * logger2.info('这是一条普通消息')
  * // => '[Module A - error]: 这是一条普通消息'
+ *
+ * // 子模块
+ * const subLogger = logger2.sub('SubModule')
+ * subLogger.info('这是一条子模块消息')
+ * // => '[Module A.SubModule]: 这是一条子模块消息'
  * ```
  */
 export function createLogger(module: string, formatter = defaultFormatter) {
+  /**
+   * 创建子模块日志记录器
+   * @param subModule 子模块名
+   * @returns 子模块日志记录器
+   */
+  function sub(subModule: string) {
+    return createLogger(`${module}.${subModule}`, formatter)
+  }
+
   /**
    * 格式化消息内容
    * @param msg 消息内容
@@ -62,7 +79,7 @@ export function createLogger(module: string, formatter = defaultFormatter) {
    * ```
    */
   function format(msg: string, type = '') {
-    return formatter(module, msg, type)
+    return formatter(module, undefined, msg, type)
   }
 
   /**
@@ -97,6 +114,7 @@ export function createLogger(module: string, formatter = defaultFormatter) {
     info,
     warn,
     error,
+    sub,
   }
 }
 
@@ -111,10 +129,17 @@ if (import.meta.vitest) {
     it('自定义格式化', () => {
       const logger = createLogger(
         'Module',
-        (module, msg, type) => `[${module + (type ? ` - ${type}` : '')}]: ${msg}`,
+        (module, subModule, msg, type) => `[${module + (subModule ? `.${subModule}` : '') + (type ? ` - ${type}` : '')}]: ${msg}`,
       )
       expect(logger.format('this is a msg.')).toBe('[Module]: this is a msg.')
       expect(logger.format('this is a msg.', 'warn')).toBe('[Module - warn]: this is a msg.')
+    })
+
+    it('子模块格式化', () => {
+      const logger = createLogger('Module')
+      const subLogger = logger.sub('SubModule')
+      expect(subLogger.format('this is a msg.')).toBe('[Module.SubModule]: this is a msg.')
+      expect(subLogger.format('this is a msg.', 'warn')).toBe('[Module.SubModule warn]: this is a msg.')
     })
   })
 }

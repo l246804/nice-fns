@@ -1,7 +1,6 @@
-import { orderBy } from 'lodash-unified'
 import type { IfNever, MaybeFn, ReplaceEmpty, ReplaceNever } from '@rhao/types-base'
+import { orderBy } from './esToolkit'
 import { batchUnset } from './batchUnset'
-import type { _OrderByParams } from './_orderBy'
 import { castFunction } from './castFunction'
 
 export interface ToArrayTreeOptions<
@@ -71,7 +70,7 @@ export interface ToArrayTreeOptions<
   /**
    * 排序数组，依赖于 `orderBy()`
    */
-  orderBy?: _OrderByParams<T>
+  orderBy?: [(keyof T | ((item: T) => unknown))[], Array<'asc' | 'desc'>]
 }
 
 type TreeNodeBase<

@@ -1,12 +1,5 @@
 import type { AnyFn, KeyOf, Primitive } from '@rhao/types-base'
-import { isArray, isNil, isObject, orderBy, toString } from 'lodash-unified'
-import type { _OrderByParams } from './_orderBy'
-
-/**
- * 字典排序参数
- */
-export type DictionaryOrderByParams<T extends DictionaryItem<any, any> = DictionaryItem<any, any>> =
-  _OrderByParams<T>
+import { isArray, isNil, isObject, toString } from './esToolkit'
 
 /**
  * 字典项
@@ -41,7 +34,6 @@ export interface DictionaryBuiltinMethods<
 > extends Pick<Array<Item>, 'forEach' | 'filter' | 'find' | 'every' | 'some'> {
   /**
    * 获取字典键项对列表
-   * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
    * ```ts
@@ -55,20 +47,12 @@ export interface DictionaryBuiltinMethods<
    *   ['a', { key: 'a', value: 1, label: 'A', data: { id: 1, text: 'A' } }],
    *   ['b', { key: 'b', value: 2, label: 'B', data: { id: 2, text: 'B' } }],
    * ]
-   *
-   * // 根据 value 降序排列
-   * dict.entries([['value'], ['desc']])
-   * [
-   *   ['b', { key: 'b', value: 2, label: 'B', data: { id: 2, text: 'B' } }],
-   *   ['a', { key: 'a', value: 1, label: 'A', data: { id: 1, text: 'A' } }],
-   * ]
    * ```
    */
-  entries: (orderParams?: DictionaryOrderByParams<Item>) => [string, Item][]
+  entries: () => [string, Item][]
 
   /**
    * 获取字典项列表
-   * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
    * ```ts
@@ -82,20 +66,12 @@ export interface DictionaryBuiltinMethods<
    *   { key: 'a', value: 1, label: 'A', data: { id: 1, text: 'A' } },
    *   { key: 'b', value: 2, label: 'B', data: { id: 2, text: 'B' } },
    * ]
-   *
-   * // 根据 value 降序排列
-   * dict.items([['value'], ['desc']])
-   * [
-   *   { key: 'b', value: 2, label: 'B', data: { id: 2, text: 'B' } },
-   *   { key: 'a', value: 1, label: 'A', data: { id: 1, text: 'A' } },
-   * ]
    * ```
    */
-  items: (orderParams?: DictionaryOrderByParams<Item>) => Item[]
+  items: () => Item[]
 
   /**
    * 获取字典键列表
-   * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
    * ```ts
@@ -106,17 +82,12 @@ export interface DictionaryBuiltinMethods<
    *
    * dict.keys()
    * ['a', 'b']
-   *
-   * // 根据 value 降序排列
-   * dict.keys([['value'], ['desc']])
-   * ['b', 'a']
    * ```
    */
-  keys: (orderParams?: DictionaryOrderByParams<Item>) => string[]
+  keys: () => string[]
 
   /**
    * 获取字典项值列表
-   * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
    * ```ts
@@ -127,17 +98,12 @@ export interface DictionaryBuiltinMethods<
    *
    * dict.values()
    * [1, 2]
-   *
-   * // 根据 value 降序排列
-   * dict.values([['value'], ['desc']])
-   * [2, 1]
    * ```
    */
-  values: <T = Value>(orderParams?: DictionaryOrderByParams<Item>) => T[]
+  values: <T = Value>() => T[]
 
   /**
    * 获取字典项标签列表
-   * @param orderBy 排序参数，依赖于 `lodash.orderBy`
    *
    * @example
    *
@@ -150,13 +116,9 @@ export interface DictionaryBuiltinMethods<
    *
    * dict.labels()
    * ['A', 'B']
-   *
-   * // 根据 value 降序排列
-   * dict.labels([['value'], ['desc']])
-   * ['B', 'A']
    * ```
    */
-  labels: (orderParams?: DictionaryOrderByParams<Item>) => string[]
+  labels: () => string[]
 
   /**
    * 根据指定键获取字典项
@@ -460,21 +422,20 @@ export interface DictionaryOptions<
  * 内置方法
  */
 const builtinMethods = {
-  entries(orderParams) {
-    return this.items(orderParams).map((item) => [item.key, item])
+  entries() {
+    return this.items().map((item) => [item.key, item])
   },
-  keys(orderParams) {
-    return this.items(orderParams).map((item) => item.key)
+  keys() {
+    return this.items().map((item) => item.key)
   },
-  items(orderParams) {
-    const items = [...this.map.values()]
-    return orderParams ? orderBy(items, ...orderParams) : items
+  items() {
+    return [...this.map.values()]
   },
-  values(orderParams) {
-    return this.items(orderParams).map((item) => item.value)
+  values() {
+    return this.items().map((item) => item.value)
   },
-  labels(orderParams) {
-    return this.items(orderParams).map((item) => item.label)
+  labels() {
+    return this.items().map((item) => item.label)
   },
   get(key) {
     return this.map.get(toString(key))
@@ -749,10 +710,6 @@ if (import.meta.vitest) {
       expect(dict.values()).toStrictEqual([0, 1])
       expect(dict.labels()).toStrictEqual(['a', 'b'])
 
-      expect(dict.keys(['value', 'desc'])).toStrictEqual(['b', 'a'])
-      expect(dict.values(['value', 'desc'])).toStrictEqual([1, 0])
-      expect(dict.labels(['value', 'desc'])).toStrictEqual(['b', 'a'])
-
       expect(dict.get('a')).toStrictEqual({
         key: 'a',
         value: 0,
@@ -836,10 +793,6 @@ if (import.meta.vitest) {
       expect(dict.keys()).toStrictEqual(['a', 'b'])
       expect(dict.values()).toStrictEqual([0, 1])
       expect(dict.labels()).toStrictEqual(['a', 'b'])
-
-      expect(dict.keys(['value', 'desc'])).toStrictEqual(['b', 'a'])
-      expect(dict.values(['value', 'desc'])).toStrictEqual([1, 0])
-      expect(dict.labels(['value', 'desc'])).toStrictEqual(['b', 'a'])
 
       expect(dict.get('a')).toStrictEqual({
         key: 'a',

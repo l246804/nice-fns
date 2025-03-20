@@ -1,8 +1,8 @@
 import type { MaybeFn, NoopFn } from '@rhao/types-base'
-import { noop } from 'lodash-unified'
+import { noop } from './esToolkit'
 import { createSwitch } from './createSwitch'
 import { isClient } from './isClient'
-import { toValue } from './toValue'
+import { resolveValue } from './resolveValue'
 
 export interface TimerWithControlOptions {
   /**
@@ -95,7 +95,7 @@ export function timerWithControl(callback: NoopFn, options: TimerWithControlOpti
   }
 
   function start() {
-    const msValue = toValue(ms)
+    const msValue = resolveValue(ms)
     if (type !== 'requestAnimationFrame' && msValue <= 0)
       return active.close()
 

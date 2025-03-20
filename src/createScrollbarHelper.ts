@@ -1,5 +1,5 @@
 import type { MaybeFn, MaybeNullish } from '@rhao/types-base'
-import { toValue } from './toValue'
+import { resolveValue } from './resolveValue'
 import { getDpr } from './getDpr'
 
 type Target = MaybeNullish<HTMLElement>
@@ -154,7 +154,7 @@ export interface ScrollbarHelper {
  * ```
  */
 export function createScrollbarHelper(el: MaybeFn<Target>) {
-  const getElement = () => toValue(el)
+  const getElement = () => resolveValue(el)
   const helper = {
     getScrollLeft: () => getScrollLeft(getElement()),
     getScrollTop: () => getScrollTop(getElement()),

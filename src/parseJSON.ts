@@ -1,5 +1,5 @@
 import type { MaybeFn } from '@rhao/types-base'
-import { isNil } from 'lodash-unified'
+import { isNil } from './esToolkit'
 import { castFunction } from './castFunction'
 
 export interface ParseJSONOptions<T> {

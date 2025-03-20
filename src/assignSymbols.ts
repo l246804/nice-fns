@@ -1,4 +1,4 @@
-import { isObject } from 'lodash-unified'
+import { isObject } from './esToolkit'
 import { symbolsOf } from './symbolsOf'
 
 /**

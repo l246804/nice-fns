@@ -1,4 +1,4 @@
-import { isError } from 'lodash-unified'
+import { isError } from './esToolkit'
 
 /**
  * 转换值为 `Error`

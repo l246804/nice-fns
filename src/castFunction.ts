@@ -1,5 +1,5 @@
-import { isFunction } from 'lodash-unified'
 import type { MaybeFn } from '@rhao/types-base'
+import { isFunction } from './esToolkit'
 
 /**
  * 转换值为 `Function`

@@ -1,6 +1,6 @@
 import type { AnyFn } from '@rhao/types-base'
 import { isPromiseLike } from './isPromiseLike'
-import { baseAssign } from './baseAssign'
+import { assign } from './assign'
 
 export type SerialCallReturn<T extends AnyFn = AnyFn> = ReturnType<T> extends infer R
   ? R extends PromiseLike<any>
@@ -100,7 +100,7 @@ export function serialCall<T extends AnyFn = AnyFn>(
 
   const results = fns.reduce((prev: any, fn, i) => {
     const run = (val: any) => {
-      baseAssign(ctx, {
+      assign(ctx, {
         currentIndex: i,
         returned: val,
         isFirst: i === 0,

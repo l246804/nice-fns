@@ -1,5 +1,5 @@
 import type { MaybeNullish } from '@rhao/types-base'
-import { isArray } from 'lodash-unified'
+import { isArray } from './esToolkit'
 
 type StateClass = MaybeNullish<string>
 type StateClasses = (

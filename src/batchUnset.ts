@@ -1,8 +1,7 @@
-import type { PropertyPath } from 'lodash-unified'
-import { unset } from 'lodash-unified'
+import { unset } from './esToolkit'
 
 /**
- * 批量执行 `lodash.unset`
+ * 批量执行 `unset`
  * @param object 目标对象
  * @param keys 属性列表
  *
@@ -12,7 +11,7 @@ import { unset } from 'lodash-unified'
  * // => { b: { c: 2, d: 4 } }
  * ```
  */
-export function batchUnset(object: any, keys: PropertyPath[] = []) {
+export function batchUnset(object: any, keys: (PropertyKey | PropertyKey[])[] = []) {
   return keys.map((key) => unset(object, key))
 }
 
@@ -42,8 +41,8 @@ if (import.meta.vitest) {
     }
     Object.defineProperty(object, 'd', { configurable: false, value: 4 })
 
-    it.fails('严格模式会报错', () => {
-      batchUnset(object, ['a', 'c', 'd'])
+    it('删除 d 失败', () => {
+      expect(batchUnset(object, ['a', 'c', 'd']).at(-1)).toBe(false)
     })
   })
 }

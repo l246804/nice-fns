@@ -2,14 +2,6 @@ import type { AnyFn } from '@rhao/types-base'
 
 export type EventHookFn = AnyFn
 
-export interface EventHookContext<T extends EventHookFn = EventHookFn> {
-  currentIndex: number
-  isFirst: boolean
-  isEnd: boolean
-  payload: Parameters<T>
-  returned?: ReturnType<T>
-}
-
 type _EventHookOff = () => void
 export type EventHookOn<T extends EventHookFn = EventHookFn> = (fn: T) => _EventHookOff
 export type EventHookOnce<T extends EventHookFn = EventHookFn> = (fn: T) => _EventHookOff

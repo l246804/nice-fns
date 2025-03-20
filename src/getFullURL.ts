@@ -1,7 +1,7 @@
 import type { MaybeFn } from '@rhao/types-base'
 import { combineURLs } from './combineURLs'
 import { isAbsoluteURL } from './isAbsoluteURL'
-import { toValue } from './toValue'
+import { resolveValue } from './resolveValue'
 
 /**
  * 默认基路径
@@ -35,7 +35,7 @@ getFullURL.defaultBase = '' as MaybeFn<string>
  */
 export function getFullURL(url: string, baseURL?: string) {
   if (baseURL == null)
-    baseURL = toValue(getFullURL.defaultBase)
+    baseURL = resolveValue(getFullURL.defaultBase)
   return baseURL && !isAbsoluteURL(url) ? combineURLs(baseURL, url) : url
 }
 

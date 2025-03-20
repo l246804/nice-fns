@@ -1,5 +1,5 @@
 import type { Primitive } from '@rhao/types-base'
-import { isObject } from 'lodash-unified'
+import { isObject } from './esToolkit'
 
 export interface ArrayToMapOptions<
   UseMap extends boolean = false,
