@@ -2,7 +2,7 @@
 
 ## 环境支持
 
-Nice Fns 可以在支持 ESNext 的浏览器上运行。 如果您确实需要支持旧版本的浏览器，请自行添加 Babel 和相应的 Polyfill。
+Nice Fns 可以在支持 ES2022 的浏览器上运行。 如果您确实需要支持旧版本的浏览器，请自行添加 Babel 和相应的 Polyfill。
 
 ## 使用包管理器
 
@@ -29,8 +29,6 @@ $ pnpm install nice-fns
 
 ```html
 <head>
-  <!-- Import Lodash -->
-  <script src="//unpkg.com/lodash"></script>
   <!-- Import NiceFns -->
   <script src="//unpkg.com/nice-fns"></script>
 </head>

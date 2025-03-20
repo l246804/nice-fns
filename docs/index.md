@@ -18,7 +18,7 @@ hero:
 features:
   - icon: 🎯
     title: 稳定智能
-    details: 基于 TypeScript 和 Lodash 开发构建，提供完整的类型系统。
+    details: 基于 TypeScript 和 ESToolkit 开发构建，提供完整的类型系统。
   - icon: 🧩
     title: 按需加载
     details: 支持 ESModule 格式，配合 Bundler 树摇让包体积更小。

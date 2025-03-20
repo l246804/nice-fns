@@ -20,10 +20,9 @@ pascalCase('test string')
 ### 树结构配置
 
 ```ts
-import { treeDefaults } from 'nice-fns'
+import { addUnit } from 'nice-fns'
 
-treeDefaults.key = 'id'
-treeDefaults.parentKey = 'parentId'
+addUnit.defaultUnit = 'px'
 ```
 
 ### 函数配置
