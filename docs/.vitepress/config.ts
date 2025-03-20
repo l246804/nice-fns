@@ -3,7 +3,8 @@ import { cwd } from 'node:process'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import typedocSidebar from '../api/typedoc-sidebar.json'
-import { batchUnset, eachTree } from '../../src'
+import { batchUnset } from '../../src/batchUnset'
+import { eachTree } from '../../src/eachTree'
 
 const sidebar: DefaultTheme.SidebarItem[] = typedocSidebar
 eachTree(
