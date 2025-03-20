@@ -61,7 +61,7 @@
     "docs:gen": "typedoc --options typedoc.mjs",
     "docs:gen:lib": "npm run gi -- -D",
     "docs:clean": "rimraf docs/api",
-    "docs:prepare": "run-s docs:clean docs:gen docs:gen:lib",
+    "docs:prepare": "run-s docs:clean test:only docs:gen docs:gen:lib",
     "lint:fix": "eslint . --fix",
     "taze": "taze -iI major",
     "gi": "gi",
