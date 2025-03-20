@@ -23,6 +23,21 @@ pascalCase('test string')
 // => 'TestString'
 ```
 
+## 迁移至 v2.x
+
+- 替换 lodash 为 es-toolkit
+- 移除废弃的函数参数
+- createLogger 支持子模块功能
+- toDictionary 移除内部函数排序支持
+- 重命名 toValue 为 resolveValue
+- 删除了部分函数
+  - baseAssign
+  - createCallbacks
+  - fromEntries
+  - toEntries
+  - protoOf
+- es-toolkit 不支持 lodash 的函数
+
 ## 迁移至 v1.x
 
 1. `arrayToMap` 移除 `filter` 配置项，对象数组转换时依据改为 `primaryKey` 不为空值。
