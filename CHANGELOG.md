@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/l246804/nice-fns/compare/v1.10.0...v2.0.0) (2025-03-20)
+
+
+### Refactors
+
+* **esToolkit:** 重构工具库并替换底层依赖 lodash 改为 es-toolkit ([decd6e4](https://github.com/l246804/nice-fns/commit/decd6e410befb51e015e1c2f618060d464ebc747))
+* **types:** 将类型定义迁移到独立模块 ([b8904ca](https://github.com/l246804/nice-fns/commit/b8904ca5519a4519918f6eb6fbfd20a8e8bfa8a5))
+
+
+### Docs
+
+* **README:** 更新 v2.x 版本迁移指南 ([55c092c](https://github.com/l246804/nice-fns/commit/55c092ccfb2f89c11b85227c69834d5e9da36e3a))
+
 ## [1.10.0](https://github.com/l246804/nice-fns/compare/v1.9.0...v1.10.0) (2024-09-11)
 
 
