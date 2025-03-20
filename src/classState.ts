@@ -1,11 +1,8 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNil } from './_interface'
 import { isArray } from './esToolkit'
 
-type StateClass = MaybeNullish<string>
-type StateClasses = (
-  | MaybeNullish<string>
-  | [stateClass: MaybeNullish<string>, state?: boolean, prefix?: string]
-)[]
+type StateClass = MaybeNil<string>
+type StateClasses = (StateClass | [stateClass: StateClass, state?: boolean, prefix?: string])[]
 
 interface Is {
   /**

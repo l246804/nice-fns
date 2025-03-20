@@ -1,8 +1,8 @@
-import type { MaybeFn, MaybeNullish } from '@rhao/types-base'
+import type { MaybeFn, MaybeNil } from './_interface'
 import { resolveValue } from './resolveValue'
 import { getDpr } from './getDpr'
 
-type Target = MaybeNullish<HTMLElement>
+type Target = MaybeNil<HTMLElement>
 
 function getScrollLeft(el: Target) {
   if (!el)

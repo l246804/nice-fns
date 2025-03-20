@@ -1,7 +1,7 @@
-import type { AnyFn } from '@rhao/types-base'
+import type { Fn } from './_interface'
 import { isPromiseLike } from './isPromiseLike'
 
-export interface CallWithSignalOptions<T extends AnyFn> {
+export interface CallWithSignalOptions<T extends Fn> {
   /**
    * 函数载荷列表
    */
@@ -30,7 +30,7 @@ export interface CallWithSignalOptions<T extends AnyFn> {
  * // 'error: signal is aborted without reason'
  * ```
  */
-export function callWithSignal<T extends AnyFn = AnyFn>(
+export function callWithSignal<T extends Fn = Fn>(
   fn: T,
   options: CallWithSignalOptions<T> = {},
 ): Promise<Awaited<ReturnType<T>>> {

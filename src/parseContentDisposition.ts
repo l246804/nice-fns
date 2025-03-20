@@ -1,4 +1,4 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNil } from './_interface'
 import { getFileTypeByExtName } from './getFileTypeByExtName'
 
 /**
@@ -19,7 +19,7 @@ import { getFileTypeByExtName } from './getFileTypeByExtName'
  * ```
  */
 export function parseContentDisposition(
-  contentDisposition: MaybeNullish<string>,
+  contentDisposition: MaybeNil<string>,
   keyword = 'filename',
 ) {
   const pattern = new RegExp(

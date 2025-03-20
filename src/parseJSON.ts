@@ -1,4 +1,4 @@
-import type { MaybeFn } from '@rhao/types-base'
+import type { MaybeFn } from './_interface'
 import { isNil } from './esToolkit'
 import { castFunction } from './castFunction'
 

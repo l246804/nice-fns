@@ -1,4 +1,4 @@
-import type { IfNever, ReplaceEmpty } from '@rhao/types-base'
+import type { IfNever, ReplaceEmpty } from './_interface'
 import { batchUnset } from './batchUnset'
 
 export interface ToTreeArrayOptions<

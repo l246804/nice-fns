@@ -1,14 +1,14 @@
-import type { AnyFn } from '@rhao/types-base'
+import type { Fn } from './_interface'
 import { isPromiseLike } from './isPromiseLike'
 import { assign } from './assign'
 
-export type SerialCallReturn<T extends AnyFn = AnyFn> = ReturnType<T> extends infer R
+export type SerialCallReturn<T extends Fn = Fn> = ReturnType<T> extends infer R
   ? R extends PromiseLike<any>
     ? Promise<Awaited<R>>
     : R
   : never
 
-export interface SerialCallContext<T extends AnyFn = AnyFn> {
+export interface SerialCallContext<T extends Fn = Fn> {
   /**
    * 当前执行索引
    * @default -1
@@ -65,7 +65,7 @@ let runningCtx: SerialCallContext | null = null
  * }
  * ```
  */
-serialCall.getContext = function getContext<T extends AnyFn = AnyFn>() {
+serialCall.getContext = function getContext<T extends Fn = Fn>() {
   return Object.assign({}, DEFAULT_CONTEXT, runningCtx) as SerialCallContext<T>
 }
 
@@ -83,7 +83,7 @@ serialCall.getContext = function getContext<T extends AnyFn = AnyFn>() {
  * // => 2
  * ```
  */
-export function serialCall<T extends AnyFn = AnyFn>(
+export function serialCall<T extends Fn = Fn>(
   fns: T[],
   ...args: Parameters<T>
 ): SerialCallReturn<T> {

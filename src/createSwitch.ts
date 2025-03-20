@@ -1,4 +1,4 @@
-import type { NoopFn } from '@rhao/types-base'
+import type { Fn } from './_interface'
 import { createEventHook } from './createEventHook'
 
 type SwitchCallback<T> = (value: T) => void
@@ -46,7 +46,7 @@ export interface SwitchControls<T> {
   /**
    * 注册回调句柄，返回移除回调句柄函数
    */
-  on: (callback: SwitchCallback<T>) => NoopFn
+  on: (callback: SwitchCallback<T>) => Fn<[], void>
   /**
    * 移除回调句柄
    * @param callback 回调句柄

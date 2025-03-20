@@ -1,4 +1,4 @@
-import type { Primitive } from '@rhao/types-base'
+import type { Primitive } from './_interface'
 import { isObject } from './esToolkit'
 
 export interface ArrayToMapOptions<

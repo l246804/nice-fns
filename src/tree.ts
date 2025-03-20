@@ -1,4 +1,4 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNil } from './_interface'
 
 export type TreeIterator<T, R = void> = (
   /**
@@ -12,7 +12,7 @@ export type TreeIterator<T, R = void> = (
   /**
    * 父级节点
    */
-  parent: MaybeNullish<T>,
+  parent: MaybeNil<T>,
   /**
    * 路径链路
    */

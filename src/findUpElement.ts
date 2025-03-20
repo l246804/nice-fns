@@ -1,4 +1,4 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNil } from './_interface'
 import { isFunction } from './esToolkit'
 
 /**
@@ -24,9 +24,9 @@ import { isFunction } from './esToolkit'
  * ```
  */
 export function findUpElement<T extends Element>(
-  source: MaybeNullish<Element>,
-  target: MaybeNullish<T | ((el: T) => boolean | void)>,
-  end?: MaybeNullish<Element | ((el: any) => boolean | void)>,
+  source: MaybeNil<Element>,
+  target: MaybeNil<T | ((el: T) => boolean | void)>,
+  end?: MaybeNil<Element | ((el: any) => boolean | void)>,
 ): T | null {
   if (!source)
     return null

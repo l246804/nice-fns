@@ -1,4 +1,3 @@
-import type { MaybeFn } from '@rhao/types-base'
 import { addUnit } from './addUnit'
 import { getDpr } from './getDpr'
 import { isClient } from './isClient'
@@ -7,6 +6,7 @@ import { resolveValue } from './resolveValue'
 import { listenWindowResize } from './listenWindowResize'
 import { clientRun } from './clientRun'
 import { createEventHook } from './createEventHook'
+import type { MaybeFn } from './_interface'
 
 export interface CreateFlexibleOptions {
   /**

@@ -1,4 +1,4 @@
-import type { MaybeFn } from '@rhao/types-base'
+import type { MaybeFn } from './_interface'
 import { isFunction } from './esToolkit'
 
 /**

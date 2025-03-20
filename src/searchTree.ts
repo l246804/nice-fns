@@ -1,4 +1,4 @@
-import type { Fn, WithChildren } from '@rhao/types-base'
+import type { Fn, WithChildren } from './_interface'
 import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'

@@ -1,4 +1,4 @@
-import type { PromiseFn } from '@rhao/types-base'
+import type { PromiseFn } from './_interface'
 import { isFunction, isObject } from './esToolkit'
 import { saveAs as baseSaveAs } from './_saveAs'
 

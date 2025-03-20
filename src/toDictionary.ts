@@ -1,4 +1,4 @@
-import type { AnyFn, KeyOf, Primitive } from '@rhao/types-base'
+import type { Fn, KeyOf, Primitive } from './_interface'
 import { isArray, isNil, isObject, toString } from './esToolkit'
 
 /**
@@ -383,7 +383,7 @@ export type Dictionary<
   Data = unknown,
   Value = unknown,
   Key extends string = string,
-  Methods extends Record<PropertyKey, AnyFn> = {},
+  Methods extends Record<PropertyKey, Fn> = {},
   Raw = Data[] | Record<string, Data>,
 > = DictionaryBase<Raw, Data, Value> & DictionaryBuiltinMethods<Data, Value, Key> & Methods
 
@@ -394,7 +394,7 @@ export interface DictionaryOptions<
   ValueKey extends string,
   LabelKey extends string = ValueKey,
   Key extends string = ValueKey,
-  Methods extends Record<PropertyKey, AnyFn> = {},
+  Methods extends Record<PropertyKey, Fn> = {},
   Instance = Dictionary,
 > {
   /**
@@ -524,7 +524,7 @@ export function toDictionary<
         : string
       : string
     : string,
-  Methods extends Record<PropertyKey, AnyFn> = {},
+  Methods extends Record<PropertyKey, Fn> = {},
 >(
   array: Data[],
   options?: DictionaryOptions<
@@ -567,7 +567,7 @@ export function toDictionary<
       ? Value
       : unknown,
   DataKey extends KeyOf<Raw, string> = KeyOf<Raw, string>,
-  Methods extends Record<PropertyKey, AnyFn> = {},
+  Methods extends Record<PropertyKey, Fn> = {},
 >(
   object: Raw,
   options?: Omit<

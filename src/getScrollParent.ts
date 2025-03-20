@@ -1,7 +1,7 @@
-import type { MaybeNullish } from '@rhao/types-base'
 import { isElement } from './esToolkit'
 import { isClient } from './isClient'
 import { clientRun } from './clientRun'
+import type { MaybeNil } from './_interface'
 
 export type ScrollElement = Element | Window
 export type ScrollType = 'x' | 'y' | 'both'
@@ -27,7 +27,7 @@ const overflowScrollReg = /scroll|auto|overlay/i
  * ```
  */
 export function getScrollParent(
-  start: MaybeNullish<Element>,
+  start: MaybeNil<Element>,
   type: ScrollType = 'both',
   end: ScrollElement = clientRun.defaults.window as ScrollElement,
 ) {

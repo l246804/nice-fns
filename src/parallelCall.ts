@@ -1,7 +1,7 @@
-import type { AnyFn, IfTrue, UnionHas } from '@rhao/types-base'
+import type { Fn, IfTrue, UnionHas } from './_interface'
 import { isPromiseLike } from './isPromiseLike'
 
-export type ParallelCallReturn<F extends readonly AnyFn[] = []> = {
+export type ParallelCallReturn<F extends readonly Fn[] = []> = {
   -readonly [K in keyof F]: Awaited<ReturnType<F[K]>>
 } extends infer R
   ? IfTrue<UnionHas<ReturnType<F[number]>, Promise<any>>, Promise<R>, R>
@@ -26,7 +26,7 @@ export type ParallelCallReturn<F extends readonly AnyFn[] = []> = {
  * // => [1, 2]
  * ```
  */
-export function parallelCall<const F extends AnyFn[] = []>(
+export function parallelCall<const F extends Fn[] = []>(
   fns: F,
   ...args: Parameters<F[number]>
 ): ParallelCallReturn<F> {

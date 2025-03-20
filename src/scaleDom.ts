@@ -1,4 +1,4 @@
-import type { MaybeNullish } from '@rhao/types-base'
+import type { MaybeNil } from './_interface'
 import { pick } from './esToolkit'
 import { assign } from './assign'
 import { getWindowSize } from './getWindowSize'
@@ -74,7 +74,7 @@ scaleDom.defaults = {} as Omit<ScaleDomOptions, 'elementWidth' | 'elementHeight'
  * 还原缩放效果，仅对该函数已缩放元素有效
  * @param dom 缩放的 DOM 元素
  */
-scaleDom.revert = (dom: MaybeNullish<ScaleDomElement>) => {
+scaleDom.revert = (dom: MaybeNil<ScaleDomElement>) => {
   const meta = dom?.[META_KEY]
   if (!meta)
     return
@@ -94,7 +94,7 @@ const NORMAL_SCALE = { x: 1, y: 1 }
  * 获取元素的缩放比例
  * @param dom 缩放的 DOM 元素
  */
-scaleDom.getScale = (dom: MaybeNullish<ScaleDomElement>) => {
+scaleDom.getScale = (dom: MaybeNil<ScaleDomElement>) => {
   const meta = dom?.[META_KEY]
   return assign({}, meta ? meta.scale : NORMAL_SCALE)
 }
@@ -133,7 +133,7 @@ scaleDom.getScale = (dom: MaybeNullish<ScaleDomElement>) => {
  * // => 'width: 300px; height:200px; transform-origin:top left; transform: scale(2, 2);'
  * ```
  */
-export function scaleDom(dom: MaybeNullish<ScaleDomElement>, options: ScaleDomOptions = {}) {
+export function scaleDom(dom: MaybeNil<ScaleDomElement>, options: ScaleDomOptions = {}) {
   if (!dom)
     return
 

@@ -1,6 +1,6 @@
-import type { AnyFn } from '@rhao/types-base'
+import type { Fn } from './_interface'
 
-export type EventHookFn = AnyFn
+export type EventHookFn = Fn
 
 type _EventHookOff = () => void
 export type EventHookOn<T extends EventHookFn = EventHookFn> = (fn: T) => _EventHookOff
@@ -50,7 +50,7 @@ export interface EventHook<T extends EventHookFn = EventHookFn> {
  * serialCall(event.list(), ...args)
  * ```
  */
-export function createEventHook<T extends AnyFn>() {
+export function createEventHook<T extends Fn>() {
   let fns: T[] = []
 
   const offAll = () => {

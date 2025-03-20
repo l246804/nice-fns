@@ -1,4 +1,4 @@
-import type { IfNever, MaybeFn, ReplaceEmpty, ReplaceNever } from '@rhao/types-base'
+import type { IfNever, MaybeFn, ReplaceEmpty, ReplaceNever } from './_interface'
 import { orderBy } from './esToolkit'
 import { batchUnset } from './batchUnset'
 import { castFunction } from './castFunction'

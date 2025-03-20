@@ -1,7 +1,7 @@
-import type { WithChildren } from '@rhao/types-base'
 import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
+import type { WithChildren } from './_interface'
 
 export interface MapTreeOptions<
   ChildrenKey extends string = string,

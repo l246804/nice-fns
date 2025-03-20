@@ -1,4 +1,4 @@
-import type { MaybeFn, NoopFn } from '@rhao/types-base'
+import type { Fn, MaybeFn } from './_interface'
 import { noop } from './esToolkit'
 import { createSwitch } from './createSwitch'
 import { isClient } from './isClient'
@@ -53,7 +53,7 @@ export interface TimerWithControlOptions {
  * timer.flush()
  * ```
  */
-export function timerWithControl(callback: NoopFn, options: TimerWithControlOptions = {}) {
+export function timerWithControl(callback: Fn<[], void>, options: TimerWithControlOptions = {}) {
   const { immediateCallback = false, ms = 0, type = 'setTimeout', onCleanup = noop } = options
 
   type TimerFn = (callback: () => void, ms?: number) => any

@@ -1,11 +1,11 @@
-import type { IfNullish } from '@rhao/types-base'
+import type { IfNil } from './_interface'
 import { filter, flow, isNil, partialRight } from './esToolkit'
 
-const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
-
 interface CompactObject {
-  <T extends {}>(object: T): { [K in keyof T as IfNullish<T[K], never, K>]: T[K] }
+  <T extends {}>(object: T): { [K in keyof T as IfNil<T[K], never, K>]: T[K] }
 }
+
+const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 
 /**
  * 移除对象值为 `null` 和 `undefined` 的属性

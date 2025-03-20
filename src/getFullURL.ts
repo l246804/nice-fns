@@ -1,4 +1,4 @@
-import type { MaybeFn } from '@rhao/types-base'
+import type { MaybeFn } from './_interface'
 import { combineURLs } from './combineURLs'
 import { isAbsoluteURL } from './isAbsoluteURL'
 import { resolveValue } from './resolveValue'

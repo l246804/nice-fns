@@ -1,4 +1,4 @@
-import type { MaybeFn, Simplify } from '@rhao/types-base'
+import type { MaybeFn, Simplify } from './_interface'
 import { resolveValue } from './resolveValue'
 
 export interface CreateBEMOptions {
