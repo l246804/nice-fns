@@ -1,5 +1,7 @@
 # Changelog
 
+## [2.0.1](https://github.com/l246804/nice-fns/compare/v2.0.0...v2.0.1) (2025-03-20)
+
 ## [2.0.0](https://github.com/l246804/nice-fns/compare/v1.10.0...v2.0.0) (2025-03-20)
 
 
