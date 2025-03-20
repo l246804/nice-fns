@@ -5,16 +5,19 @@ export default defineConfig({
     {
       format: 'esm',
       syntax: 'es2022',
-      dts: {
-        bundle: true,
-      },
+      dts: true,
       autoExtension: false,
+      bundle: false,
+      source: {
+        entry: {
+          index: './src',
+        },
+      },
       output: {
         target: 'web',
         filename: {
           js: '[name].js',
         },
-        externals: ['axios'],
       },
     },
     {
