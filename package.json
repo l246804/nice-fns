@@ -60,7 +60,7 @@
     "docs:preview": "vitepress preview docs",
     "docs:gen": "typedoc --options typedoc.mjs",
     "docs:clean": "rimraf docs/api",
-    "docs:prepare": "run-s docs:clean test:only",
+    "docs:prepare": "run-s docs:clean test:only docs:gen",
     "lint:fix": "eslint . --fix",
     "taze": "taze -iI major",
     "gi": "gi",
