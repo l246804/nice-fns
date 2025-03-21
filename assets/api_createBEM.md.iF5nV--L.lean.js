@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as i,R as e}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/createBEM.md","filePath":"api/createBEM.md"}'),t={name:"api/createBEM.md"},n=e("",14),h=[n];function l(p,r,d,k,c,o){return a(),i("div",null,h)}const y=s(t,[["render",l]]);export{g as __pageData,y as default};

@@ -1,0 +1,1 @@
+import{_ as e,o as a,c as t,R as s}from"./chunks/framework.KXHDQ-dn.js";const y=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/serialCall.md","filePath":"api/serialCall.md"}'),i={name:"api/serialCall.md"},l=s("",35),r=[l];function d(n,h,o,p,c,k){return a(),t("div",null,r)}const u=e(i,[["render",d]]);export{y as __pageData,u as default};

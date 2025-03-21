@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as a,R as o}from"./chunks/framework.KXHDQ-dn.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/isFunction.md","filePath":"api/isFunction.md"}'),n={name:"api/isFunction.md"},r=o("",8),i=[r];function s(c,d,h,l,u,_){return e(),a("div",null,i)}const f=t(n,[["render",s]]);export{m as __pageData,f as default};

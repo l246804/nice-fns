@@ -1,1 +1,0 @@
-import{_ as a,o as s,c as i,R as e}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/saveAs.md","filePath":"api/saveAs.md"}'),t={name:"api/saveAs.md"},n=e("",43),h=[n];function l(p,r,d,k,o,c){return s(),i("div",null,h)}const m=a(t,[["render",l]]);export{g as __pageData,m as default};

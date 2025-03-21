@@ -1,0 +1,1 @@
+import{_ as a,o as s,c as i,R as e}from"./chunks/framework.KXHDQ-dn.js";const g=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"api/eachTree.md","filePath":"api/eachTree.md"}'),n={name:"api/eachTree.md"},t=e("",16),h=[t];function l(p,r,k,E,d,o){return s(),i("div",null,h)}const y=a(n,[["render",l]]);export{g as __pageData,y as default};
