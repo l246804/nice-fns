@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.1.0](https://github.com/l246804/nice-fns/compare/v2.0.1...v2.1.0) (2025-03-21)
+
+### Bug Fixes
+
+* 修复 docs:build 命令报错 ([847a623](https://github.com/l246804/nice-fns/commit/847a623977d432acee1566fc13b8a642bf0165ad))
+* 修复 docs:build 命令报错 ([888655e](https://github.com/l246804/nice-fns/commit/888655ef91709461aab30620c5f4a68c58bdcaee))
+* 修复 docs:build 命令报错 ([1464ad4](https://github.com/l246804/nice-fns/commit/1464ad45196098bcebb874a4fb61dd1f85ce69f0))
+* 修复文档构建失败 ([187275e](https://github.com/l246804/nice-fns/commit/187275e2616cec46352459d24658d72bece03f59))
+
+### Refactors
+
+* 重构项目并升级依赖 ([5fd6448](https://github.com/l246804/nice-fns/commit/5fd64481c5f1e390040e0aa0e6289479db140b77))
+
 ## [2.0.1](https://github.com/l246804/nice-fns/compare/v2.0.0...v2.0.1) (2025-03-20)
 
 ## [2.0.0](https://github.com/l246804/nice-fns/compare/v1.10.0...v2.0.0) (2025-03-20)
