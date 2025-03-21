@@ -7,34 +7,22 @@
 Nice Fns 提供了基于 ES Module 的开箱即用的 Tree Shaking 功能。
 
 ```ts
-import { pascalCase } from 'nice-fns'
+import { addUnit } from 'nice-fns'
 
-pascalCase('test string')
-// => TestString
+addUnit('10')
+// => '10px'
 ```
 
 ## 默认配置
 
 部分函数提供了默认配置选项，方便为不同场景开发时提供便利。
 
-### 树结构配置
-
-```ts
-import { addUnit } from 'nice-fns'
-
-addUnit.defaultUnit = 'px'
-```
-
 ### 函数配置
 
 ```ts
-import { getFullURL, parseJSON } from 'nice-fns'
+import { getFullURL } from 'nice-fns'
 
 getFullURL.defaultBase = '/'
-
-parseJSON.defaults.onNil = (_, value) => {
-  return value
-}
 ```
 
 ## 开始使用

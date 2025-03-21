@@ -1,6 +1,7 @@
 import type { PromiseFn } from './_interface'
-import { isFunction, isObject } from './esToolkit'
 import { saveAs as baseSaveAs } from './_saveAs'
+import { isFunction } from './isFunction'
+import { isObjectLike } from './isObjectLike'
 
 export interface SaveAsOptions {
   /**
@@ -13,11 +14,6 @@ export interface SaveAsOptions {
   fetcher?: PromiseFn<[data: string, options: SaveAsOptions]>
 }
 
-/**
- * 默认配置
- */
-saveAs.defaults = {} as Omit<SaveAsOptions, 'filename'>
-
 type SaveAsData = string | Blob
 
 /**
@@ -28,13 +24,15 @@ type SaveAsData = string | Blob
  * @example
  * ```ts
  * // 默认配置 fetcher
- * saveAs.defaults.fetcher = (url, options) => {
- *   const res = fetch(url, { method: 'GET' })
- *   const filename = parseContentDisposition(res.headers.get('Content-Disposition')).filename
- *   // 如果附件存在文件名，则设置下载文件名为附件名称
- *   if (filename) options.filename = filename
- *   // 返回 Blob 数据
- *   return res.blob()
+ * saveAs.defaults = {
+ *   fetcher(url, options) {
+ *     const res = fetch(url, { method: 'GET' })
+ *     const filename = parseContentDisposition(res.headers.get('Content-Disposition')).filename
+ *     // 如果附件存在文件名，则设置下载文件名为附件名称
+ *     if (filename) options.filename = filename
+ *     // 返回 Blob 数据
+ *     return res.blob()
+ *   }
  * }
  *
  * // 调用接口下载文件
@@ -55,13 +53,15 @@ export async function saveAs(data: SaveAsData, options?: SaveAsOptions): Promise
  * @example
  * ```ts
  * // 默认配置 fetcher
- * saveAs.defaults.fetcher = (url, options) => {
- *   const res = fetch(url, { method: 'GET' })
- *   const filename = parseContentDisposition(res.headers.get('Content-Disposition')).filename
- *   // 如果附件存在文件名，则设置下载文件名为附件名称
- *   if (filename) options.filename = filename
- *   // 返回 Blob 数据
- *   return res.blob()
+ * saveAs.defaults = {
+ *   fetcher(url, options) {
+ *     const res = fetch(url, { method: 'GET' })
+ *     const filename = parseContentDisposition(res.headers.get('Content-Disposition')).filename
+ *     // 如果附件存在文件名，则设置下载文件名为附件名称
+ *     if (filename) options.filename = filename
+ *     // 返回 Blob 数据
+ *     return res.blob()
+ *   }
  * }
  *
  * // 调用接口下载文件
@@ -85,8 +85,8 @@ export async function saveAs(
  */
 export async function saveAs(data: any, filenameOrOptions: any = '', options: any = {}) {
   const opts: SaveAsOptions = {
-    ...saveAs.defaults,
-    ...(filenameOrOptions && isObject(filenameOrOptions)
+    ...(saveAs.defaults || {}),
+    ...(filenameOrOptions && isObjectLike(filenameOrOptions)
       ? filenameOrOptions
       : { filename: filenameOrOptions, ...options }),
   }
@@ -97,8 +97,15 @@ export async function saveAs(data: any, filenameOrOptions: any = '', options: an
   }
 
   const blob = await opts.fetcher(data, opts)
-  if (!(blob instanceof Blob))
-    return
+  if (!(blob instanceof Blob)) return
 
   baseSaveAs(blob, opts.filename)
+}
+
+export declare namespace saveAs {
+  /**
+   * 默认配置
+   */
+  // eslint-disable-next-line import/no-mutable-exports
+  export let defaults: Omit<SaveAsOptions, 'filename'> | undefined
 }

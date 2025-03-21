@@ -1,12 +1,7 @@
-import type { MaybeFn } from './_interface'
+import { MaybeFn } from './_interface'
 import { combineURLs } from './combineURLs'
 import { isAbsoluteURL } from './isAbsoluteURL'
 import { resolveValue } from './resolveValue'
-
-/**
- * 默认基路径
- */
-getFullURL.defaultBase = '' as MaybeFn<string>
 
 /**
  * 根据基路径获取完整的 URL
@@ -34,9 +29,16 @@ getFullURL.defaultBase = '' as MaybeFn<string>
  * ```
  */
 export function getFullURL(url: string, baseURL?: string) {
-  if (baseURL == null)
-    baseURL = resolveValue(getFullURL.defaultBase)
+  if (baseURL == null) baseURL = resolveValue(getFullURL.defaultBase || '')
   return baseURL && !isAbsoluteURL(url) ? combineURLs(baseURL, url) : url
+}
+
+export declare namespace getFullURL {
+  /**
+   * 默认基路径
+   */
+  // eslint-disable-next-line import/no-mutable-exports
+  export let defaultBase: MaybeFn<string>
 }
 
 if (import.meta.vitest) {

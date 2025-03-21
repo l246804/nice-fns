@@ -1,4 +1,4 @@
-import { clientRun } from './clientRun'
+import { resolveClientRunProfile } from './clientRun'
 
 export interface ListenWindowResizeOptions {
   /**
@@ -39,7 +39,7 @@ export interface ListenWindowResizeOptions {
  * ```
  */
 export function listenWindowResize(callback: () => void, options: ListenWindowResizeOptions = {}) {
-  const { window } = clientRun.resolveProfile()
+  const { window } = resolveClientRunProfile()
   const { emitOnPageShow = true, immediate = true, immediateCallback = false } = options
   let ac: AbortController | null = null
 
@@ -47,8 +47,7 @@ export function listenWindowResize(callback: () => void, options: ListenWindowRe
    * 启动监听器
    */
   function start() {
-    if (ac && !ac.signal.aborted)
-      return
+    if (ac && !ac.signal.aborted) return
 
     ac = new AbortController()
 

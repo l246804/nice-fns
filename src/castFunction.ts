@@ -1,5 +1,5 @@
 import type { MaybeFn } from './_interface'
-import { isFunction } from './esToolkit'
+import { isFunction } from './isFunction'
 
 /**
  * 转换值为 `Function`

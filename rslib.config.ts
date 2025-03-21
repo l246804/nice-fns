@@ -6,17 +6,18 @@ export default defineConfig({
       format: 'esm',
       syntax: 'es2022',
       dts: true,
-      autoExtension: false,
+      output: {
+        target: 'web',
+      },
+    },
+    {
+      format: 'esm',
+      syntax: 'es2022',
+      dts: true,
       bundle: false,
       source: {
         entry: {
-          index: './src',
-        },
-      },
-      output: {
-        target: 'web',
-        filename: {
-          js: '[name].js',
+          index: './src/_esToolkitCompat.ts',
         },
       },
     },
@@ -27,6 +28,9 @@ export default defineConfig({
       output: {
         filename: {
           js: 'umd.js',
+        },
+        externals: {
+          'es-toolkit': '_',
         },
       },
     },
@@ -39,6 +43,9 @@ export default defineConfig({
           js: 'umd.min.js',
         },
         minify: true,
+        externals: {
+          'es-toolkit': '_',
+        },
       },
     },
   ],

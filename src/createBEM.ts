@@ -9,13 +9,6 @@ export interface CreateBEMOptions {
   namespace: MaybeFn<string>
 }
 
-/**
- * 默认配置
- */
-createBEM.defaults = {
-  namespace: '',
-} as CreateBEMOptions
-
 function _bem(
   namespace: MaybeFn<string> = '',
   block = '',
@@ -27,20 +20,15 @@ function _bem(
 
   let cls = ''
 
-  if (namespace)
-    cls += namespace
+  if (namespace) cls += namespace
 
-  if (block)
-    cls += `${cls ? '-' : ''}${block}`
+  if (block) cls += `${cls ? '-' : ''}${block}`
 
-  if (blockSuffix)
-    cls += `-${blockSuffix}`
+  if (blockSuffix) cls += `-${blockSuffix}`
 
-  if (element)
-    cls += `__${element}`
+  if (element) cls += `__${element}`
 
-  if (modifier)
-    cls += `--${modifier}`
+  if (modifier) cls += `--${modifier}`
 
   return cls
 }
@@ -75,7 +63,7 @@ function _bem(
  */
 export function createBEM(
   block: string,
-  namespaceOverrides: MaybeFn<string> = createBEM.defaults.namespace,
+  namespaceOverrides: MaybeFn<string> = createBEM.defaults?.namespace || '',
 ) {
   const namespace = namespaceOverrides
 
@@ -108,6 +96,13 @@ export function createBEM(
   })
 
   return result as Simplify<{ namespace: string } & typeof result>
+}
+
+export declare namespace createBEM {
+  /**
+   * 默认配置
+   */
+  export let defaults: CreateBEMOptions | undefined
 }
 
 if (import.meta.vitest) {

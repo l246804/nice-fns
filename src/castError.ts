@@ -1,5 +1,3 @@
-import { isError } from './esToolkit'
-
 /**
  * 转换值为 `Error`
  * @param value 检测值
@@ -16,7 +14,7 @@ import { isError } from './esToolkit'
  * ```
  */
 export function castError(value: any, options: { cause?: any } = {}) {
-  return isError(value) ? value : createError()
+  return value instanceof Error ? value : createError()
 
   function createError() {
     const { cause = value } = options

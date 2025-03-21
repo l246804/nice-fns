@@ -1,4 +1,4 @@
-import { clientRun } from './clientRun'
+import { resolveClientRunProfile } from './clientRun'
 import { getDpr } from './getDpr'
 import { isClient } from './isClient'
 
@@ -8,10 +8,9 @@ import { isClient } from './isClient'
  * ***原理：根据浏览器是否会以某种方式渲染亚像素***
  */
 export function detectHalfPX() {
-  if (!isClient)
-    return false
+  if (!isClient) return false
 
-  const { document } = clientRun.resolveProfile()
+  const { document } = resolveClientRunProfile()
   const dpr = getDpr()
   const docEl = document.documentElement
 
@@ -24,8 +23,7 @@ export function detectHalfPX() {
     fakeBody.appendChild(testElement)
     docEl.appendChild(fakeBody)
 
-    if (testElement.offsetHeight === 1)
-      return true
+    if (testElement.offsetHeight === 1) return true
 
     docEl.removeChild(fakeBody)
   }

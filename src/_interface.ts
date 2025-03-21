@@ -2,7 +2,7 @@ export type Primitive = null | undefined | string | number | boolean | symbol | 
 
 export type Fn<Args extends any[] = any[], R = any> = (...args: Args) => R
 
-export type MaybeFn<T, Args extends any[] = any[]> = T | Fn<Args, T>
+export type MaybeFn<T, Args extends any[] = []> = T | Fn<Args, T>
 
 export type Nil = null | undefined
 

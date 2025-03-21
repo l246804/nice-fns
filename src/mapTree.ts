@@ -1,7 +1,7 @@
-import type { TreeIterator } from './tree'
-import type { HelperCreateTreeFuncHandler } from './_tree'
-import { helperCreateTreeFunc } from './_tree'
 import type { WithChildren } from './_interface'
+import type { HelperCreateTreeFuncHandler } from './_tree'
+import type { TreeIterator } from './tree'
+import { helperCreateTreeFunc } from './_tree'
 
 export interface MapTreeOptions<
   ChildrenKey extends string = string,
@@ -71,6 +71,8 @@ type MapTreeFunc = <
   false
 >[]
 
+let _mapTree: MapTreeFunc | null = null
+
 /**
  * 根据迭代器映射子节点生成新的树列表
  * @param array 树列表
@@ -106,7 +108,12 @@ type MapTreeFunc = <
  * // => [{...}, { id: 2, text: '22', }]
  * ```
  */
-export const mapTree = helperCreateTreeFunc(mapTreeNode) as MapTreeFunc
+export const mapTree: MapTreeFunc = (...args) => {
+  if (_mapTree == null) {
+    _mapTree = helperCreateTreeFunc(mapTreeNode) as MapTreeFunc
+  }
+  return _mapTree(...args)
+}
 
 if (import.meta.vitest) {
   const tree = [

@@ -1,6 +1,6 @@
 import type { Fn } from './_interface'
-import { isPromiseLike } from './isPromiseLike'
 import { assign } from './assign'
+import { isPromiseLike } from './isPromiseLike'
 
 export type SerialCallReturn<T extends Fn = Fn> = ReturnType<T> extends infer R
   ? R extends PromiseLike<any>
@@ -65,7 +65,7 @@ let runningCtx: SerialCallContext | null = null
  * }
  * ```
  */
-serialCall.getContext = function getContext<T extends Fn = Fn>() {
+export function getSerialCallContext<T extends Fn = Fn>() {
   return Object.assign({}, DEFAULT_CONTEXT, runningCtx) as SerialCallContext<T>
 }
 
@@ -123,6 +123,7 @@ export function serialCall<T extends Fn = Fn>(
 }
 
 if (import.meta.vitest) {
+  // eslint-disable-next-line antfu/no-top-level-await
   const { promiseWithControl } = await import('./promiseWithControl')
 
   const sleep = (ms: number) => {
@@ -160,7 +161,7 @@ if (import.meta.vitest) {
         return 1
       }
       const fn2: Fn = () => {
-        const ctx = serialCall.getContext<Fn>()
+        const ctx = getSerialCallContext<Fn>()
         return ctx.returned != null ? ctx.returned + 2 : 1
       }
       const val = await serialCall<Fn>([fn1, fn2])
@@ -170,13 +171,13 @@ if (import.meta.vitest) {
     it('should return index array', async () => {
       type Fn = () => Promise<number[]> | number[]
       const fn1: Fn = async () => {
-        const ctx = serialCall.getContext<Fn>()
+        const ctx = getSerialCallContext<Fn>()
         // 睡眠三秒
         await sleep(3000)
         return ctx.isFirst ? [ctx.currentIndex] : ctx.returned!.concat(ctx.currentIndex)
       }
       const fn2: Fn = () => {
-        const ctx = serialCall.getContext<Fn>()
+        const ctx = getSerialCallContext<Fn>()
         return ctx.returned != null ? ctx.returned.concat(ctx.currentIndex) : [ctx.currentIndex]
       }
       const val = await serialCall<Fn>([fn1, fn2])

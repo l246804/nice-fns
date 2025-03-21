@@ -5,4 +5,13 @@ export default defineConfig({
   glob: {
     ignore: ['_*.ts'],
   },
+  hooks: {
+    beforeWrite(ctx) {
+      ctx.content += `
+export * from 'es-toolkit';
+// override types
+export { isFunction } from './isFunction';
+`
+    },
+  },
 })

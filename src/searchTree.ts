@@ -51,11 +51,9 @@ const _searchTreeNode: Fn<
       // 处理源对象引用
       if (options.original) {
         result = node
-      }
-      else {
+      } else {
         result = Object.assign({}, node)
-        if (options.originalDataKey)
-          result[options.originalDataKey] = node
+        if (options.originalDataKey) result[options.originalDataKey] = node
       }
 
       // 存在子级时同步映射子级和原始子级
@@ -73,8 +71,7 @@ const _searchTreeNode: Fn<
       }
 
       // 如果通过或子级存在通过则添加结果
-      if (isPass || result[mapChildrenKey]?.length)
-        results.push(result)
+      if (isPass || result[mapChildrenKey]?.length) results.push(result)
     }
   })
 
@@ -100,6 +97,8 @@ type SearchTreeFunc = <
   ChildrenKey | MappingChildrenKey,
   false
 >[]
+
+let _searchTreeFunc: SearchTreeFunc | null = null
 
 /**
  * 根据迭代器搜索树列表的子项数据，区别于 `filterTree` 会返回完整的树形结构列表
@@ -134,7 +133,12 @@ type SearchTreeFunc = <
  * // => [{ id: 1, text: '1', children: [{ id: 3, text: '3', }] }]
  * ```
  */
-export const searchTree = helperCreateTreeFunc(searchTreeNode) as SearchTreeFunc
+export const searchTree: SearchTreeFunc = (...args) => {
+  if (_searchTreeFunc == null) {
+    _searchTreeFunc = helperCreateTreeFunc(searchTreeNode) as SearchTreeFunc
+  }
+  return _searchTreeFunc(...args)
+}
 
 if (import.meta.vitest) {
   const tree = [

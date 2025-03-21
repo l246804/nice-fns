@@ -17,11 +17,24 @@ pnpm add nice-fns
 ## 使用方式
 
 ```ts
-import { pascalCase } from 'nice-fns'
+import { addUnit } from 'nice-fns'
 
-pascalCase('test string')
-// => 'TestString'
+addUnit('10')
+// => '10px'
 ```
+
+## 迁移至 v2.1
+
+- 删除部分函数全局配置以保证应用侧捆绑器能够正常 treeshaking
+  + addUnit.defaultUnit
+  + classState.is
+  + clientRun.resolveProfile -> resolveClientRunProfile
+  + clientRun.defaults
+  + createScrollbarHelper.getScrollLeft -> getScrollLeft，其他函数类似
+  + scaleDom.getScale -> getScaled
+  + scaleDom.revert -> revertScaled
+  + toDictionary.builtinMethods
+- es-toolkit 兼容层改为由 nice-fns/compat 提供
 
 ## 迁移至 v2.x
 

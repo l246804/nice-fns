@@ -5,17 +5,9 @@ type CssVarNameType = string | number
  */
 export type CssVarNameProcessor = (namespace: string, name: CssVarNameType) => string
 
-/**
- * 默认变量名处理器
- *
- * @defaults
- * ```ts
- * (namespace, name) => [namespace, name].filter((name) => name != null && name !== '').join('-')
- * ```
- */
-cssVarName.defaultProcessor = ((namespace, name) => {
+const defaultProcessor: CssVarNameProcessor = (namespace, name) => {
   return [namespace, name].filter((name) => name != null && name !== '').join('-')
-}) as CssVarNameProcessor
+}
 
 /**
  * 获取 `CSS` 变量名
@@ -48,10 +40,17 @@ export function cssVarName<T extends CssVarNameType>(
   name: T,
   useVar = false,
   namespace = '',
-  processor = cssVarName.defaultProcessor,
+  processor: CssVarNameProcessor = cssVarName.defaultProcessor || defaultProcessor,
 ) {
   const varName = `--${processor(namespace, name)}`
   return useVar ? `var(${varName})` : varName
+}
+
+export declare namespace cssVarName {
+  /**
+   * 默认变量名处理器
+   */
+  export let defaultProcessor: CssVarNameProcessor | undefined
 }
 
 if (import.meta.vitest) {

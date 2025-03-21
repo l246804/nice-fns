@@ -1,5 +1,5 @@
-import { isClient } from './isClient'
 import { getWindowSize } from './getWindowSize'
+import { isClient } from './isClient'
 
 export type ScalePxMode = 'width' | 'height'
 
@@ -32,20 +32,17 @@ export interface ScalePxOptions {
 }
 
 /**
- * 默认配置
- */
-scalePx.defaults = {} as ScalePxOptions
-
-/**
  * 数值由 `px` 基于当前视口大小和设计稿大小的比例进行缩放
  * @param value 数值
  * @param options 配置项
  *
  * @example
  * ```ts
- * scalePx.defaults.mode = 'width'
- * scalePx.defaults.designWidth = 1920
- * scalePx.defaults.precision = 6
+ * scalePx.defaults = {
+ *   mode: 'width',
+ *   designWidth: 1920,
+ *   precision: 6,
+ * }
  *
  * scalePx(100)
  * // => +((window.innerWidth / 1920) * 100).toFixed(6)
@@ -61,7 +58,7 @@ export function scalePx(value: number, options: ScalePxOptions = {}) {
     precision = 6,
     excludeScrollbar = false,
   } = {
-    ...scalePx.defaults,
+    ...(scalePx.defaults || {}),
     ...options,
   }
 
@@ -69,6 +66,14 @@ export function scalePx(value: number, options: ScalePxOptions = {}) {
   const designValue = mode === 'height' ? designHeight : designWidth
 
   return +((realValue / designValue) * value).toFixed(precision)
+}
+
+export declare namespace scalePx {
+  /**
+   * 默认配置
+   */
+  // eslint-disable-next-line import/no-mutable-exports
+  export let defaults: ScalePxOptions | undefined
 }
 
 if (import.meta.vitest) {

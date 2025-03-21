@@ -1,4 +1,4 @@
-import { isObjectLike } from './esToolkit'
+import { isObjectLike } from './isObjectLike'
 
 /**
  * 扁平化对象属性路径
@@ -33,15 +33,13 @@ export function flattenPaths(
     if (isObjectLike(obj)) {
       for (const key of Object.keys(obj)) {
         const el = obj[key as keyof typeof obj]
-        const path = parent + (/^[^a-zA-Z$_]/.test(key) ? `[${key}]` : `${parent ? '.' : ''}${key}`)
+        const path = parent + (/^[^a-z$_]/i.test(key) ? `[${key}]` : `${parent ? '.' : ''}${key}`)
 
         // 保留属性路径
-        if (preservePath(el, key, path))
-          results.push(path)
+        if (preservePath(el, key, path)) results.push(path)
 
         // 深度扁平化
-        if (deepFlatten(el, key, path))
-          flatten(el, results, path)
+        if (deepFlatten(el, key, path)) flatten(el, results, path)
       }
     }
 

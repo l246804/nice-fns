@@ -1,11 +1,8 @@
 import type { IfNil } from './_interface'
-import { filter, flow, isNil, partialRight } from './esToolkit'
 
 interface CompactObject {
   <T extends {}>(object: T): { [K in keyof T as IfNil<T[K], never, K>]: T[K] }
 }
-
-const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
 
 /**
  * 移除对象值为 `null` 和 `undefined` 的属性
@@ -17,7 +14,9 @@ const _filter = partialRight(filter, (pairs: any[]) => !isNil(pairs[1]))
  * // => { a: 0, d: '', f: false, e: NaN }
  * ```
  */
-export const compactObject = flow(Object.entries, _filter, Object.fromEntries) as CompactObject
+export const compactObject = ((object) => {
+  return Object.fromEntries(Object.entries(object).filter(([_, value]) => value != null))
+}) as CompactObject
 
 if (import.meta.vitest) {
   it('基础功能', () => {

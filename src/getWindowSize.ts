@@ -1,4 +1,4 @@
-import { clientRun } from './clientRun'
+import { resolveClientRunProfile } from './clientRun'
 import { isClient } from './isClient'
 
 /**
@@ -18,7 +18,7 @@ import { isClient } from './isClient'
 export function getWindowSize(excludeScrollbar?: boolean) {
   const size = { width: 0, height: 0 }
   if (isClient) {
-    const { window, document } = clientRun.resolveProfile()
+    const { window, document } = resolveClientRunProfile()
     size.width = excludeScrollbar ? document.documentElement.clientWidth : window.innerWidth
     size.height = excludeScrollbar ? document.documentElement.clientHeight : window.innerHeight
   }

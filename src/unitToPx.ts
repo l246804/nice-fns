@@ -76,11 +76,6 @@ export function unitToPx(value: Numeric) {
 
 if (import.meta.vitest) {
   describe('基础功能', () => {
-    it('rem', () => {
-      getRootFontSize.__rootFontSize__ = 100
-      expect(convertRem('1rem')).toBe(100)
-    })
-
     it('vw', () => {
       expect(convertVw('100vw', { width: 1000, height: 0 })).toBe(1000)
     })

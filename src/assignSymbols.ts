@@ -1,4 +1,4 @@
-import { isObject } from './esToolkit'
+import { isObject } from './isObject'
 import { symbolsOf } from './symbolsOf'
 
 /**

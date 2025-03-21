@@ -1,5 +1,5 @@
 import type { MaybeNil } from './_interface'
-import { isFunction } from './esToolkit'
+import { isFunction } from './isFunction'
 
 /**
  * 自起始元素向上查找目标元素，父级元素不存在或终止条件成立时返回 `null`
@@ -28,16 +28,13 @@ export function findUpElement<T extends Element>(
   target: MaybeNil<T | ((el: T) => boolean | void)>,
   end?: MaybeNil<Element | ((el: any) => boolean | void)>,
 ): T | null {
-  if (!source)
-    return null
+  if (!source) return null
 
   const targetFn = isFunction(target) ? target : (el: T) => el === target
-  if (targetFn(source as T))
-    return source as T
+  if (targetFn(source as T)) return source as T
 
   const endFn = isFunction(end) ? end : (el: Element) => el === end
-  if (endFn(source))
-    return null
+  if (endFn(source)) return null
 
   return findUpElement(source.parentElement, targetFn, endFn)
 }

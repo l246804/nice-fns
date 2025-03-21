@@ -1,7 +1,7 @@
-import { isElement } from './esToolkit'
-import { isClient } from './isClient'
-import { clientRun } from './clientRun'
 import type { MaybeNil } from './_interface'
+import { isElement } from 'es-toolkit/compat'
+import { resolveClientRunProfile } from './clientRun'
+import { isClient } from './isClient'
 
 export type ScrollElement = Element | Window
 export type ScrollType = 'x' | 'y' | 'both'
@@ -29,22 +29,19 @@ const overflowScrollReg = /scroll|auto|overlay/i
 export function getScrollParent(
   start: MaybeNil<Element>,
   type: ScrollType = 'both',
-  end: ScrollElement = clientRun.defaults.window as ScrollElement,
+  end: ScrollElement = resolveClientRunProfile().window as ScrollElement,
 ) {
-  if (!isClient)
-    return undefined
+  if (!isClient) return undefined
 
-  const { window } = clientRun.resolveProfile()
+  const { window } = resolveClientRunProfile()
 
   let styleName = 'overflow'
-  if (type !== 'both' && ['x', 'y'].includes(type))
-    styleName += type.toUpperCase()
+  if (type !== 'both' && ['x', 'y'].includes(type)) styleName += type.toUpperCase()
 
   let node = start
   while (node && node !== end && isElement(node)) {
     const style = window.getComputedStyle(node)
-    if (overflowScrollReg.test(style[styleName as any]))
-      return node
+    if (overflowScrollReg.test(style[styleName as any])) return node
 
     node = node.parentNode as Element
   }

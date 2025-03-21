@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/prefer-dom-node-text-content */
-import { clientRun } from './clientRun'
+import { resolveClientRunProfile } from './clientRun'
 import { isClient } from './isClient'
 
 function download(url: string, name: string) {
@@ -21,8 +21,7 @@ function corsEnabled(url: string) {
   xhr.open('HEAD', url, false)
   try {
     xhr.send()
-  }
-  catch (e) {}
+  } catch {}
   return xhr.status >= 200 && xhr.status <= 299
 }
 
@@ -30,8 +29,7 @@ function corsEnabled(url: string) {
 function click(node: Element) {
   try {
     node.dispatchEvent(new MouseEvent('click'))
-  }
-  catch (e) {
+  } catch {
     const evt = document.createEvent('MouseEvents')
     evt.initMouseEvent(
       'click',
@@ -57,21 +55,16 @@ function click(node: Element) {
 // Detect WebView inside a native macOS app by ruling out all browsers
 // We just need to check for 'Safari' because all other browsers (besides Firefox) include that too
 // https://www.whatismybrowser.com/guides/the-latest-user-agent/macos
-const isMacOSWebView
-  = isClient
-  && /Macintosh/.test(navigator.userAgent)
-  && /AppleWebKit/.test(navigator.userAgent)
-  && !/Safari/.test(navigator.userAgent)
+const isMacOSWebView =
+  isClient &&
+  /Macintosh/.test(navigator.userAgent) &&
+  /AppleWebKit/.test(navigator.userAgent) &&
+  !/Safari/.test(navigator.userAgent)
 
-export function saveAs(
-  blob: Blob | string,
-  name = '',
-  popup: Window | null = null,
-) {
-  if (!isClient)
-    return
+export function saveAs(blob: Blob | string, name = '', popup: Window | null = null) {
+  if (!isClient) return
 
-  const { window, document, location, navigator } = clientRun.resolveProfile()
+  const { window, document, location, navigator } = resolveClientRunProfile()
 
   // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
   if ('download' in HTMLAnchorElement.prototype && !isMacOSWebView) {
@@ -85,14 +78,12 @@ export function saveAs(
       // Support regular links
       a.href = blob
       if (a.origin !== location.origin) {
-        if (corsEnabled(a.href))
-          return download(blob, name)
+        if (corsEnabled(a.href)) return download(blob, name)
 
         a.target = '_blank'
       }
       click(a)
-    }
-    else {
+    } else {
       // Support blobs
       a.href = URL.createObjectURL(blob)
       setTimeout(() => {
@@ -102,42 +93,36 @@ export function saveAs(
         click(a)
       }, 0)
     }
-  }
-  else {
+  } else {
     // Fallback to using FileReader and a popup
     // Open a popup immediately do go around popup blocker
     // Mostly only available on user interaction and the fileReader is async so...
     popup = popup || window.open('', '_blank')
-    if (popup)
-      popup.document.title = popup.document.body.innerText = 'downloading...'
+    if (popup) popup.document.title = popup.document.body.innerText = 'downloading...'
 
-    if (typeof blob === 'string')
-      return download(blob, name)
+    if (typeof blob === 'string') return download(blob, name)
 
     const force = blob.type === 'application/octet-stream'
     const isSafari = /Safari/.test(navigator.userAgent)
-    const isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent)
+    const isChromeIOS = /CriOS\/\d+/.test(navigator.userAgent)
 
     if (
-      (isChromeIOS || (force && isSafari) || isMacOSWebView)
-      && typeof FileReader !== 'undefined'
+      (isChromeIOS || (force && isSafari) || isMacOSWebView) &&
+      typeof FileReader !== 'undefined'
     ) {
       // Safari doesn't allow downloading of blob URLs
       const reader = new FileReader()
       reader.onloadend = function () {
         let url = reader.result as string
         url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, 'data:attachment/file;')
-        if (popup)
-          popup.location.href = url
+        if (popup) popup.location.href = url
         else location.href = url
         popup = null // reverse-tabnabbing #460
       }
       reader.readAsDataURL(blob)
-    }
-    else {
+    } else {
       const url = URL.createObjectURL(blob)
-      if (popup)
-        popup.location = url
+      if (popup) popup.location = url
       else location.href = url
       popup = null // reverse-tabnabbing #460
       setTimeout(() => {

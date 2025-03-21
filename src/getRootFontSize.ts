@@ -1,10 +1,7 @@
-import { clientRun } from './clientRun'
+import { resolveClientRunProfile } from './clientRun'
 import { isClient } from './isClient'
 
-/**
- * 根元素字体大小
- */
-getRootFontSize.__rootFontSize__ = 0
+let __rootFontSize__ = 0
 
 /**
  * 获取根元素字体大小
@@ -22,13 +19,13 @@ getRootFontSize.__rootFontSize__ = 0
  * ```
  */
 export function getRootFontSize(forceUpdate = false) {
-  if (isClient && (!getRootFontSize.__rootFontSize__ || forceUpdate)) {
-    const { window, document } = clientRun.resolveProfile()
+  if (isClient && (!__rootFontSize__ || forceUpdate)) {
+    const { window, document } = resolveClientRunProfile()
     const element = document.documentElement
     const fontSize = element.style.fontSize || window.getComputedStyle(element).fontSize
-    getRootFontSize.__rootFontSize__ = Number.parseFloat(fontSize)
+    __rootFontSize__ = Number.parseFloat(fontSize)
   }
-  return getRootFontSize.__rootFontSize__
+  return __rootFontSize__
 }
 
 if (import.meta.vitest) {

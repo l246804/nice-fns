@@ -1,5 +1,4 @@
 import type { Fn, MaybeFn } from './_interface'
-import { noop } from './esToolkit'
 import { createSwitch } from './createSwitch'
 import { isClient } from './isClient'
 import { resolveValue } from './resolveValue'
@@ -54,7 +53,7 @@ export interface TimerWithControlOptions {
  * ```
  */
 export function timerWithControl(callback: Fn<[], void>, options: TimerWithControlOptions = {}) {
-  const { immediateCallback = false, ms = 0, type = 'setTimeout', onCleanup = noop } = options
+  const { immediateCallback = false, ms = 0, type = 'setTimeout', onCleanup = () => {} } = options
 
   type TimerFn = (callback: () => void, ms?: number) => any
   type ClearTimerFn = (id: any) => void
@@ -80,10 +79,8 @@ export function timerWithControl(callback: Fn<[], void>, options: TimerWithContr
 
   function wrapCallback() {
     callback()
-    if (type === 'setTimeout')
-      active.close()
-    if (type === 'requestAnimationFrame')
-      start()
+    if (type === 'setTimeout') active.close()
+    if (type === 'requestAnimationFrame') start()
   }
 
   function clean(cleanup = false) {
@@ -96,12 +93,10 @@ export function timerWithControl(callback: Fn<[], void>, options: TimerWithContr
 
   function start() {
     const msValue = resolveValue(ms)
-    if (type !== 'requestAnimationFrame' && msValue <= 0)
-      return active.close()
+    if (type !== 'requestAnimationFrame' && msValue <= 0) return active.close()
 
     active.open()
-    if (immediateCallback)
-      callback()
+    if (immediateCallback) callback()
 
     clean()
     timer = timerFn(wrapCallback, type !== 'requestAnimationFrame' ? msValue : undefined)
@@ -140,11 +135,12 @@ export function timerWithControl(callback: Fn<[], void>, options: TimerWithContr
 
 if (import.meta.vitest) {
   describe('基础功能', async () => {
-    const sleep = (ms: number) => new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true)
-      }, ms)
-    })
+    const sleep = (ms: number) =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(true)
+        }, ms)
+      })
 
     it('启动定时器', async () => {
       const callback = vi.fn()

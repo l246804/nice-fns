@@ -1,42 +1,63 @@
 import type { MaybeFn, MaybeNil } from './_interface'
-import { resolveValue } from './resolveValue'
 import { getDpr } from './getDpr'
+import { resolveValue } from './resolveValue'
 
 type Target = MaybeNil<HTMLElement>
 
-function getScrollLeft(el: Target) {
+/**
+ * 获取水平滚动距离
+ */
+export function getScrollLeft(el: Target) {
   if (!el)
     return 0
   return el.scrollLeft
 }
 
-function getScrollTop(el: Target) {
+/**
+ * 获取垂直滚动距离
+ */
+export function getScrollTop(el: Target) {
   if (!el)
     return 0
   return el.scrollTop
 }
 
-function isReachRight(el: Target) {
+/**
+ * 是否到达水平末端
+ */
+export function isReachRight(el: Target) {
   if (!el)
     return false
   return Math.abs(getScrollLeft(el) + el.clientWidth - el.scrollWidth) <= Math.max(getDpr(), 1)
 }
 
-function isReachBottom(el: Target) {
+/**
+ * 是否到达垂直末端
+ */
+export function isReachBottom(el: Target) {
   if (!el)
     return false
   return Math.abs(getScrollTop(el) + el.clientHeight - el.scrollHeight) <= Math.max(getDpr(), 1)
 }
 
-function setScrollLeft(el: Target, value: number) {
+/**
+ * 设置水平滚动距离
+ */
+export function setScrollLeft(el: Target, value: number) {
   el?.scrollTo({ left: value })
 }
 
-function setScrollTop(el: Target, value: number) {
+/**
+ * 设置垂直滚动距离
+ */
+export function setScrollTop(el: Target, value: number) {
   el?.scrollTo({ top: value })
 }
 
-function addScrollLeft(el: Target, value: number) {
+/**
+ * 增加水平滚动距离
+ */
+export function addScrollLeft(el: Target, value: number) {
   const dpr = getDpr()
   // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
   if (dpr < 1)
@@ -44,49 +65,16 @@ function addScrollLeft(el: Target, value: number) {
   setScrollLeft(el, getScrollLeft(el) + value)
 }
 
-function addScrollTop(el: Target, value: number) {
+/**
+ * 增加垂直滚动距离
+ */
+export function addScrollTop(el: Target, value: number) {
   const dpr = getDpr()
   // 处理 dpr 小于 1 的屏幕下 scrollTop 为小数时添加整数可能无效
   if (dpr < 1)
     value = Math.ceil(value / dpr)
   setScrollTop(el, getScrollTop(el) + value)
 }
-
-/**
- * 获取水平滚动距离
- */
-createScrollbarHelper.getScrollLeft = getScrollLeft
-/**
- * 获取垂直滚动距离
- */
-createScrollbarHelper.getScrollTop = getScrollTop
-
-/**
- * 是否到达水平末端
- */
-createScrollbarHelper.isReachRight = isReachRight
-/**
- * 是否到达垂直末端
- */
-createScrollbarHelper.isReachBottom = isReachBottom
-
-/**
- * 设置水平滚动距离
- */
-createScrollbarHelper.setScrollLeft = setScrollLeft
-/**
- * 设置垂直滚动距离
- */
-createScrollbarHelper.setScrollTop = setScrollTop
-
-/**
- * 增加水平滚动距离
- */
-createScrollbarHelper.addScrollLeft = addScrollLeft
-/**
- * 增加垂直滚动距离
- */
-createScrollbarHelper.addScrollTop = addScrollTop
 
 export interface ScrollbarHelper {
   /**

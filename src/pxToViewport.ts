@@ -22,20 +22,17 @@ export interface PxToViewportOptions {
 }
 
 /**
- * 默认配置
- */
-pxToViewport.defaults = {} as PxToViewportOptions
-
-/**
  * 数值由 `px` 转为 `viewport` 并携带单位
  * @param value 数值
  * @param options 配置项
  *
  * @example
  * ```ts
- * pxToViewport.defaults.unit = 'vw'
- * pxToViewport.defaults.designWidth = 1440
- * pxToViewport.defaults.precision = 4
+ * pxToViewport.defaults = {
+ *   unit: 'vw',
+ *   designWidth: 1440,
+ *   precision: 4,
+ * }
  *
  * pxToViewport(100)
  * // => '${((100 / 1440) * 100).toFixed(4)}${vw}'
@@ -47,16 +44,24 @@ export function pxToViewport(value: number, options: PxToViewportOptions = {}) {
     unit = 'vw',
     designWidth = 1920,
     designHeight = 1080,
-  } = { ...pxToViewport.defaults, ...options }
+  } = { ...(pxToViewport.defaults || {}), ...options }
 
-  const baseValue
-    = unit === 'vh'
+  const baseValue =
+    unit === 'vh'
       ? designHeight
       : unit === 'vw'
         ? designWidth
         : Math[unit === 'vmax' ? 'max' : 'min'](designHeight, designWidth)
 
   return `${+((value / baseValue) * 100).toFixed(precision)}${unit}`
+}
+
+export declare namespace pxToViewport {
+  /**
+   * 默认配置
+   */
+  // eslint-disable-next-line import/no-mutable-exports
+  export let defaults: PxToViewportOptions | undefined
 }
 
 if (import.meta.vitest) {

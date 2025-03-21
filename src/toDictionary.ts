@@ -1,5 +1,6 @@
 import type { Fn, KeyOf, Primitive } from './_interface'
-import { isArray, isNil, isObject, toString } from './esToolkit'
+import { toString } from 'es-toolkit/compat'
+import { isObject } from './isObject'
 
 /**
  * 字典项
@@ -470,23 +471,26 @@ const builtinMethods = {
   eqValue(key, value) {
     return this.has(key) && this.getValue(key) === value
   },
-  forEach: createArrayMethods('forEach'),
-  filter: createArrayMethods('filter'),
-  find: createArrayMethods('find'),
-  every: createArrayMethods('every'),
-  some: createArrayMethods('some'),
+  forEach(...args) {
+    return applyArrayMethod.call(this, 'forEach', args)
+  },
+  filter(...args: any[]) {
+    return applyArrayMethod.call(this, 'filter', args)
+  },
+  find(...args: any[]) {
+    return applyArrayMethod.call(this, 'find', args)
+  },
+  every(...args: any[]) {
+    return applyArrayMethod.call(this, 'every', args)
+  },
+  some(...args) {
+    return applyArrayMethod.call(this, 'some', args)
+  },
 } as DictionaryBuiltinMethods & ThisType<Dictionary>
 
-function createArrayMethods(method: keyof Array<DictionaryItem>) {
-  return function func(this: Dictionary, ...args: any[]) {
-    return Array.prototype[method].apply(this.items(), args)
-  }
+function applyArrayMethod(this: Dictionary, method: keyof Array<DictionaryItem>, args: any[]) {
+  return Array.prototype[method].apply(this.items(), args)
 }
-
-/**
- * 内置方法
- */
-toDictionary.builtinMethods = builtinMethods
 
 /**
  * 数组转字典
@@ -617,7 +621,7 @@ export function toDictionary(data: any, options: DictionaryOptions<'value'> = {}
   const { valueKey = 'value', labelKey = valueKey, key = valueKey } = options
 
   // 字典方法
-  const methods = Object.assign({}, toDictionary.builtinMethods, options.methods)
+  const methods = Object.assign({}, builtinMethods, options.methods)
   // 字典实例
   const instance = Object.create(methods)
   // 字典实例内置 Map 实例
@@ -639,9 +643,9 @@ export function toDictionary(data: any, options: DictionaryOptions<'value'> = {}
     },
   })
 
-  if (isArray(data)) {
+  if (Array.isArray(data)) {
     data.forEach((item) => {
-      if (isNil(item))
+      if (item == null)
         return
 
       const _item = toItem(item)

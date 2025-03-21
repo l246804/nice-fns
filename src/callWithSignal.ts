@@ -67,6 +67,7 @@ export function callWithSignal<T extends Fn = Fn>(
 }
 
 if (import.meta.vitest) {
+  // eslint-disable-next-line antfu/no-top-level-await
   const { sleep } = await import('./sleep')
 
   describe('callWithSignal cases:', () => {

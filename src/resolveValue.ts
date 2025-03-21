@@ -31,7 +31,7 @@ if (import.meta.vitest) {
 
       expectTypeOf(
         resolveValue((value: string, value2: number) => value + value2, '1', 2),
-      ).toMatchTypeOf<string>()
+      ).toExtend<string>()
     })
 
     it('非 Function 类型', () => {

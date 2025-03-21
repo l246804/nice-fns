@@ -1,5 +1,5 @@
-import type { TreeIterator } from './tree'
 import type { HelperCreateTreeFuncHandler } from './_tree'
+import type { TreeIterator } from './tree'
 import { helperCreateTreeFunc } from './_tree'
 
 export interface FindTreeOptions {
@@ -69,6 +69,8 @@ type FindTreeFunc = <T extends {}>(
   options?: FindTreeOptions,
 ) => FindResult<T> | undefined
 
+let _findTree: FindTreeFunc | null = null
+
 /**
  * 根据迭代器查找树列表子节点
  * @param array 树列表
@@ -99,7 +101,12 @@ type FindTreeFunc = <T extends {}>(
  * // => { index: 0, node: { id: 3, text: '3', }, paths: ['0', 'children', '0'], nodes: [{ id: 1, text: '1', children: [{...}], }, { id: 3, text: '3', }], tree: [...] }
  * ```
  */
-export const findTree = helperCreateTreeFunc(findTreeNode) as FindTreeFunc
+export const findTree: FindTreeFunc = (...args) => {
+  if (_findTree == null) {
+    _findTree = helperCreateTreeFunc(findTreeNode) as FindTreeFunc
+  }
+  return _findTree(...args)
+}
 
 if (import.meta.vitest) {
   const tree = [

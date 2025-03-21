@@ -1,5 +1,5 @@
 import type { IfNever, MaybeFn, ReplaceEmpty, ReplaceNever } from './_interface'
-import { orderBy } from './esToolkit'
+import { orderBy } from 'es-toolkit'
 import { batchUnset } from './batchUnset'
 import { castFunction } from './castFunction'
 
@@ -81,9 +81,9 @@ type TreeNodeBase<
   MappingKey extends string,
   MappingParentKey extends string,
 > = IfNever<DataKey, T, Record<DataKey, T>> &
-Pick<T, Key | ParentKey> &
-Record<MappingKey, T[Key]> &
-Record<MappingParentKey, T[ParentKey]>
+  Pick<T, Key | ParentKey> &
+  Record<MappingKey, T[Key]> &
+  Record<MappingParentKey, T[ParentKey]>
 
 type ChildrenWithStrict<T, Strict extends boolean> = Strict extends false ? T : T | undefined
 
@@ -98,7 +98,7 @@ type TreeNodeWithChildren<
   MappingChildrenKey extends string,
   RemoveEmptyChildrenKey extends boolean,
 > = Omit<T, ChildrenKey | MappingChildrenKey> &
-TreeNodeChildren<
+  TreeNodeChildren<
     ChildrenWithStrict<
       TreeNodeWithChildren<T, ChildrenKey, MappingChildrenKey, RemoveEmptyChildrenKey>[],
       RemoveEmptyChildrenKey
@@ -216,16 +216,16 @@ export function toArrayTree<
     Strict
   > = {},
 ): TreeNode<
-  T,
-  Key,
-  ParentKey,
-  ReplaceNever<ReplaceEmpty<ChildrenKey, never>, 'children'>,
-  ReplaceEmpty<DataKey, never>,
-  ReplaceNever<RemoveEmptyChildrenKey, Strict>,
-  MappingKey,
-  MappingParentKey,
-  MappingChildrenKey
->[] {
+    T,
+    Key,
+    ParentKey,
+    ReplaceNever<ReplaceEmpty<ChildrenKey, never>, 'children'>,
+    ReplaceEmpty<DataKey, never>,
+    ReplaceNever<RemoveEmptyChildrenKey, Strict>,
+    MappingKey,
+    MappingParentKey,
+    MappingChildrenKey
+  >[] {
   // 合并配置项
   const opts = {
     key: 'id',

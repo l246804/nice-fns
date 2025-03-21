@@ -1,5 +1,5 @@
 import type { Primitive } from './_interface'
-import { isObject } from './esToolkit'
+import { isObject } from './isObject'
 
 export interface ArrayToMapOptions<
   UseMap extends boolean = false,

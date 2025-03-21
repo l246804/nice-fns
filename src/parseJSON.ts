@@ -1,5 +1,4 @@
 import type { MaybeFn } from './_interface'
-import { isNil } from './esToolkit'
 import { castFunction } from './castFunction'
 
 export interface ParseJSONOptions<T> {
@@ -42,9 +41,8 @@ export function parseJSON<T>(text: string, options: ParseJSONOptions<T> = {}): T
   const _onNil = castFunction(onNil)
   try {
     const result = JSON.parse(text, reviver)
-    return isNil(result) ? _onNil(undefined, result, text) : result
-  }
-  catch (error: any) {
+    return result == null ? _onNil(undefined, result, text) : result
+  } catch (error: any) {
     return _onNil(error, undefined, text)
   }
 }

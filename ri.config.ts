@@ -5,4 +5,5 @@ export default defineConfig({
   ...config,
   allowEmpty: true,
   exclude: ['**/*'],
+  hooks: {},
 })

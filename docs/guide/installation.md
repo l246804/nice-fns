@@ -29,6 +29,8 @@ $ pnpm install nice-fns
 
 ```html
 <head>
+  <!-- Import ESToolkit -->
+  <script src="//unpkg.com/es-toolkit"></script>
   <!-- Import NiceFns -->
   <script src="//unpkg.com/nice-fns"></script>
 </head>

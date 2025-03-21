@@ -1,5 +1,4 @@
 import type { MaybeNil } from './_interface'
-import { isArray } from './esToolkit'
 
 type StateClass = MaybeNil<string>
 type StateClasses = (StateClass | [stateClass: StateClass, state?: boolean, prefix?: string])[]
@@ -48,16 +47,6 @@ interface Is {
 }
 
 /**
- * 前缀为 `is-` 的状态函数
- *
- * @default
- * ```ts
- * classState('is-')
- * ```
- */
-classState.is = classState('is-')
-
-/**
  * 创建类名状态函数，通过状态判定是否使用类名
  * @param statePrefix 状态类名前缀
  * @returns 状态函数
@@ -87,7 +76,7 @@ export function classState(statePrefix = ''): Is {
     const [stateClass, state, prefix = statePrefix] = args
     const stateClasses: [stateClass: string, state: boolean, prefix: string][] = []
 
-    if (isArray(stateClass)) {
+    if (Array.isArray(stateClass)) {
       const prefix = typeof state === 'string' ? state : statePrefix
       stateClass.forEach((item) => {
         if (typeof item === 'string') {
@@ -108,7 +97,7 @@ export function classState(statePrefix = ''): Is {
       prefix ??= ''
       return state ? prefix + cls : ''
     })
-    return isArray(stateClass) ? result : result[0] || ''
+    return Array.isArray(stateClass) ? result : result[0] || ''
   }
 }
 
@@ -129,18 +118,6 @@ if (import.meta.vitest) {
         'is-state3',
       ])
       expect(is(['state', ['state2', false], ['state3', true, 'no-']], 'is-')).toStrictEqual([
-        'is-state',
-        '',
-        'no-state3',
-      ])
-    })
-
-    it('classState.is', () => {
-      expect(classState.is('state')).toBe('is-state')
-      expect(classState.is('state', false)).toBe('')
-      expect(classState.is('state', true, 'no-')).toBe('no-state')
-
-      expect(classState.is(['state', ['state2', false], ['state3', true, 'no-']])).toStrictEqual([
         'is-state',
         '',
         'no-state3',

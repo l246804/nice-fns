@@ -1,5 +1,6 @@
 import type { HelperCreateTreeFuncHandler } from './_tree'
 import { helperCreateTreeFunc } from './_tree'
+import { TreeIterator } from './tree'
 
 export interface EachTreeOptions {
   /**
@@ -43,6 +44,14 @@ const eachTreeNode: HelperCreateTreeFuncHandler<EachTreeOptions> = (
   })
 }
 
+type EachTreeFunc = <T extends {}>(
+  array: T[],
+  iterator: TreeIterator<T, void>,
+  options?: EachTreeOptions,
+) => void
+
+let _eachTree: EachTreeFunc | null
+
 /**
  * 根据迭代器遍历树列表
  * @param array 树列表
@@ -72,7 +81,12 @@ const eachTreeNode: HelperCreateTreeFuncHandler<EachTreeOptions> = (
  * )
  * ```
  */
-export const eachTree = helperCreateTreeFunc(eachTreeNode)
+export const eachTree: EachTreeFunc = (...args) => {
+  if (_eachTree == null) {
+    _eachTree = helperCreateTreeFunc(eachTreeNode)
+  }
+  return _eachTree(...args)
+}
 
 if (import.meta.vitest) {
   const tree = [
