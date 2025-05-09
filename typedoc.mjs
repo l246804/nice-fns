@@ -16,5 +16,5 @@ export default {
   parametersFormat: 'table',
   propertiesFormat: 'table',
   enumMembersFormat: 'table',
-  exclude: ['./src/_*.ts', './src/esToolkit.ts'],
+  exclude: ['./src/_*.ts', './src/compat/*.ts'],
 }

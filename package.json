@@ -31,14 +31,13 @@
       "import": "./dist/index.js"
     },
     "./compat": {
-      "types": "./dist/_esToolkitCompat.js",
-      "import": "./dist/_esToolkitCompat.d.ts"
+      "types": "./dist/compat.d.ts",
+      "import": "./dist/compat.js"
     },
     "./*": "./*"
   },
   "sideEffect": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "CHANGELOG.md",
@@ -46,11 +45,11 @@
     "dist"
   ],
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "scripts": {
-    "build": "run-s gi build:only ri",
-    "build:only": "rslib build",
+    "build": "run-s test:only gen:index build:only rm:index",
+    "build:only": "tsdown",
     "release": "release-it",
     "cz": "cz",
     "plop": "plop",
@@ -67,8 +66,8 @@
     "docs:prepare": "run-s docs:clean test:only docs:gen",
     "lint:fix": "eslint . --fix",
     "taze": "taze -iI major",
-    "gi": "gi",
-    "ri": "gi -c ri.config.ts"
+    "gen:index": "unindex",
+    "rm:index": "rimraf ./src/index.ts"
   },
   "dependencies": {
     "es-toolkit": "^1.33.0"
@@ -76,30 +75,29 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.10.1",
     "@release-it/conventional-changelog": "^10.0.0",
-    "@rhao/gen-index": "^0.2.1",
-    "@rhao/plop-generators": "^1.2.14",
-    "@rslib/core": "^0.5.4",
-    "@types/fs-extra": "^11.0.4",
     "@vitest/coverage-v8": "^3.0.9",
     "@vitest/ui": "^3.0.9",
     "commitizen": "^4.3.1",
     "eslint": "^9.22.0",
-    "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.0",
     "git-cz": "^4.9.0",
     "lint-staged": "^15.5.0",
-    "npm-run-all": "^4.1.5",
-    "plop": "latest",
+    "npm-run-all2": "^8.0.1",
     "prettier": "^3.5.3",
     "release-it": "^18.1.2",
     "rimraf": "^5.0.10",
+    "simple-git-hooks": "^2.13.0",
     "taze": "^19.0.2",
+    "tsdown": "^0.11.9",
     "typedoc": "^0.28.1",
     "typedoc-plugin-markdown": "4.5.2",
     "typedoc-vitepress-theme": "1.1.2",
     "typescript": "^5.8.2",
+    "unindex": "^0.2.2",
     "unplugin-auto-import": "^19.1.1",
     "vitepress": "1.0.0-rc.31",
     "vitest": "^3.0.9"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
   }
 }
