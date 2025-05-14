@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.1](https://github.com/l246804/nice-fns/compare/v2.1.0...v2.1.1) (2025-05-14)
+
+### Chores
+
+* **src:** 顶级作用于部分变量添加 /* @__PURE__ */ 注释，用于标记可树摇 ([ca0e00c](https://github.com/l246804/nice-fns/commit/ca0e00cc2c4f5f21eb027fba804f20fa16a8a574))
+
 ## [2.1.0](https://github.com/l246804/nice-fns/compare/v2.0.1...v2.1.0) (2025-03-21)
 
 ### Bug Fixes
