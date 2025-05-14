@@ -61,7 +61,7 @@ interface ScaleMeta {
 }
 
 const SCALE_RE = /\s*scale[XY]?\(.+\)/
-const META_KEY = Symbol('scaleMeta')
+const META_KEY = /* @__PURE__ */ Symbol('scaleMeta')
 
 type ScaleDomElement = HTMLElement & { [META_KEY]?: ScaleMeta }
 
@@ -192,6 +192,6 @@ export declare namespace scaleDom {
   /**
    * 默认配置
    */
-  // eslint-disable-next-line import/no-mutable-exports, no-var
+  // eslint-disable-next-line import/no-mutable-exports
   export let defaults: Omit<ScaleDomOptions, 'elementWidth' | 'elementHeight'> | undefined
 }
